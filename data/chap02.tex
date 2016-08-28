@@ -1,0 +1,152 @@
+%%================================================
+%% Filename: chap02.tex
+%% Encoding: UTF-8
+%% Author: Yuan Xiaoshuai - yxshuai@gmail.com
+%% Created: 2012-04-27 19:37
+%% Last modified: 2016-08-28 21:32
+%%================================================
+\chapter{模板简介及安装}
+\label{cha:introduction}
+
+\zzuthesis(\textbf{Z}heng\textbf{z}hou \textbf{U}niversity \textbf{Thesis})以
+标准book类文档为基础，根据清华大学学位论文模板修改而来。本科毕业设计（论文）
+和研究生学位论文（含硕士和博士）分别根据《郑州大学材料科学与工程学院本科毕业
+设计（论文）基本规范》和《郑州大学学位论文写作规范格式》的规范要求定制，目前
+该模板已基本符合相关《规范》的要求。除格式方面的修改外，还参考其它论文模板，
+尽可能简化了代码，更有利于初学者使用。
+
+\textsf{模板作者声明：}该模板非学校官方模板，尽管模板基本满足《规范》要求，并
+参考2011年通过审核的学位论文进行调整，但难免还存在不足之处，欢迎大家反馈。
+
+% \section{本科毕业设计论文内容要求}
+% \label{sec:bachelor}
+% 
+% 根据《郑州大学材料科学与工程学院本科毕业设计（论文）基本规范》的要求，本科
+% 毕业设计（论文）的装订如下：封面（格式版式固定，只替换文字），中文摘要，英
+% 文摘要，目录，1. 前沿（概述），2. 实验过程（方法），3. 实验结果与讨论，4.
+% 结论，5 . 参考文献，6. 表格附件（毕业设计（论文）任务书、郑州大学毕业论文开
+% 题报告表、毕业设计（论文）计划进程表、郑州大学毕业设计中期检查表、毕业论文
+% （论文）成绩评定表），7. 外文翻译，8. 外文原文，9. 致谢。
+% 
+% \section{研究生论文内容要求} \label{sec:graduates}
+% 
+% 根据二〇〇九年十月郑州大学学位办公室编制的《郑州大学博士、硕士学位论文写作
+% 规范》的要求，学位论文一般由十五部分组成，依次为：1. 封面；2.英文封面；3.
+% 学位论文原创性声明；4. 学位论文使用授权声明；5. 摘要；6. Abstract；7. 目录
+% ；8.图和附表清单；\footnote{模板将图和附表清单分为插图清单和附表清单两个部
+% 分}9.符号说明；10. 正文；11.注释；12. 参考文献；13. 致谢；14. 附录；15. 个
+% 人简历、在学期间发表的学术论文及研究成果。
+  
+\section{模板系统需求}
+\label{sec:requirements}
+
+\TeXLive{}为多种基于Unix的平台提供了可执行文件\footnote{\TeXLive{}的安装参见：
+\url{http://tug.org/texlive/acquire.html}。}，包括GNU/Linux、Mac OS X、和
+Cygwin，并支持Windows XP及后续版本。理论上该模板应该在常见的系统平台上都可以正
+常运行，但仅在以下系统平台下进行了测试：
+\begin{enumerate}
+\item Fedora 16 + \TeXLive{} 2011 + Jabref 2.8
+\item Windows XP + \TeXLive{} 2011 + Jabref 2.8
+\end{enumerate}
+
+由于模版文件中用到的部分命令在最新的发行版中有所更改，故在 2016 年 8 月 28 日
+对模版进行修改，并在以下平台测试通过：
+
+\begin{itemize}
+\item CentOS 7.2.1511 + \TeXLive{} 2015
+\end{itemize}
+
+\section{模板的组成部分}
+
+下表列出了 \zzuthesis{} 的主要文件及其功能介绍：
+\begin{center}
+\tablefirsthead{%
+\hline
+{\hei 文件（夹）} & {\hei 功能描述}\\\hline\hline}
+\tablehead{\hline
+{\hei 文件（夹）} & {\hei 功能描述}\\\hline\hline}
+% \endhead
+\tabletail{\hline}
+% \endfoot
+  \begin{mpsupertabular}{l|p{8cm}}
+zzuthesis.cls & 模板类文件\\
+zzuthesis.cfg & 模板配置文件\\
+zzubib.bst & 参考文献样式文件\\\hline
+docutils.sty & 模板示例文档用到的宏包及定义\footnote{使用该模板时可根据需要加
+入其它自定义宏包及定义。}\\ 
+main.tex & 示例文档主文件\\
+spine.tex & 书脊示例文档\\
+a3cover.tex & A3封面示例文档\\
+ref/ & 示例文档参考文献目录\\
+data/ & 示例文档章节具体内容\\
+figures/ & 示例文档图片路径\\
+fonts/ & 模版中用到的字体文件\\\hline
+Makefile & Linux 自动编译工具\\
+msmake.cmd & Windows 批处理工具\\
+  \end{mpsupertabular}
+\end{center}
+
+该模板可以通过以下途径获取：
+\begin{itemize}
+\item 浏览器下载：
+\href{https://codeload.github.com/tuxify/zzuthesis/zip/master}{Github Download Zip}
+\item Git 命令：
+\texttt{git clone https://github.com/tuxify/zzuthesis.git}
+\end{itemize}
+
+\section{准备工作}
+
+模板中调用的宏包有：
+\begin{center}
+\begin{minipage}{1.0\linewidth}\centering
+\begin{tabular}{*{7}{l}}\hline
+calc & titletoc & amsmath & amssymb & amsthm & \\% txfonts 
+geometry & tabularx & multirow & longtable & booktabs & subfig\footnote{版本要求：$\geq$2005/06/28 ver: 1.3} \\
+graphicx & indentfirst & paralist & xeCJK & natbib & hyperref \\
+hypernat & caption\footnote{版本要求：$\geq$2006/03/21 v3.0j} & indentfirst\footnote{2016/8/28修改后首段不缩进，添加该宏包后解决}& & &\\\hline
+\end{tabular}
+\end{minipage}
+\end{center}
+
+这些包在常见的 \TeX{} 系统中都有，如果没有请到 \url{www.ctan.org} 下载。
+
+模板中用到的字体有：
+\begin{itemize}
+\item 中文字体：Adobe Song Std、Adobe Heiti Std、Adobe Kaiti Std、Adobe Song
+Std；STXingkai\footnote{研究生论文封面需要用到该种字体。}、STZhongsong。
+\item 英文字体：Times New Roman、Arial、Courier New。
+\end{itemize}
+
+模板使用\XeTeX{}避免了繁琐的字体配置，并通过xeCJK来控制中文字体。故只需把上述
+字体放入系统文件夹即可。
+
+\section{示例文档的生成}
+
+示例文档的生成需要多次运行\XeLaTeX{}，直到不再出现警告为止，详细过程如下：
+\begin{code}
+1. 发现文档的引用关系，文件后缀 .tex 可以省略
+$ xelatex main
+2. 编译参考文件源文件，生成 bbl 文件
+$ bibtex main
+3. 解决引用
+$ xelatex main
+4. 生成完整的 pdf 文件
+$ xelatex main
+\end{code}
+
+由于一般情况下的使用方法每次需要输入数次命令，比较麻烦，故模板提供了一些自动
+处理的文件。
+
+Linux平台可以使用 \emph{Makefile} 文件：
+\begin{code}
+$ make thesis    # 生成示例文档
+$ make a3cover   # 生成A3封面
+$ make clean     # 清除临时文件
+\end{code}
+
+对于Windows平台，则提供了一个批处理脚本 \emph{msmake.cmd}\/：
+\begin{code}
+your_path $ msmake thesis  # 生成示例文档
+your_path $ msmake a3cover # 生成A3封面
+your_path $ msmake clean   # 清除临时文件
+\end{code}

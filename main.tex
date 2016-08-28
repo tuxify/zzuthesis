@@ -1,0 +1,83 @@
+%%================================================
+%% Filename: main.tex
+%% Encoding: UTF-8
+%% Author: Yuan Xiaoshuai - yxshuai@gmail.com
+%% Created: 2012-01-08 13:09
+%% Last modified: 2016-08-28 20:56
+%%================================================
+\documentclass[bachelor]{zzuthesis}
+% \documentclass[%
+%   bachelor|master|doctor, % mandatory option
+%   openany|openright]{zzuthesis}
+% 自定义宏包
+\usepackage{docutils}
+
+% 图形文件路径
+\graphicspath{{figures/}}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 前言
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+\input{data/cover}%封面
+\makecover
+
+\input{data/abstract}%摘要
+
+\tableofcontents%目录
+
+\listoffigures%插图清单，本科论文重新定义为\relax
+\listoftables%表格清单，本科论文重新定义为\relax
+
+\makeatletter%符号对照表
+  \ifzzu@bachelor\else\include{data/denotation}\fi%本科论文不要求
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 正文
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\include{data/chap01}
+\include{data/chap02}
+\include{data/chap03}
+\include{data/chap04}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 文后
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+
+\bibliographystyle{GBT7714-2005NLang-UTF8}
+\bibliography{ref/GBT7714-2005Lang}%参考文献
+
+\makeatletter%致谢，研究生论文中在参考文献后，附录前
+\ifzzu@bachelor\else
+  \include{data/ack}
+\fi
+\makeatother
+
+% 附录
+% 本科生论文三个附录，分别是附表，外文翻译和外文原文
+% 研究生论文无具体要求
+\begin{appendix}
+  \input{data/app01}
+  \input{data/app02}
+  \input{data/app03}
+\end{appendix}
+
+\makeatletter%个人简历
+\ifzzu@bachelor\else
+  \include{data/resume}%本科论文无要求
+\fi
+\makeatother
+
+\makeatletter%致谢，本科论文在最后
+\ifzzu@bachelor
+  \include{data/ack}
+\else\fi
+\makeatother
+
+\end{document}

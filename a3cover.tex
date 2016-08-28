@@ -1,0 +1,20 @@
+%%================================================
+%% Filename: a3cover.tex
+%% Encoding: UTF-8
+%% Author: Yuan Xiaoshuai - yxshuai@gmail.com
+%% Created: 2012-03-02 20:25
+%% Last modified: 2016-08-28 21:10
+%%================================================
+\documentclass{article}
+
+\usepackage[papersize={17.32in,11.69in}]{geometry}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\includepdfmerge[nup=2x1, noautoscale, delta=0 0, pages={last-last, 1}]{spine.pdf, main.pdf, 1}
+
+\end{document}

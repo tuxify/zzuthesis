@@ -1,0 +1,35 @@
+%%================================================
+%% Filename: spine.tex
+%% Encoding: UTF-8
+%% Author: Yuan Xiaoshuai - yxshuai@gmail.com
+%% Created: 2012-03-02 20:24
+%% Last modified: 2016-08-28 20:57
+%%================================================
+\documentclass{article}
+\usepackage[papersize={8.66in,11.69in},
+  left=0cm, right=0cm,top=5cm,bottom=5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[boldfont,slantfont,CJKnumber]{xeCJK}
+
+\setmainfont{Adobe Garamond Pro}
+\setCJKmainfont{Adobe Song Std}
+\setCJKfamilyfont{vert}[RawFeature={vertical}]{Adobe Song Std}
+
+\newcommand{\envert}[1]{\raisebox{-.4em}{#1}}
+
+\providecommand{\thesistitle}{郑州大学学位论文 \envert{\LaTeX} 模板使用示例}
+\providecommand{\thesisauthor}{赵钱孙}
+\providecommand{\thesisnumber}{\raisebox{-1.2em}{20080800901}}
+
+\pagestyle{empty}
+\begin{document}
+
+\flushright
+\CJKfamily{vert}\quad
+\rotatebox{-90}{\thesistitle}
+\vfill
+\vspace*{5em}\rotatebox{-90}{\thesisauthor}
+\vfill
+\rotatebox{-90}{\thesisnumber}
+
+\end{document}
