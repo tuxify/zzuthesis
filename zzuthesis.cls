@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2016-08-28 20:53
+%% Last modified: 2016-08-29 21:12
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -42,7 +42,6 @@
 \else%其它单面打印
   \LoadClass[12pt,a4paper,openany]{book}
 \fi
-\RequirePackage{indentfirst}%首行缩进
 \RequirePackage{calc}%算术运算
 \RequirePackage{titletoc}%目录格式
 \RequirePackage{amsmath,amssymb,amsthm,bm}
@@ -53,6 +52,7 @@
 \RequirePackage{booktabs}%三线表格
 \RequirePackage[config]{subfig}%引入caption，并用config选项兼容subfigure
 \RequirePackage{graphicx}%图形支持
+\RequirePackage{indentfirst}%首行缩进
 \RequirePackage[neverdecrease]{paralist}%列表环境
 \RequirePackage[BoldFont,CJKnumber]{xeCJK}
   \punctstyle{hangmobanjiao}
