@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-28 00:15
-%% Last modified: 2016-08-28 21:08
+%% Last modified: 2016-08-31 09:43
 %%================================================
 \chapter{常用排版示例}
 \label{cha:example}
@@ -33,12 +33,12 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \LaTeX~有一个 \texttt{figure} 环境可以自动完成这样的任务，这种自动调整位置的环
 境称作浮动环境(float)，之后还会介绍表格浮动环境。
 
-单张图片插入形式如图~\ref{golfer1}~所示。
+单张图片插入形式如图~\ref{fig:golfer}~所示。
 \begin{figure}[htbp]
 \centering
 \includegraphics[width = 0.3\textwidth]{golfer}
 \caption{打高尔夫球的人}
-\label{golfer1}
+\label{fig:golfer}
 \end{figure}
 
 \begin{code}
@@ -46,7 +46,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \centering
 \includegraphics[width=0.3\textwidth]{golfer}
 \caption{打高尔夫球的人}
-\label{golfer1}
+\label{fig:golfer}
 \end{figure}
 \end{code}
 
@@ -64,49 +64,49 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \subsubsection*{并排摆放，共享标题}
 
 当我们需要两幅图片并排摆放，并共享标题时，可以在 \texttt{figure} 环境中使用两个
-\verb|\includegraphics| 命令，如图~\ref{fig:golfer2}~所示。
+\verb|\includegraphics| 命令，如图~\ref{fig:fanqingfuming}~所示。
 
 \begin{code}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.3\textwidth]{left}
+\includegraphics[width=0.3\textwidth]{qingming}
 \hspace{36pt}
-\includegraphics[width=0.3\textwidth]{right}
+\includegraphics[width=0.3\textwidth]{fanfu}
 \caption{反清复明}
-\label{fig:golfer2}
+\label{fig:fanqingmuming}
 \end{figure}
 \end{code}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.3\textwidth]{left}
+\includegraphics[width=0.3\textwidth]{qingming}
 \hspace{36pt}
-\includegraphics[width=0.3\textwidth]{right}
+\includegraphics[width=0.3\textwidth]{fanfu}
 \caption{反清复明}
-\label{fig:golfer2}
+\label{fig:fanqingfuming}
 \end{figure}
 
 \subsubsection*{并排摆放，各有标题}
 
 如果想要两幅并排的图片各有自己的标题，可以在 \texttt{figure} 环境中使用两个
- \texttt{minipage} 环境，每个环境里插入一个图，如图~\ref{fig:golfer3}~和
-~\ref{fig:golfer4}~所示。
+ \texttt{minipage} 环境，每个环境里插入一个图，如图~\ref{fig:qingming}~和
+~\ref{fig:fanfu}~所示。
 
 \begin{code}
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{left}
+    \includegraphics[width=\textwidth]{qingming}
     \caption{清明}
-    \label{fig:golfer3}
+    \label{fig:qingming}
 \end{minipage}
 \hspace{36pt}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{right}
+    \includegraphics[width=\textwidth]{fanfu}
     \caption{反复}
-    \label{fig:golfer4}
+    \label{fig:fanfu}
 \end{minipage}
 \end{figure}
 \end{code}
@@ -115,16 +115,16 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \centering
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{left}
+    \includegraphics[width=\textwidth]{qingming}
     \caption{清明}
-    \label{fig:golfer3}
+    \label{fig:qingming}
 \end{minipage}
 \hspace{36pt}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{right}
+    \includegraphics[width=\textwidth]{fanfu}
     \caption{反复}
-    \label{fig:golfer4}
+    \label{fig:fanfu}
 \end{minipage}
 \end{figure}
 
@@ -142,12 +142,12 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \centering
 \subfloat[清明]{
     \label{fig:subfig_a}
-    \includegraphics[width=0.3\textwidth]{left}
+    \includegraphics[width=0.3\textwidth]{qingming}
 }
 \hspace{36pt}
 \subfloat[反复]{
     \label{fig:subfig_b}
-    \includegraphics[width=0.3\textwidth]{right}
+    \includegraphics[width=0.3\textwidth]{fanfu}
 }
 \caption{反清复明}
 \end{figure}
@@ -160,12 +160,12 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \centering
 \subfloat[清明]{
     \label{fig:subfig_a}
-    \includegraphics[width=0.3\textwidth]{left}
+    \includegraphics[width=0.3\textwidth]{qingming}
 }
 \hspace{36pt}
 \subfloat[反复]{
     \label{fig:subfig_b}
-    \includegraphics[width=0.3\textwidth]{right}
+    \includegraphics[width=0.3\textwidth]{fanfu}
 }
 \caption{反清复明}
 \end{figure}
@@ -183,7 +183,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{fig:improved_subfig_a}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{left}
+    \includegraphics[width=\textwidth]{qingming}
 \end{minipage}
 }
 \hspace{36pt}
@@ -191,7 +191,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{fig:improved_subfig_b}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{right}
+    \includegraphics[width=\textwidth]{fanfu}
 \end{minipage}
 }
 \caption{反清复明}
@@ -204,7 +204,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{fig:improved_subfig_a}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{left}
+    \includegraphics[width=\textwidth]{qingming}
 \end{minipage}
 }
 \hspace{36pt}
@@ -212,7 +212,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{fig:improved_subfig_b}
 \begin{minipage}[t]{0.3\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{right}
+    \includegraphics[width=\textwidth]{fanfu}
 \end{minipage}
 }
 \caption{反清复明}
