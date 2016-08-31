@@ -11,7 +11,7 @@
 
 ### 1.2 Windows
 
-将 `fonts/` 目录下四种 Adobe 字体拷贝至 `C:\Windows\Fonts/` 目录下即可。
+将 `fonts/` 目录下四种 Adobe 字体拷贝至 `C:\Windows\Fonts\` 目录下即可。
 
 ## 2. 模板编译
 
