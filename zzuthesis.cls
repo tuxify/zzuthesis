@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2016-08-29 21:12
+%% Last modified: 2016-08-31 09:13
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -54,7 +54,7 @@
 \RequirePackage{graphicx}%图形支持
 \RequirePackage{indentfirst}%首行缩进
 \RequirePackage[neverdecrease]{paralist}%列表环境
-\RequirePackage[BoldFont,CJKnumber]{xeCJK}
+\RequirePackage[BoldFont]{xeCJK}
   \punctstyle{hangmobanjiao}
   \defaultfontfeatures{Mapping=tex-text}%连字符
   \setCJKmainfont[BoldFont={STZhongsong}, 
