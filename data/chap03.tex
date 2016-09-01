@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-27 19:47
-%% Last modified: 2016-08-31 14:38
+%% Last modified: 2016-09-01 18:34
 %%================================================
 \chapter{关于该模板的使用}
 \label{cha:usage}
@@ -308,7 +308,7 @@
 普通图书 book
 \cite{cdy, hlswedl, bjszxmzhzjwyh,qgxxywxbzhjswyh,xgx, gyw, wfz, zgdylsdag, zxg, tjdxtmgcfzgjzdsys,zgzzxh,peebles,baldock,sommers}
  或 inbook 或 incollection
-\cite{zhang1991, dupont1974}；
+\cite{zhang1991, dupont1974}； % Warning--can't use both author and editor fields
 
 论文集、会议录 proceedings \cite{nzm, yufin, jdq} 或 inproceedings 或 conference；
 
@@ -318,14 +318,15 @@
 学位论文 masterthesis 或 phdthesis
 \cite{mh, ding2001, cairns1965}；
 
-%专利 patent*   % TODO
-%\cite{jiang1989}；
+专利 patent*   % TODO 不显示专利号
+\cite{jiang1989}；
 
 标准 standard*
 \cite{gb6447}；
 
 图书（的析出文献） article
 \cite{wfz2,cgw,cjb, mks, weinstein, roberson}；
+% wfz2 % Warning--empty author
 
 期刊（的析出文献） article
 \cite{chen2001, nadkarni1992, hua1973}；
