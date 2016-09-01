@@ -11,9 +11,8 @@
 @rem
 @rem 1.生成示例文档
 @rem msmake [thesis|a3cover]
-@rem 　　在当前目录下生成示例文档，或其中的一部分，或其他用户指定文档。
-@rem 　　- thesis	生成main.pdf，默认选项
-@rem 　　- a3cover	生成A3封面
+@rem 　　- thesis	生成 main.pdf，默认选项
+@rem 　　- a3cover	生成 A3 封面
 @rem
 @rem 2.清理目录
 @rem msmake clean
@@ -27,6 +26,7 @@ set Package=zzuthesis
 set Method=xelatex
 set Thesismain=main
 if /i {%1}=={clean} goto clean
+if /i {%1}=={a3cover} goto a3cover
 goto thesis
 :clean
 @rem =============================================
@@ -55,11 +55,16 @@ if errorlevel 1 goto error
 goto end
 :a3cover
 @rem =============================================
-@rem 生成A3封面
+@rem 生成 A3 封面
 @rem =============================================
 set errmsg=%Method%
 call %Method% spine.tex
+set Thesismain=spine
+if errorlevel 1 goto error
 call %Method% a3cover.tex
+set Thesismain=a3cover
+if errorlevel 1 goto error
+goto end
 @rem =============================================
 @rem 示例文件生成过程中出错处理
 @rem =============================================
