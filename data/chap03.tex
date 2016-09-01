@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-27 19:47
-%% Last modified: 2016-08-31 09:59
+%% Last modified: 2016-08-31 14:38
 %%================================================
 \chapter{关于该模板的使用}
 \label{cha:usage}
@@ -299,17 +299,61 @@
 % \cite{jiangxiangdong1999,xiaoniu2001,CHRISTINE1998,METCALF1995,TURCOTTE1992,Scitor1983}
 % 。
 
-普通期刊\cite{chen2001, nadkarni1992, hua1973, zhu1973}；
-普通图书\cite{zhu1973, huo1981, timoshenko1959}；
-析出文献\cite{zhang1991, dupont1974}；
-博士论文\cite{ding2001, cairns1965, patent}；
-其它参考文献\cite{patent, standard, wang2005}。
+% 普通期刊\cite{chen2001, nadkarni1992, hua1973, zhu1973}；
+% 普通图书\cite{zhu1973, huo1981, timoshenko1959}；
+% 析出文献\cite{zhang1991, dupont1974}；
+% 博士论文\cite{ding2001, cairns1965, patent}；
+% 其它参考文献\cite{patent, standard, wang2005}。
 
-中文参考文献应增加 \texttt{language=``zh''} 字段，以便进行相应处理。另外，这
-个\emph{bst} 对中文文献的支持并不是十全十美，如果有不如意的地方，请手动修改
-\emph{bbl} 文件。
+普通图书 book
+\cite{cdy, hlswedl, bjszxmzhzjwyh,qgxxywxbzhjswyh,xgx, gyw, wfz, zgdylsdag, zxg, tjdxtmgcfzgjzdsys,zgzzxh,peebles,baldock,sommers}
+ 或 inbook 或 incollection
+\cite{zhang1991, dupont1974}；
 
-有时候不想要上标，那么可以这样 \onlinecite{chen2001}。
+论文集、会议录 proceedings \cite{nzm, yufin, jdq} 或 inproceedings 或 conference；
+
+%报告 techreport
+%\cite{}；
+
+学位论文 masterthesis 或 phdthesis
+\cite{mh, ding2001, cairns1965}；
+
+%专利 patent*   % TODO
+%\cite{jiang1989}；
+
+标准 standard*
+\cite{gb6447}；
+
+图书（的析出文献） article
+\cite{wfz2,cgw,cjb, mks, weinstein, roberson}；
+
+期刊（的析出文献） article
+\cite{chen2001, nadkarni1992, hua1973}；
+
+%报纸 newspaper*
+%\cite{}；
+
+%数据库 database*
+%\cite{}；
+%计算机程序 program*
+%\cite{}；
+
+%电子公告 online*
+%\cite{wang2005}；
+
+%档案 archive*
+%\cite{}；
+%舆图 map*
+%\cite{}；
+%数据集 dataset*
+%\cite{}；
+%其他 misc
+%\cite{}；
+
+%中文参考文献应增加 \texttt{language=``zh''} 字段，以便进行相应处理。另外，这
+%个\emph{bst} 对中文文献的支持并不是十全十美，
+有时候不想要上标，那么可以这样 \onlinecite{cdy}。如果有不如意的地方，请手动修改\emph{bbl} 文件。
+
 
 \section{其它部分}
 \label{sec:otherparts}
