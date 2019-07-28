@@ -7,15 +7,15 @@
 
 ### 1.1 Linux
 
-将 `fonts/` 目录下所有字体拷贝至 `~/.fonts/` 目录下，运行 `fc-cache -fv` 即可。
+将所需字体拷贝至 `~/.fonts/` 目录下，运行 `fc-cache -fv` 即可。
 
 ### 1.2 Windows
 
-将 `fonts/` 目录下四种 Adobe 字体拷贝至 `C:\Windows\Fonts\` 目录下即可。
+将所需字体拷贝至 `C:\Windows\Fonts\` 目录下即可。
 
 ## 2. 模板编译
 
-该模板分别在 Windows 和 Linux 平台安装的 TeXLive 2015 下测试通过。
+该模板分别在 Windows 和 Linux 平台安装的 TeXLive 2019 下测试通过。
 
 ### 2.1 模板文件的生成
 
