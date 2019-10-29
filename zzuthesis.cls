@@ -3,14 +3,14 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2016-08-31 09:13
+%% Last modified: 2019-10-29 11:49
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
-[2016/08/28 4.1 Zhengzhou University Thesis Template]
+[2019/10/29 4.2 Zhengzhou University Thesis Template]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 声明选项(Declaration options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -703,8 +703,6 @@
 %% 2. 作者姓名之间用“,”分开，建议根据《中国高校自然科学学报编排规范》的要求
 %%    书写参考文献，并按引用顺序将其附于文末，该规范建议根据国标书写参考文献。
 %% 3. 引用参考文献的位置，上标标注[参考文献序号]
-%% 参考文献风格：GBT7714-2005NLang-UTF8
-%% TODO: 更新至 GBT-7714-2015，未详细测试
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibpunct{[}{]}{,}{s}{}{,}
 \renewcommand\NAT@citesuper[3]{\ifNAT@swa%

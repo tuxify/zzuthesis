@@ -62,6 +62,7 @@ ENTRY
   { address
     author
     booktitle
+    country
     date
     doi
     edition
@@ -77,6 +78,7 @@ ENTRY
     number
     organization
     pages
+    patentid
     publisher
     school
     series
@@ -261,8 +263,7 @@ FUNCTION {output.check}
 }
 
 FUNCTION {fin.entry}
-{ add.period$
-  write$
+{ write$
   newline$
 }
 
@@ -530,8 +531,8 @@ FUNCTION {format.translators}
     { translator format.names
       entry.lang lang.zh =
         { translator num.names$ #3 >
-            { "译" * }
             { ", 译" * }
+            { "译" * }
           if$
         }
         'skip$
@@ -916,14 +917,14 @@ FUNCTION {format.edition}
     { edition is.number
         { entry.lang lang.zh =
             { edition " 版" * }
-            { edition num.to.ordinal " ed." * }
+            { edition num.to.ordinal " ed" * }
           if$
         }
         { entry.lang lang.en =
             { edition change.sentence.case 's :=
               s "Revised" = s "Revised edition" = or
-                { "Rev. ed." }
-                { s " ed." *}
+                { "Rev. ed" }
+                { s " ed" *}
               if$
             }
             { edition }
@@ -1199,6 +1200,20 @@ FUNCTION {format.url}
   if$
 }
 
+FUNCTION {format.country}
+{ country empty$ not
+    { country }
+    { "" }
+  if$
+}
+
+FUNCTION {format.patentid}
+{ patentid empty$ not
+    { patentid }
+    { "" }
+  if$
+}
+
 FUNCTION {check.doi}
 { doi empty$ not
     { #1 'entry.is.electronic := }
@@ -1318,13 +1333,16 @@ FUNCTION {monograph}
   output
   new.block
   format.series.vol.num.title "title" output.check
+  edition empty$
+    'skip$
+    { new.block
+      format.edition output }
+  if$
   "M" set.entry.mark
   format.mark "" output.after
   new.block
   format.translators output
   new.sentence
-  format.edition output
-  new.block
   format.address.publisher output
   format.year "year" output.check
   format.pages bbl.colon output.after
@@ -1342,16 +1360,19 @@ FUNCTION {incollection}
   author format.key output
   new.block
   format.title "title" output.check
+  edition empty$
+    'skip$
+    { new.block
+      format.edition output }
+  if$
   "M" set.entry.mark
   format.mark "" output.after
   new.block
   format.translators output
-  new.slash
+  new.sentence
   format.editors output
   new.block
   format.series.vol.num.booktitle "booktitle" output.check
-  new.block
-  format.edition output
   new.block
   format.address.publisher output
   format.year "year" output.check
@@ -1415,6 +1436,9 @@ FUNCTION {patent}
   format.title "title" output.check
   "P" set.entry.mark
   format.mark "" output.after
+  new.block
+  format.country output
+  format.patentid output
   new.block
   format.date "year" output.check
   format.urldate "" output.after
@@ -1516,7 +1540,7 @@ FUNCTION {manual} { monograph }
 FUNCTION {mastersthesis}
 { lang.zh entry.lang =
     { "硕士学位论文" }
-    { "D" }
+    { "Dissertation" }
   if$
   set.entry.mark
   monograph
@@ -1535,7 +1559,7 @@ FUNCTION {online}
 FUNCTION {phdthesis}
 { lang.zh entry.lang =
     { "博士学位论文" }
-    { "D" }
+    { "Dissertation" }
   if$
   set.entry.mark
   monograph
