@@ -1539,8 +1539,8 @@ FUNCTION {manual} { monograph }
 
 FUNCTION {mastersthesis}
 { lang.zh entry.lang =
-    { "硕士学位论文" }
-    { "Dissertation" }
+    { "D]. [硕士学位论文" }
+    { "D]. [dissertation" }
   if$
   set.entry.mark
   monograph
@@ -1558,8 +1558,8 @@ FUNCTION {online}
 
 FUNCTION {phdthesis}
 { lang.zh entry.lang =
-    { "博士学位论文" }
-    { "Dissertation" }
+    { "D]. [博士学位论文" }
+    { "D]. [dissertation" }
   if$
   set.entry.mark
   monograph
