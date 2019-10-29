@@ -3,13 +3,14 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-27 19:47
-%% Last modified: 2016-09-02 21:31
+%% Last modified: 2019-10-29 11:43
 %%================================================
 \chapter{关于该模板的使用}
 \label{cha:usage}
 
 模板核心文件只有三个：\emph{zzuthesis.cls}，\emph{zzuthesis.cfg} 和
-\emph{zzubib.bst}，其中定义的命
+\emph{zzubib.bst}\footnote{建议采用 gbt7714-unsrt，相关讨论见
+https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 令分为两类：一是格式控制，二是内容替换。格式控制如字体、字号、字距和行距。内容
 替换如姓名、院系、专业、致谢等等。模板自带的示例文档里面基本涵盖了论文写作用到
 的所有命令及其使用方法，只需要用自己的内容进行相应替换就可以。本章将会对模板中
@@ -279,82 +280,13 @@
 的文献引用信息。
 
 模板中使用命令 \verb|\cite{}| 表示上标标注，并另外定义了 \verb|\onlinecite{}|
-命令，作为形文中的参考文献标注。下面是示例：
+命令，作为形文中的参考文献标注。
 
-% 关于书的\cite{tex, companion, ColdSources}，还有这些\cite{Krasnogor2004e,
-% clzs, zjsw}，关于杂志的\cite{ELIDRISSI94, MELLINGER96, SHELL02}，硕士论文
-% \cite{zhubajie, metamori2004}，博士论文\cite{shaheshang, FistSystem01}，标准
-% 文件\cite{IEEE-1363}，会议论文\cite{DPMG,kocher99}，技术报告\cite{NPB2}。
+下面是示例：
 
-% 普通图书
-% \cite{gxzzzzqlyt1993,jiangyouxu1998,tangxujun1999,zhaokaihua1995,wangang1912,zhaoyaodong1998,crawfprd1995,iflai1977,obrien1994,rood2001,angwen1988}
-% ；论文集、会议录\cite{zglxxh1990,ROSENTHALL1963,GANZHA2000}；科技报告
-% \cite{dtha1990,who1970,ZHANGZHIXIANG1998,CALMS1965}；专利文献
-% \cite{LIUJIALIN1993,hblz2001,KOSEKI2002}；专著中的析出文献
-% \cite{baishunong1998,gjbzjxxflbmyjs1988,hanjiren1985,BUSECK1980,FOURNEY1971,feilisheng1981,MARTIN1996}
-% ；期刊中的析出文献
-% \cite{libingmu2000,taorengji1984,yzdztbmz1978,MARAIS1992,HEWITT1984}；报纸中的
-% 析出文献\cite{Dingwenxiang2000,Zhangtianqing2000}；电子文献（包括专著或连续出
-% 版物中析出的电子文献）
-% \cite{jiangxiangdong1999,xiaoniu2001,CHRISTINE1998,METCALF1995,TURCOTTE1992,Scitor1983}
-% 。
+上标引用 \cite{chen2001,nadkarni1992,hua1973,zhu1973,huo1981,timoshenko1959,zhang1991,dupont1974,ding2001,cairns1965,patent,standard,wang2005}。
 
-% 普通期刊\cite{chen2001, nadkarni1992, hua1973, zhu1973}；
-% 普通图书\cite{zhu1973, huo1981, timoshenko1959}；
-% 析出文献\cite{zhang1991, dupont1974}；
-% 博士论文\cite{ding2001, cairns1965, patent}；
-% 其它参考文献\cite{patent, standard, wang2005}。
-
-普通图书 book
-\cite{cdy, hlswedl, bjszxmzhzjwyh,qgxxywxbzhjswyh,xgx, gyw, wfz, zgdylsdag, zxg, tjdxtmgcfzgjzdsys,zgzzxh,peebles,baldock,sommers}
- 或 inbook 或 incollection
-% \cite{zhang1991, dupont1974}； % Warning--can't use both author and editor fields
-
-论文集、会议录 proceedings \cite{nzm, yufin, jdq} 或 inproceedings 或 conference；
-
-%报告 techreport
-%\cite{}；
-
-学位论文 masterthesis 或 phdthesis
-\cite{mh, ding2001, cairns1965}；
-
-专利 patent*
-\cite{jiang1989}；
-
-标准 standard*
-\cite{gb6447}；
-
-图书（的析出文献） article
-\cite{cgw,cjb, mks, weinstein, roberson}；
-% wfz2 % Warning--empty author
-
-期刊（的析出文献） article
-\cite{chen2001, nadkarni1992, hua1973}；
-
-%报纸 newspaper*
-%\cite{}；
-
-%数据库 database*
-%\cite{}；
-%计算机程序 program*
-%\cite{}；
-
-%电子公告 online*
-%\cite{wang2005}；
-
-%档案 archive*
-%\cite{}；
-%舆图 map*
-%\cite{}；
-%数据集 dataset*
-%\cite{}；
-%其他 misc
-%\cite{}；
-
-%中文参考文献应增加 \texttt{language=``zh''} 字段，以便进行相应处理。另外，这
-%个\emph{bst} 对中文文献的支持并不是十全十美，
-有时候不想要上标，那么可以这样 \onlinecite{cdy}。如果有不如意的地方，请手动修改\emph{bbl} 文件。
-
+有时候不想要上标，那么可以这样 \onlinecite{chen2001}。如果有不如意的地方，请手动修改\emph{bbl} 文件。
 
 \section{其它部分}
 \label{sec:otherparts}
