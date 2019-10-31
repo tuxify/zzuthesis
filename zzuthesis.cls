@@ -81,15 +81,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\frontmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+=\centering}
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{zzu@headings}}
 \renewcommand\mainmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+={\ifzzu@bachelor\centering%本科居中
+                            \else\raggedright\fi}}%顶左
   \@mainmattertrue
   \pagenumbering{arabic}}
 \renewcommand\backmatter{%
   \if@openright\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+=\centering}
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 字体配置
@@ -277,28 +281,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 章节标题
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand\zzu@chapter@titleformat[1]{%
-  \ifzzu@bachelor #1\else%
-    \ifthenelse%
-      {\equal{#1}{\eabstractname}}%
-      {\bfseries #1}%
-      {#1}%
-  \fi}
 \ctexset{%
   chapter={%一级标题：黑体16磅，段前24磅，段后18磅
     afterindent=true,
     pagestyle={zzu@headings},
-    beforeskip={6bp},
+    beforeskip={\ifzzu@bachelor 15bp\else 9bp\fi},
     aftername=\hskip\ccwd,
-    afterskip={18bp},
-    format={%对齐
-        \ifzzu@bachelor\centering%本科居中
-        \else\raggedright\fi%顶左
-        \sffamily\sanhao[1]},
+    afterskip={\ifzzu@bachelor 20bp\else 24bp\fi},
+    format={\sffamily\sanhao[1]},
     name=\relax,
     nameformat=\relax,
     numberformat=\relax,
-    titleformat=\zzu@chapter@titleformat,
+    titleformat=\relax,
     lofskip=0pt,
     lotskip=0pt,
   },
