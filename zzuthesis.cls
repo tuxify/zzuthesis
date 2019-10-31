@@ -375,7 +375,7 @@
   \ifzzu@bachelor\relax\else
   \zzu@chapter*[]{\listtablename}
   \@starttoc{lot}\fi}
-\titlecontents{chapter}[\z@]{\vspace{6bp}\sffamily\sihao[1]}
+\titlecontents{chapter}[\z@]{\vspace{6bp}\sihao[1]}
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
 \titlecontents{section}[2em]{\vspace{6bp} \xiaosi[1]}
