@@ -610,6 +610,7 @@
     \fi%
   \end{titlepage}
   \normalsize
+  \zzu@makeabstract
   % \let\@tabular\zzu@tabular
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -619,26 +620,64 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\zzu@parse@keywords#1{%关键词分割
-  \expandafter\gdef\csname zzu@#1\endcsname{}%
-  \expandafter\gdef\csname #1\endcsname##1{\vskip12bp
+% \def\zzu@parse@keywords#1{%关键词分割
+%   \expandafter\gdef\csname zzu@#1\endcsname{}%
+%   \expandafter\gdef\csname #1\endcsname##1{\vskip12bp
+%     \@for\reserved@a:=##1\do{
+%       \expandafter\ifx\csname zzu@#1\endcsname\@empty\else
+%         \expandafter\g@addto@macro\csname zzu@#1\endcsname{%
+%           \ignorespaces\csname zzu@#1@separator\endcsname}
+%       \fi
+%       \expandafter\expandafter\expandafter\g@addto@macro%TODO IT'S BEYOND ME !
+%         \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{%
+%           \reserved@a}}
+%   \setbox0=\hbox{{\bfseries \csname zzu@#1@title\endcsname}}%“关键词”三字加粗
+%   \ifzzu@bachelor\indent\else\noindent\hangindent\wd0\hangafter1\fi
+%   \box0\csname zzu@#1\endcsname}}
+% \zzu@parse@keywords{ckeywords}
+% \zzu@parse@keywords{ekeywords}
+% \newenvironment{cabstract}
+%   {\zzu@chapter*[]{\cabstractname}}{}
+% \newenvironment{eabstract}
+%  {\zzu@chapter*[]{\eabstractname}}{}
+\newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
+\newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
+\newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
+\newenvironment{eabstract}{\Collect@Body\zzu@@eabstract}{}
+\def\zzu@parse@keywords#1{
+  \define@key{zzu}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname zzu@#1\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
     \@for\reserved@a:=##1\do{
       \expandafter\ifx\csname zzu@#1\endcsname\@empty\else
         \expandafter\g@addto@macro\csname zzu@#1\endcsname{%
           \ignorespaces\csname zzu@#1@separator\endcsname}
       \fi
-      \expandafter\expandafter\expandafter\g@addto@macro%TODO IT'S BEYOND ME !
-        \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{%
-          \reserved@a}}
-  \setbox0=\hbox{{\bfseries \csname zzu@#1@title\endcsname}}%“关键词”三字加粗
-  \ifzzu@bachelor\indent\else\noindent\hangindent\wd0\hangafter1\fi
-  \box0\csname zzu@#1\endcsname}}
+      \expandafter\expandafter\expandafter\g@addto@macro%
+        \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
 \zzu@parse@keywords{ckeywords}
 \zzu@parse@keywords{ekeywords}
-\newenvironment{cabstract}
-  {\zzu@chapter*[]{\cabstractname}}{}
-\newenvironment{eabstract}
- {\zzu@chapter*[]{\eabstractname}}{}
+\newbox\zzu@kw
+\newcommand\zzu@put@keywords[2]{%
+  \begingroup
+    \setbox\zzu@kw=\hbox{#1}
+    \ifzzu@bachelor\indent\else\noindent\hangindent\wd\zzu@kw\hangafter1\fi%
+    \box\zzu@kw#2\par
+  \endgroup}
+\newcommand{\zzu@makeabstract}{%
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \zzu@chapter*[]{\cabstractname} % no tocline
+  \pagestyle{zzu@headings}
+  \pagenumbering{Roman}
+  \zzu@cabstract
+  \vskip12bp
+  \zzu@put@keywords{\textbf\zzu@ckeywords@title}{\zzu@ckeywords}
+  \zzu@chapter*[]{\eabstractname} % no tocline
+  \zzu@eabstract
+  \vskip12bp
+  \zzu@put@keywords{%
+    \textbf{\ifzzu@bachelor Keywords:\else Key Words:\fi\enskip}}{\zzu@ekeywords}%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 主要符号对照表
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
