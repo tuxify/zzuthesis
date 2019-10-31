@@ -1,16 +1,18 @@
 # Makefile for ZzuThesis
 
-METHOD = xelatex
+LATEXMKOPTS = -xelatex -file-line-error -halt-on-error -interaction=nonstopmode
 THESISMAIN = main
-PACKAGE=zzuthesis
-
-ifeq ($(MAKE),)
-    override MAKE = make
-endif
+PACKAGE = zzuthesis
 
 THESISCONTENTS=$(THESISMAIN).tex data/*.tex
-BIBFILE=ref/*.bib
 CLSFILES=$(PACKAGE).cls $(PACKAGE).cfg
+
+# make deletion work on Windows
+ifdef SystemRoot
+	RM = del /Q
+else
+	RM = rm -f
+endif
 
 all: thesis a3cover
 
@@ -18,14 +20,8 @@ all: thesis a3cover
 
 thesis: $(THESISMAIN).pdf
 
-$(THESISMAIN).pdf: $(CLSFILES) $(THESISCONTENTS) $(THESISMAIN).bbl
-	xelatex $(THESISMAIN).tex
-	xelatex $(THESISMAIN).tex
-
-$(THESISMAIN).bbl: $(BIBFILE)
-	xelatex $(THESISMAIN).tex
-	-bibtex $(THESISMAIN)
-	rm $(THESISMAIN).pdf
+$(THESISMAIN).pdf: $(CLSFILES) $(THESISCONTENTS)
+	latexmk $(LATEXMKOPTS) $(THESISMAIN)
 
 ###### for a3cover
 
@@ -40,28 +36,5 @@ spine.pdf: spine.tex
 ##### clean
 
 clean: 
-	-@rm -f \
-		*~ \
-		spine.pdf \
-		*.aux \
-		*.bak \
-		*.bbl \
-		*.blg \
-		*.dvi \
-		*.exa \
-		*.glo \
-		*.gls \
-		*.idx \
-		*.ilg \
-		*.ind \
-		*.ist \
-		*.log \
-		*.out \
-		*.ps \
-		*.thm \
-		*.toc \
-		*.lof \
-		*.lot \
-		*.loe \
-		data/*.aux \
-                data/*~
+	latexmk -c $(THESISMAIN) spine a3cover
+	-@$(RM) *~ *.bbl *.exa *.xdv data/*.aux
