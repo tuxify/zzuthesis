@@ -3,14 +3,14 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-10-29 11:49
+%% Last modified: 2019-10-31 10:42
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
-[2019/10/29 4.2 Zhengzhou University Thesis Template]
+[2019/10/31 5.0 Zhengzhou University Thesis Template]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 声明选项(Declaration options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +20,7 @@
 \DeclareOption{bachelor}{\zzu@bachelortrue}
 \DeclareOption{master}{\zzu@mastertrue}
 \DeclareOption{doctor}{\zzu@doctortrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 选项处理 (Option processing)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,10 +38,18 @@
 %% 装载类与宏包 (Loading classes & packages)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifzzu@doctor%博士论文双面打印
-  \LoadClass[12pt,a4paper]{book}
+  \LoadClass[zihao=-4,a4paper,UTF8,scheme=plain]{ctexbook}
 \else%其它单面打印
-  \LoadClass[12pt,a4paper,openany]{book}
+  \LoadClass[zihao=-4,a4paper,UTF8,scheme=plain,openany]{ctexbook}
 \fi
+\RequirePackage{ifxetex}
+\ifxetex\else
+  \ClassError{zzuthesis}{You should use XeLaTeX}{}
+  \end{document}
+\fi
+\RequirePackage{environ}
+\RequirePackage{ifthen}
+\RequirePackage{etoolbox}
 \RequirePackage{calc}%算术运算
 \RequirePackage{titletoc}%目录格式
 \RequirePackage{amsmath,amssymb,amsthm,bm}
@@ -54,22 +62,6 @@
 \RequirePackage{graphicx}%图形支持
 \RequirePackage{indentfirst}%首行缩进
 \RequirePackage[neverdecrease]{paralist}%列表环境
-\RequirePackage[BoldFont]{xeCJK}
-  \punctstyle{hangmobanjiao}
-  \defaultfontfeatures{Mapping=tex-text}%连字符
-  \setCJKmainfont[BoldFont={STZhongsong}, 
-    ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
-  \setCJKsansfont{Adobe Heiti Std}
-  \setCJKmonofont{Adobe Kaiti Std}
-  \setCJKfamilyfont{song}{Adobe Song Std}
-  \setCJKfamilyfont{hei}{Adobe Heiti Std}
-  \setCJKfamilyfont{fs}{Adobe Fangsong Std}
-  \setCJKfamilyfont{kai}{Adobe Kaiti Std}
-  \setCJKfamilyfont{xingkai}{STXingkai}%封面标题
-  % \setCJKfamilyfont{vertfont}[RawFeature={vertical}]{Adobe Song Std}%竖直字体
-  \setmainfont{Times New Roman}
-  \setsansfont{Arial}
-  \setmonofont{Courier New}
 \RequirePackage[numbers,super,sort&compress]{natbib}%参考文献引用
 \RequirePackage{hyperref}%超链接、书签
   \hypersetup{%
@@ -107,17 +99,12 @@
 %%   \kai     % 楷书 Adobe Kaiti Std
 %%   \fs      % 仿宋 Adobe Fangsong Std
 %%   \xingkai % 行楷 STXingkai
-%%   \vertfont% 竖宋 Adobe Song Std
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\song}{\CJKfamily{song}}
-\def\songti{\song}
-\newcommand{\fs}{\CJKfamily{fs}}
-\def\fangsong{\fs}
-\newcommand{\kai}{\CJKfamily{kai}}
-\def\kaishu{\kai}
-\newcommand{\hei}{\CJKfamily{hei}}
-\def\heiti{\hei}
-% \newcommand{\vertfont}{\CJKfamily{vertfont}}
+\def\song{\songti}
+\def\fs{\fangsong}
+\def\kai{\kaishu}
+\def\hei{\heiti}
+\setCJKfamilyfont{xingkai}{STXingkai}
 \newcommand{\xingkai}{\CJKfamily{xingkai}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
@@ -177,13 +164,10 @@
   % \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
 % \fi
 \geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm,includeheadfoot}
-\newlength\CJK@twochars
-% \def\CJK@spaceChar{\Unicode{48}{7}}  % TODO: \Unicode not available
-\def\CJK@spaceChar{\hskip \f@size \p@} % 28 Aug, 2016
-\def\CJKindent{%段落缩进
-  \settowidth\CJK@twochars{\CJK@spaceChar\CJK@spaceChar}%
-  \parindent\CJK@twochars}
-\setlength{\parskip}{\z@ \@plus\tw@\p@ \@minus\z@}
+\ctexset{%
+  punct=quanjiao,
+  space=auto,
+  autoindent=true}
 \let\zzu@cleardoublepage\cleardoublepage
 \newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
   \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
@@ -293,54 +277,57 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 章节标题
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand\chapter{%一级标题
-  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
-  % \thispagestyle{zzu@plain}
-  \global\@topnum\z@%prevent floats from appearing at the top of this page
-  \@afterindenttrue%
-  \secdef\@chapter\@schapter}%\secdef<unstarcommand><starcommand>
-\def\@chapter[#1]#2{%
-  \ifnum \c@secnumdepth >\m@ne
-   \if@mainmatter
-     \refstepcounter{chapter}
-     \addcontentsline{toc}{chapter}{\protect\numberline{\@chapapp}#1}%TODO shit
-     %\@chapapp: '\chaptername'.
-     %\numberline{⟨number⟩} puts <number> flushleft in a box of width \@tempdima
-   \else
-     \addcontentsline{toc}{chapter}{#1}%
-   \fi
-  \else
-    \addcontentsline{toc}{chapter}{#1}%
-  \fi
-  \chaptermark{#1}%\chaptermark{⟨text⟩}: to set a mark.
-  \@makechapterhead{#2}
-  \@afterheading}
-\def\@makechapterhead#1{%
-  \vspace*{24bp}%段前空24磅
-  {\parindent \z@
-   \ifzzu@bachelor\centering\else\raggedright\fi%本科居中，研究生居左
-    \sffamily\sanhao[1]%黑体三号字，单倍行距
-    \ifnum \c@secnumdepth >\m@ne
-      \@chapapp\hskip1em%章序号与章名空一个汉字符
-    \fi
-    \interlinepenalty\@M
-    #1\par\nobreak
-    \vskip 18bp}}%段后空18磅
-\def\@schapter#1{%
-  \@makeschapterhead{#1}
-  \@afterheading}
-\def\@makeschapterhead#1{%
-  \vspace*{24bp}%
-  {\parindent \z@ \centering
-   \sffamily\sanhao[1]
-   \def\@tempa{#1}
-   \def\@tempb{\cabstractname}
-   \def\@tempc{\eabstractname}
-   \ifx\@tempa\@tempb\pagenumbering{Roman}\xiaoer[1]\fi
-   \ifx\@tempa\@tempc\xiaoer[1]\fi
-   \interlinepenalty\@M
-   #1\par\nobreak
-   \vskip 18bp}}
+\newcommand\zzu@chapter@titleformat[1]{%
+  \ifzzu@bachelor #1\else%
+    \ifthenelse%
+      {\equal{#1}{\eabstractname}}%
+      {\bfseries #1}%
+      {#1}%
+  \fi}
+\ctexset{%
+  chapter={%一级标题：黑体16磅，段前24磅，段后18磅
+    afterindent=true,
+    pagestyle={zzu@headings},
+    beforeskip={6bp},
+    aftername=\hskip\ccwd,
+    afterskip={18bp},
+    format={%对齐
+        \ifzzu@bachelor\centering%本科居中
+        \else\raggedright\fi%顶左
+        \sffamily\sanhao[1]},
+    name=\relax,
+    nameformat=\relax,
+    numberformat=\relax,
+    titleformat=\zzu@chapter@titleformat,
+    lofskip=0pt,
+    lotskip=0pt,
+  },
+  section={%二级标题：黑体14磅，段前24磅，段后6磅
+    afterindent=true,
+    beforeskip={\ifzzu@bachelor 25bp\else 24bp\fi\@plus 1ex \@minus .2ex},
+    afterskip={\ifzzu@bachelor 12bp\else 6bp\fi \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\sihao[1.286]\else\sihao[1.429]\fi},
+  },
+  subsection={%三级标题：段前12磅，段后6磅
+    afterindent=true,
+    indent={\ifzzu@bachelor\parindent%本科缩进两字符
+            \else 0pt\fi},%硕博
+    beforeskip={12bp \@plus 1ex \@minus .2ex},
+    afterskip={6bp \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\xiaosi[1.25]%本科
+            \else\banxiaosi[1.538]\fi},%硕博黑体13磅
+  },
+  subsubsection={%四级标题：段前12磅，段后6磅
+    afterindent=true,
+    indent={\ifzzu@bachelor\parindent%本科缩进两字符
+            \else 0pt\fi},%硕博
+    beforeskip={12bp \@plus 1ex \@minus .2ex},
+    afterskip={6bp \@plus .2ex},
+    format={\ifzzu@bachelor\xiaosi[1.25]%本科
+            \else\sffamily\xiaosi[1.667]\fi},%硕博
+  },
+  paragraph/afterindent=true,
+  subparagraph/afterindent=true}
 \newcounter{zzu@bookmark}
 \def\zzu@chapter*{%\zzu@chapter*[tocline]{title}[header]
   %% \@ifnextchar peeks at the following character and compares it with its first argument. 
@@ -369,24 +356,6 @@
   \else
     \@mkboth{#3}{#3}
   \fi}
-\renewcommand\section{%二级标题
-  %\@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE}
-  \@startsection{section}{1}{\z@}%缩进0，段前空24磅
-                {-24bp \@plus -6bp \@minus -2bp}%
-                {6bp \@plus 2bp}%段后空6磅。
-                {\sffamily\ifzzu@bachelor\sihao\else\sihao[1.429]\fi}}%行距20
-\renewcommand\subsection{%三级标题
-  \@startsection{subsection}{2}{\ifzzu@bachelor\CJK@twochars \else\z@ \fi}
-                {-12bp \@plus -3bp \@minus -1bp}%
-                {6bp \@plus 2bp}%
-                {\ifzzu@bachelor\bfseries\xiaosi%本科宋体加粗
-                 \else\sffamily\banxiaosi[1.538]\fi}}%
-\renewcommand\subsubsection{%四级标题
-  \@startsection{subsubsection}{3}{\ifzzu@bachelor\CJK@twochars \else\z@ \fi}%
-                {-12bp \@plus -3bp \@minus -1bp}%
-                {6bp \@plus 2bp}%
-                {\ifzzu@bachelor\bfseries\xiaosi
-                 \else\sffamily\xiaosi[1.667]\fi}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 目录及图表清单
 %% 目录利用titletoc宏包对目录进行定制
@@ -534,9 +503,9 @@
       \end{minipage}
       \vskip \stretch{1}
       \begin{center}
-        {\ziju{18bp}\chuhao\xingkai\zzu@schoolname}
+        {\ziju{0}\chuhao\xingkai\zzu@schoolname}
         \par\vskip.6cm
-        {\ziju{18bp}\xiaochu\sffamily\zzu@subtitle}
+        {\ziju{0}\xiaochu\sffamily\zzu@subtitle}
         \vskip \stretch{1}
         \kaishu\erhao[1.5] \zzu@ctitle
         \vskip \stretch{1}
@@ -751,10 +720,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 自定义命令
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand*{\ziju}[1]{\renewcommand{\CJKglue}{\hskip #1}}%字距
 \newcommand{\pozhehao}{\kern0.3ex\rule[0.8ex]{2em}{0.1ex}\kern0.3ex}%破折号
 \def\zzu@setup@pdfinfo{%pdf文档信息
-  \hypersetup{%TODO no use.
+  \hypersetup{%
     pdftitle={\zzu@ctitle},
     pdfauthor={\zzu@cauthor},
     pdfsubject={\zzu@subtitle},
@@ -765,7 +733,6 @@
 %% 延迟的代码 (Delaying code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \AtEndOfClass{\input{zzuthesis.cfg}}
-\AtBeginDocument{\CJKindent}
 \AtEndOfClass{\sloppy\zzu@item@space}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
