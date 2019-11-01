@@ -50,9 +50,10 @@
   \end{document}
 \fi
 \RequirePackage{environ}
-\RequirePackage{ifthen}
+\RequirePackage{xparse}
 \RequirePackage{etoolbox}
 \RequirePackage{calc}%算术运算
+\RequirePackage[shortlabels]{enumitem}
 \RequirePackage{titletoc}%目录格式
 \RequirePackage{amsmath,amssymb,amsthm,bm}
 \RequirePackage{geometry}%页边距设置
@@ -63,7 +64,7 @@
 \RequirePackage[config]{subfig}%引入caption，并用config选项兼容subfigure
 \RequirePackage{graphicx}%图形支持
 \RequirePackage{indentfirst}%首行缩进
-\RequirePackage[neverdecrease]{paralist}%列表环境
+% \RequirePackage[neverdecrease]{paralist}%列表环境
 \RequirePackage[numbers,super,sort&compress]{natbib}%参考文献引用
 \RequirePackage{hyperref}%超链接、书签
   \hypersetup{%
@@ -122,30 +123,51 @@
 %% 1. 设置初号、小初…… 八号等字体的命令分别为：\chuhao、\xiaochu … \bahao；
 %% 2. 在使用时，可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newlength\zzu@linespace
-\newcommand{\zzu@choosefont}[2]{%
-   \setlength{\zzu@linespace}{#2*\real{#1}}%
-   \fontsize{#2}{\zzu@linespace}\selectfont}
-\def\zzu@define@fontsize#1#2{%
-  \expandafter\newcommand\csname #1\endcsname[1][\baselinestretch]{%
-    \zzu@choosefont{##1}{#2}}}
-\zzu@define@fontsize{chuhao}{42bp}
-\zzu@define@fontsize{xiaochu}{36bp}
-\zzu@define@fontsize{yihao}{26bp}
-\zzu@define@fontsize{xiaoyi}{24bp}
-\zzu@define@fontsize{erhao}{22bp}
-\zzu@define@fontsize{xiaoer}{18bp}
-\zzu@define@fontsize{sanhao}{16bp}
-\zzu@define@fontsize{xiaosan}{15bp}
-\zzu@define@fontsize{sihao}{14bp}
-\zzu@define@fontsize{banxiaosi}{13bp}
-\zzu@define@fontsize{xiaosi}{12bp}
-\zzu@define@fontsize{wuhao}{10.5bp}
-\zzu@define@fontsize{xiaowu}{9bp}
-\zzu@define@fontsize{liuhao}{7.5bp}
-\zzu@define@fontsize{xiaoliu}{6.5bp}
-\zzu@define@fontsize{qihao}{5.5bp}
-\zzu@define@fontsize{bahao}{5bp}
+% \newlength\zzu@linespace
+% \newcommand{\zzu@choosefont}[2]{%
+%    \setlength{\zzu@linespace}{#2*\real{#1}}%
+%    \fontsize{#2}{\zzu@linespace}\selectfont}
+% \def\zzu@define@fontsize#1#2{%
+%   \expandafter\newcommand\csname #1\endcsname[1][\baselinestretch]{%
+%     \zzu@choosefont{##1}{#2}}}
+% \zzu@define@fontsize{chuhao}{42bp}
+% \zzu@define@fontsize{xiaochu}{36bp}
+% \zzu@define@fontsize{yihao}{26bp}
+% \zzu@define@fontsize{xiaoyi}{24bp}
+% \zzu@define@fontsize{erhao}{22bp}
+% \zzu@define@fontsize{xiaoer}{18bp}
+% \zzu@define@fontsize{sanhao}{16bp}
+% \zzu@define@fontsize{xiaosan}{15bp}
+% \zzu@define@fontsize{sihao}{14bp}
+% \zzu@define@fontsize{banxiaosi}{13bp}
+% \zzu@define@fontsize{xiaosi}{12bp}
+% \zzu@define@fontsize{wuhao}{10.5bp}
+% \zzu@define@fontsize{xiaowu}{9bp}
+% \zzu@define@fontsize{liuhao}{7.5bp}
+% \zzu@define@fontsize{xiaoliu}{6.5bp}
+% \zzu@define@fontsize{qihao}{5.5bp}
+% \zzu@define@fontsize{bahao}{5bp}
+\def\zzu@def@fontsize#1#2{%
+  \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
+    \fontsize{#2}{##1\dimexpr #2}\selectfont}}
+\zzu@def@fontsize{chuhao}{42bp}
+\zzu@def@fontsize{xiaochu}{36bp}
+\zzu@def@fontsize{yihao}{26bp}
+\zzu@def@fontsize{xiaoyi}{24bp}
+\zzu@def@fontsize{erhao}{22bp}
+\zzu@def@fontsize{xiaoer}{18bp}
+\zzu@def@fontsize{sanhao}{16bp}
+\zzu@def@fontsize{xiaosan}{15bp}
+\zzu@def@fontsize{sihao}{14bp}
+\zzu@def@fontsize{banxiaosi}{13bp}
+\zzu@def@fontsize{xiaosi}{12bp}
+\zzu@def@fontsize{dawu}{11bp}
+\zzu@def@fontsize{wuhao}{10.5bp}
+\zzu@def@fontsize{xiaowu}{9bp}
+\zzu@def@fontsize{liuhao}{7.5bp}
+\zzu@def@fontsize{xiaoliu}{6.5bp}
+\zzu@def@fontsize{qihao}{5.5bp}
+\zzu@def@fontsize{bahao}{5bp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 正文字体及行距
 %% 研究生论文《规范》规定正文字体行距为固定20磅行距
@@ -191,7 +213,7 @@
   \def\@oddfoot{\hfil\wuhao\thepage\ifzzu@bachelor\relax\else\hfil\fi}%
   \let\@evenfoot=\@oddfoot}
 \def\ps@zzu@headings{%%Centred head, centred page number in foot.
-  \def\@oddhead{\vbox to\headheight{%
+  \def\@oddhead{\vbox to\headheight{\vfill%
     \hb@xt@\textwidth{\wuhao\rmfamily\hfill\leftmark\hfill}%
       \vskip\tw@\p@\hbox{\vrule width\textwidth height.4\p@ depth\z@}}}
   \let\@evenhead=\@oddhead
@@ -199,13 +221,10 @@
   \let\@evenfoot=\@oddfoot}
 \renewcommand{\chaptermark}[1]{\@mkboth{\@chapapp\  ~~#1}{}}
 \def\zzu@item@space{%列表环境间距
-  \let\itemize\compactitem
-  \let\enditemize\endcompactitem
-  \let\enumerate\compactenum
-  \let\endenumerate\endcompactenum
-  \let\description\compactdesc
-  \let\enddescription\endcompactdesc}
-\setdefaultenum{(1)}{1)}{}{}%TODO : 带圈数字
+  \setlist{nosep}}
+% \setdefaultenum{(1)}{1)}{}{}%TODO : 带圈数字
+\setlist[enumerate,1]{label = (\arabic*)}
+\setlist[enumerate,2]{label =  \arabic*)}
 \let\zzu@footnotesize\footnotesize%脚注字体及行距
 \renewcommand\footnotesize{\zzu@footnotesize\xiaowu[1.5]}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
