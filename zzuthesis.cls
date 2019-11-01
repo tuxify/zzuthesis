@@ -55,7 +55,17 @@
 \RequirePackage{calc}%算术运算
 \RequirePackage[shortlabels]{enumitem}
 \RequirePackage{titletoc}%目录格式
-\RequirePackage{amsmath,amssymb,amsthm,bm}
+\RequirePackage{amsmath,amsthm,bm}
+% \RequirePackage{unicode-math}
+% \unimathsetup{
+%   math-style = ISO,
+%   bold-style = ISO,
+%   nabla      = upright,
+%   partial    = upright,
+% }
+% \newcommand\bm{\symbf}
+% \renewcommand\boldsymbol{\symbf}
+% \newcommand\square{\mdlgblksquare}
 \RequirePackage{geometry}%页边距设置
 \RequirePackage{tabularx}%表格宽度控制
 \RequirePackage{multirow}%跨行表格
@@ -63,22 +73,17 @@
 \RequirePackage{booktabs}%三线表格
 \RequirePackage[config]{subfig}%引入caption，并用config选项兼容subfigure
 \RequirePackage{graphicx}%图形支持
-\RequirePackage{indentfirst}%首行缩进
-% \RequirePackage[neverdecrease]{paralist}%列表环境
 \RequirePackage[numbers,super,sort&compress]{natbib}%参考文献引用
 \RequirePackage{hyperref}%超链接、书签
   \hypersetup{%
-    % CJKbookmarks=true,
+    linktoc=all,
     bookmarksnumbered=true,%节的标号放入标签
     bookmarksopen=true,
     bookmarksopenlevel=1,
     breaklinks=true,
-    % colorlinks=false,%彩色链接
-    % plainpages=false,%格式化页码
-    % pdfpagelabels,
-    pdfborder=0 0 0}
+    plainpages=false,
+    hidelinks}
   \urlstyle{same}%相同字体
-\RequirePackage{hypernat}%让hyperref和natbib协调工作
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 文前，正文，文后格式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
