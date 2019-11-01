@@ -55,17 +55,14 @@
 \RequirePackage{calc}%算术运算
 \RequirePackage[shortlabels]{enumitem}
 \RequirePackage{titletoc}%目录格式
-\RequirePackage{amsmath,amsthm,bm}
-% \RequirePackage{unicode-math}
-% \unimathsetup{
-%   math-style = ISO,
-%   bold-style = ISO,
-%   nabla      = upright,
-%   partial    = upright,
-% }
-% \newcommand\bm{\symbf}
-% \renewcommand\boldsymbol{\symbf}
-% \newcommand\square{\mdlgblksquare}
+\RequirePackage{amsmath,amsthm}
+\RequirePackage{unicode-math}
+\unimathsetup{
+  math-style = ISO,
+  bold-style = ISO,
+  nabla      = upright,
+  partial    = upright,
+}
 \RequirePackage{geometry}%页边距设置
 \RequirePackage{tabularx}%表格宽度控制
 \RequirePackage{multirow}%跨行表格
