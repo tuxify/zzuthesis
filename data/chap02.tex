@@ -96,29 +96,22 @@ msmake.cmd & Windows 批处理工具\\
 
 \section{准备工作}
 
-模板中调用的宏包有：
-\begin{center}
-\begin{minipage}{1.0\linewidth}\centering
-\begin{tabular}{*{7}{l}}\hline
-calc & titletoc & amsmath & amssymb & amsthm & \\% txfonts 
-geometry & tabularx & multirow & longtable & booktabs & subfig\footnote{版本要求：$\geq$2005/06/28 ver: 1.3} \\
-graphicx & indentfirst\footnote{2016/8/28修改后首段不缩进，添加该宏包后解决} & paralist & xeCJK & natbib & hyperref \\
-hypernat & & & & &\\\hline
-\end{tabular}
-\end{minipage}
-\end{center}
+模板中调用的宏包%有：
+% \begin{center}
+% \begin{minipage}{1.0\linewidth}\centering
+% \begin{tabular}{*{7}{l}}\hline
+% calc & titletoc & amsmath & amssymb & amsthm & \\% txfonts 
+% geometry & tabularx & multirow & longtable & booktabs & subfig\footnote{版本要求：$\geq$2005/06/28 ver: 1.3} \\
+% graphicx & indentfirst\footnote{2016/8/28修改后首段不缩进，添加该宏包后解决} & paralist & xeCJK & natbib & hyperref \\
+% hypernat & & & & &\\\hline
+% \end{tabular}
+% \end{minipage}
+% \end{center}
+% 
+% 这些包
+在常见的 \TeX{} 系统中都有，如果没有请到 \url{www.ctan.org} 下载。
 
-这些包在常见的 \TeX{} 系统中都有，如果没有请到 \url{www.ctan.org} 下载。
-
-模板中用到的字体有：
-\begin{itemize}
-\item 中文字体：Adobe Song Std、Adobe Heiti Std、Adobe Kaiti Std、Adobe Fangsong
-Std；STXingkai\footnote{研究生论文封面需要用到该种字体。}、STZhongsong。
-\item 英文字体：Times New Roman、Arial、Courier New。
-\end{itemize}
-
-模板使用\XeTeX{}避免了繁琐的字体配置，并通过xeCJK来控制中文字体。故只需把上述
-字体放入系统文件夹即可。
+模板中用到的字体采用 ctex 文档中的字体配置，需要注意的是，研究生论文封面用到华文行楷字体（STXingkai），请自行安装该字体。
 
 \section{示例文档的生成}
 
