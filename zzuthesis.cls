@@ -11,6 +11,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
 [2019/10/31 5.0 Zhengzhou University Thesis Template]
+\def\zzuthesis{ZzuThesis}
+\def\version{5.0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 声明选项(Declaration options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -427,7 +429,7 @@
   \begin{center}
     \ifzzu@bachelor%%本科毕业论文
       \vspace*{2.4cm}
-      \hspace*{-1.3cm}{\yihao\bfseries\fs\zzu@schoolname\zzu@subtitle}
+      \hspace*{-1.3cm}{\yihao\bfseries\fangsong\zzu@schoolname\zzu@subtitle}
       \par\vskip2.4cm
       \hspace*{1cm}\sffamily\sanhao\zzu@bachelor@title@pre\zzu@title@sep
       \parbox[t]{10cm}{%
@@ -497,9 +499,9 @@
       \end{minipage}
       \vskip \stretch{1}
       \begin{center}
-        {\ziju{0}\chuhao\xingkai\zzu@schoolname}
+        {\ziju{0.5}\chuhao\xingkai\zzu@schoolname}
         \par\vskip.6cm
-        {\ziju{0}\xiaochu\sffamily\zzu@subtitle}
+        {\ziju{0.5}\xiaochu\sffamily\zzu@subtitle}
         \vskip \stretch{1}
         \kaishu\erhao[1.5] \zzu@ctitle
         \vskip \stretch{1}
@@ -589,7 +591,15 @@
   \vskip 20pt
   \zzu@authorsig\hfill\zzu@authdate\hspace*{2em}
   \vspace*{\stretch{2}}}
+\def\zzu@setup@pdfinfo{%pdf文档信息
+  \hypersetup{%
+    pdftitle={\zzu@ctitle},
+    pdfauthor={\zzu@cauthor},
+    pdfsubject={\zzu@subtitle},
+    pdfkeywords={\zzu@ckeywords},
+    pdfcreator={\zzuthesis-v\version}}}
 \newcommand{\makecover}{%制作封面
+  \zzu@setup@pdfinfo
   \phantomsection
   \pdfbookmark[-1]{\zzu@ctitle}{ctitle}
   \normalsize%
@@ -697,7 +707,7 @@
 \newenvironment{ack}{%
     \if@openright\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
-    \fs\xiaosi[1.524]%仿宋五号，固定行距16磅
+    \fangsong\xiaosi[1.524]%仿宋五号，固定行距16磅
   }{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%    参考文献环境
@@ -754,14 +764,6 @@
 %% 自定义命令
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\pozhehao}{\kern0.3ex\rule[0.8ex]{2em}{0.1ex}\kern0.3ex}%破折号
-\def\zzu@setup@pdfinfo{%pdf文档信息
-  \hypersetup{%
-    pdftitle={\zzu@ctitle},
-    pdfauthor={\zzu@cauthor},
-    pdfsubject={\zzu@subtitle},
-    pdfkeywords={\zzu@ckeywords},
-    pdfcreator={\zzu@cauthor},
-    pdfproducer={\zzuthesis}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 延迟的代码 (Delaying code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
