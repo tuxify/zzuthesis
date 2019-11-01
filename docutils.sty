@@ -3,16 +3,16 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-05-06 15:05
-%% Last modified: 2016-08-28 20:55
+%% Last modified: 2019-11-01 23:59
 %%================================================
 \ProvidesPackage{docutils}
-[2016/08/28 4.1 Packages used in Documentation.]
+[2019/11/01 5.0 Packages used in Documentation.]
 % 可能只会在编写模板文档的时候才会用到宏包及定义放在本宏包中，使用时可根据情况
 % 替换或加入其它宏包入定义。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 装载宏包 (Loading packages)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{bm}
+% \RequirePackage{bm}
 \RequirePackage{metalogo}%XeLaTeX Logo
 % \RequirePackage{float}%浮动体选项
 % \RequirePackage{array}%表格控制
@@ -82,7 +82,7 @@
     \kern-.08em%
     \-\TeX}
 \providecommand\TeXLive{\TeX{}Live}
-\hyphenation{Zzu-Thesis}
+% \hyphenation{Zzu-Thesis}
 % \DeclareRobustCommand{\zzuthesis}{Z\kern-.1188em%
     % \lower.33ex\hbox{$\m@th$% %% force math size calculations
           % \csname S@\f@size\endcsname
@@ -95,8 +95,8 @@
           % \fontsize\sf@size\z@
           % \math@fontsfalse\selectfont
           % H\kern-.125emE\kern-.08em\raise.05ex\hbox{S}\kern-.14em\lower.4ex\hbox{I}\kern-.14em\raise.05ex\hbox{\reflectbox{S}}}}
-\providecommand\zzuthesis{$\,$\textsc{ZzUThesis}$\,$}
-\providecommand\version{v$\,$4.1}
+% \providecommand\zzuthesis{$\,$\textsc{ZzUThesis}$\,$}
+% \providecommand\version{v$\,$5.0}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End of file `docutils.sty'.

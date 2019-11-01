@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-10-31 10:42
+%% Last modified: 2019-11-01 23:52
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -11,6 +11,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
 [2019/10/31 5.0 Zhengzhou University Thesis Template]
+\hyphenation{Zzu-Thesis}
 \def\zzuthesis{ZzuThesis}
 \def\version{5.0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +69,7 @@
 \RequirePackage{multirow}%跨行表格
 \RequirePackage{longtable}%长表格，可替换supertabular
 \RequirePackage{booktabs}%三线表格
-\RequirePackage[config]{subfig}%引入caption，并用config选项兼容subfigure
+\RequirePackage[labelformat=simple]{subcaption}
 \RequirePackage{graphicx}%图形支持
 \RequirePackage[numbers,super,sort&compress]{natbib}%参考文献引用
 \RequirePackage{hyperref}%超链接、书签
@@ -125,30 +126,6 @@
 %% 1. 设置初号、小初…… 八号等字体的命令分别为：\chuhao、\xiaochu … \bahao；
 %% 2. 在使用时，可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \newlength\zzu@linespace
-% \newcommand{\zzu@choosefont}[2]{%
-%    \setlength{\zzu@linespace}{#2*\real{#1}}%
-%    \fontsize{#2}{\zzu@linespace}\selectfont}
-% \def\zzu@define@fontsize#1#2{%
-%   \expandafter\newcommand\csname #1\endcsname[1][\baselinestretch]{%
-%     \zzu@choosefont{##1}{#2}}}
-% \zzu@define@fontsize{chuhao}{42bp}
-% \zzu@define@fontsize{xiaochu}{36bp}
-% \zzu@define@fontsize{yihao}{26bp}
-% \zzu@define@fontsize{xiaoyi}{24bp}
-% \zzu@define@fontsize{erhao}{22bp}
-% \zzu@define@fontsize{xiaoer}{18bp}
-% \zzu@define@fontsize{sanhao}{16bp}
-% \zzu@define@fontsize{xiaosan}{15bp}
-% \zzu@define@fontsize{sihao}{14bp}
-% \zzu@define@fontsize{banxiaosi}{13bp}
-% \zzu@define@fontsize{xiaosi}{12bp}
-% \zzu@define@fontsize{wuhao}{10.5bp}
-% \zzu@define@fontsize{xiaowu}{9bp}
-% \zzu@define@fontsize{liuhao}{7.5bp}
-% \zzu@define@fontsize{xiaoliu}{6.5bp}
-% \zzu@define@fontsize{qihao}{5.5bp}
-% \zzu@define@fontsize{bahao}{5bp}
 \def\zzu@def@fontsize#1#2{%
   \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
     \fontsize{#2}{##1\dimexpr #2}\selectfont}}
@@ -277,8 +254,7 @@
 \fi
 \captionsetup[figure]{%cation 在下，段前空6磅，段后空12磅
   position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
-\captionsetup[subfloat]{labelformat=simple,font=zzu,%
-  captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
+\captionsetup[sub]{font=zzu,skip=6bp}
 \renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
 \renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
 \renewcommand\theequation{%公式编号分隔符
