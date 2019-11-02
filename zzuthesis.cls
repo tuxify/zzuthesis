@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-01 23:52
+%% Last modified: 2019-11-03 00:25
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -103,28 +103,19 @@
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 字体配置
-%% 字体调用命令：
-%%   \song    % 宋体 Adobe Song Std
-%%   \hei     % 黑体 Adobe Heiti Std
-%%   \kai     % 楷书 Adobe Kaiti Std
-%%   \fs      % 仿宋 Adobe Fangsong Std
-%%   \xingkai % 行楷 STXingkai
+%% 采用ctex字体配置，此处仅为保留兼容性
+%% TODO: 行楷字体仅封面学校名使用，插图代替
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\song{\songti}
-\def\fs{\fangsong}
-\def\kai{\kaishu}
-\def\hei{\heiti}
-\setCJKfamilyfont{xingkai}{STXingkai}
+\def\song{\songti}% 宋体 Adobe Song Std
+\def\fs{\fangsong}% 黑体 Adobe Heiti Std
+\def\kai{\kaishu}% 楷书 Adobe Kaiti Std
+\def\hei{\heiti}% 仿宋 Adobe Fangsong Std
+\setCJKfamilyfont{xingkai}{STXingkai}% 行楷 STXingkai
 \newcommand{\xingkai}{\CJKfamily{xingkai}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
-%%  模板使用thuthesis论文模板的字号定义：
-%%    \thu@define@fontsize{<字号名称>}{<磅数>}
-%%  相当于定义：\newcommand{\chuhao}[1][\baselinestretch]{%
-%%                \fontsize{42bp}{42bp*\real{#1}}\selectfont}
-%%
-%% 1. 设置初号、小初…… 八号等字体的命令分别为：\chuhao、\xiaochu … \bahao；
-%% 2. 在使用时，可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距。
+%%  模板使用thuthesis论文模板的字号定义
+%%  使用时可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\zzu@def@fontsize#1#2{%
   \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
@@ -149,28 +140,38 @@
 \zzu@def@fontsize{bahao}{5bp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 正文字体及行距
-%% 研究生论文《规范》规定正文字体行距为固定20磅行距
-%% 本科论文规定正文字体行距为1.25倍行距
+%% 研究生：小四号 (12bp) 字，固定行距20bp
+%% 本科生：小四号 (12bp) 字，1.25倍行距
+%% TODO: 本科规定行距太窄，未采用
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\let\zzu@normalsize\normalsize
-\renewcommand\normalsize{\zzu@normalsize\xiaosi[1.667]}
-% \renewcommand\normalsize{\zzu@normalsize%TODO
-%   \ifzzu@bachelor\xiaosi[1.25]\else\xiaosi[1.667]\fi}
+% \let\zzu@normalsize\normalsize
+% \renewcommand\normalsize{\zzu@normalsize
+  % \ifzzu@bachelor\xiaosi[1.25]\else\xiaosi[1.667]\fi}
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{12bp}{20bp}%
+  \abovedisplayskip=12bp \@plus 2bp \@minus 2bp
+  \abovedisplayshortskip=12bp \@plus 2bp \@minus 2bp
+  \belowdisplayskip=\abovedisplayskip
+  \belowdisplayshortskip=\abovedisplayshortskip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 页面设置
-%% 
-%% 1.页边距
-%% 2.段落间距及缩进
-%% 3.\cleardoublepage命令：双面打印时，清空空白页
-%% 规范中要求的页边距：
-%% 上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
+%% 研究生：页边距上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
+%% 本科生：页边距上2.0cm，下2.2cm，左2.6cm，右2.0cm
+%% TODO: 根据Word设置结果微调，另本科生规范中页边距太小，未采用
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \ifzzu@bachelor%TODO 
+% \ifzzu@bachelor
   % \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
-% \else%研究生
+% \else
   % \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
 % \fi
-\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm,includeheadfoot}
+\geometry{
+  a4paper, % 210 * 297mm
+  hcentering,
+  vcentering,
+  ignoreall,
+  nomarginpar,
+  left=32mm,
+  top=38mm}
 \ctexset{%
   punct=quanjiao,
   space=auto,
@@ -201,9 +202,9 @@
 \renewcommand{\chaptermark}[1]{\@mkboth{\@chapapp\  ~~#1}{}}
 \def\zzu@item@space{%列表环境间距
   \setlist{nosep}}
-% \setdefaultenum{(1)}{1)}{}{}%TODO : 带圈数字
 \setlist[enumerate,1]{label = (\arabic*)}
 \setlist[enumerate,2]{label =  \arabic*)}
+% \setlist[enumerate,3]{label =  \arabic*)}%TODO : 带圈数字
 \let\zzu@footnotesize\footnotesize%脚注字体及行距
 \renewcommand\footnotesize{\zzu@footnotesize\xiaowu[1.5]}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -297,7 +298,7 @@
   },
   section={%二级标题：黑体14磅，段前24磅，段后6磅
     afterindent=true,
-    beforeskip={\ifzzu@bachelor 25bp\else 24bp\fi\@plus 1ex \@minus .2ex},
+    beforeskip={\ifzzu@bachelor 25bp\else 24bp\fi\@plus .5ex \@minus .2ex},
     afterskip={\ifzzu@bachelor 12bp\else 6bp\fi \@plus .2ex},
     format={\sffamily\ifzzu@bachelor\sihao[1.286]\else\sihao[1.429]\fi},
   },
@@ -305,7 +306,7 @@
     afterindent=true,
     indent={\ifzzu@bachelor\parindent%本科缩进两字符
             \else 0pt\fi},%硕博
-    beforeskip={12bp \@plus 1ex \@minus .2ex},
+    beforeskip={12bp \@plus .5ex \@minus .2ex},
     afterskip={6bp \@plus .2ex},
     format={\sffamily\ifzzu@bachelor\xiaosi[1.25]%本科
             \else\banxiaosi[1.538]\fi},%硕博黑体13磅
@@ -314,7 +315,7 @@
     afterindent=true,
     indent={\ifzzu@bachelor\parindent%本科缩进两字符
             \else 0pt\fi},%硕博
-    beforeskip={12bp \@plus 1ex \@minus .2ex},
+    beforeskip={12bp \@plus .5ex \@minus .2ex},
     afterskip={6bp \@plus .2ex},
     format={\ifzzu@bachelor\xiaosi[1.25]%本科
             \else\sffamily\xiaosi[1.667]\fi},%硕博
@@ -392,31 +393,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\zzu@define@term#1{%定义封面的一些替换命令
+\def\zzu@def@term#1{%定义封面的一些替换命令
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname zzu@#1\endcsname{##1}}
   \csname #1\endcsname{}}
-\zzu@define@term{schoolcode}
-\zzu@define@term{id}
-\zzu@define@term{secretlevel}
-\zzu@define@term{protitle}
-\zzu@define@term{ctitle}
-\zzu@define@term{cauthor}
-\zzu@define@term{stuno}
-\zzu@define@term{csupervisor}
-\zzu@define@term{csubject}
-\zzu@define@term{cmajor}
-\zzu@define@term{cdepartment}
-% \newcommand\cdepartment[2][]{%
-  % \def\zzu@cdepartment@short{#1}\def\zzu@cdepartment{#2}}
-\zzu@define@term{cdate}
-% \zzu@define@term{submitdate}
-\zzu@define@term{etitle}
-\zzu@define@term{eauthor}
-\zzu@define@term{esupervisor}
-\zzu@define@term{emajor}
-\zzu@define@term{edepartment}
-\zzu@define@term{edate}
+\zzu@def@term{schoolcode}
+\zzu@def@term{id}
+\zzu@def@term{secretlevel}
+\zzu@def@term{protitle}
+\zzu@def@term{ctitle}
+\zzu@def@term{cauthor}
+\zzu@def@term{stuno}
+\zzu@def@term{csupervisor}
+\zzu@def@term{csubject}
+\zzu@def@term{cmajor}
+\zzu@def@term{cdepartment}
+\zzu@def@term{cdate}
+\zzu@def@term{submitdate}
+\zzu@def@term{etitle}
+\zzu@def@term{eauthor}
+\zzu@def@term{esupervisor}
+\zzu@def@term{emajor}
+\zzu@def@term{edepartment}
+\zzu@def@term{edate}
 \newcommand\zzu@underline[2][6em]{%
   \hskip\p@\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3\p@}
 \newlength{\zzu@title@width}
@@ -470,9 +469,9 @@
           \zzu@put@title{\zzu@cdate@title}\zzu@title@sep%
             \zzu@underline[18em]{\zzu@cdate}\par}}
         \vspace*{\stretch{1}}
-        % \begin{center}
-          % {\xiaosan\rmfamily\zzu@submitdate}
-        % \end{center}
+        \begin{center}
+          {\xiaosan\rmfamily\zzu@submitdate}
+        \end{center}
     \else%研究生学位论文
       \noindent\begin{minipage}{.49\textwidth}
         \begin{flushleft}
@@ -621,26 +620,6 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \def\zzu@parse@keywords#1{%关键词分割
-%   \expandafter\gdef\csname zzu@#1\endcsname{}%
-%   \expandafter\gdef\csname #1\endcsname##1{\vskip12bp
-%     \@for\reserved@a:=##1\do{
-%       \expandafter\ifx\csname zzu@#1\endcsname\@empty\else
-%         \expandafter\g@addto@macro\csname zzu@#1\endcsname{%
-%           \ignorespaces\csname zzu@#1@separator\endcsname}
-%       \fi
-%       \expandafter\expandafter\expandafter\g@addto@macro%TODO IT'S BEYOND ME !
-%         \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{%
-%           \reserved@a}}
-%   \setbox0=\hbox{{\bfseries \csname zzu@#1@title\endcsname}}%“关键词”三字加粗
-%   \ifzzu@bachelor\indent\else\noindent\hangindent\wd0\hangafter1\fi
-%   \box0\csname zzu@#1\endcsname}}
-% \zzu@parse@keywords{ckeywords}
-% \zzu@parse@keywords{ekeywords}
-% \newenvironment{cabstract}
-%   {\zzu@chapter*[]{\cabstractname}}{}
-% \newenvironment{eabstract}
-%  {\zzu@chapter*[]{\eabstractname}}{}
 \newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
 \newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
 \newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
