@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-04 15:25
+%% Last modified: 2019-11-04 22:20
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -102,13 +102,23 @@
   \ctexset{chapter/format+=\centering}
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 字体配置
-%% 采用ctex字体配置，此处仅为保留兼容性
+%% 中文及字体配置
+%% 字体采用ctex字体配置，此处字体命令仅为保留兼容性
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\song{\songti}% 宋体 Adobe Song Std
 \def\fs{\fangsong}% 黑体 Adobe Heiti Std
 \def\kai{\kaishu}% 楷书 Adobe Kaiti Std
 \def\hei{\heiti}% 仿宋 Adobe Fangsong Std
+\ctexset{%
+  contentsname={目\hspace{1em}录},
+  listfigurename={插图清单},
+  listtablename={表格清单},
+  figurename={图},
+  tablename={表},
+  appendixname={附录},
+  bibname={参考文献},
+  proofname={证明}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
 %%  模板使用thuthesis论文模板的字号定义
@@ -193,7 +203,7 @@
   \let\@evenhead=\@oddhead
   \def\@oddfoot{\wuhao\hfil\thepage\ifzzu@bachelor\relax\else\hfil\fi}
   \let\@evenfoot=\@oddfoot}
-\renewcommand{\chaptermark}[1]{\@mkboth{\@chapapp\  ~~#1}{}}
+\renewcommand{\chaptermark}[1]{\@mkboth{\thechapter\  ~~#1}{}}
 \def\zzu@item@space{%列表环境间距
   \setlist{nosep}}
 \setlist[enumerate,1]{label = (\arabic*)}
@@ -252,8 +262,13 @@
 \captionsetup[sub]{font=zzu,skip=6bp}
 \renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
 \renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 数学相关
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\equationname{公式}
 \renewcommand\theequation{%公式编号分隔符
   \ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@equation}
+\def\zzu@theorem@separator{：}%
 \allowdisplaybreaks[4]%允许公式断行分页
 \newtheoremstyle{theorem}%定理类型
   {0.5ex}%Space above
@@ -272,7 +287,12 @@
   \sffamily
   #1\@addpunct{\quad}]\ignorespaces}
   {\popQED\endtrivlist\@endpefalse}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{theorem}
+\newtheorem{definition}{定义}[chapter]
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 章节标题
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ctexset{%
@@ -614,6 +634,8 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cabstractname}{摘\hspace{1em}要}
+\newcommand{\eabstractname}{Abstract}
 \newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
 \newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
 \newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
