@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-04 14:31
+%% Last modified: 2019-11-04 15:25
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -137,13 +137,10 @@
 \zzu@def@fontsize{bahao}{5bp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 正文字体及行距
-%% 研究生：小四号 (12bp) 字，固定行距20bp
+%% 研究生：小四号 (12bp) 字，固定行距 20bp
 %% 本科生：小四号 (12bp) 字，1.25倍行距
-%% TODO: 本科规定行距太窄，未采用
+%% Word 小四号字 1.25 倍行距与固定行距 20bp 较接近
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \let\zzu@normalsize\normalsize
-% \renewcommand\normalsize{\zzu@normalsize
-  % \ifzzu@bachelor\xiaosi[1.25]\else\xiaosi[1.667]\fi}
 \renewcommand\normalsize{%
   \@setfontsize\normalsize{12bp}{20bp}%
   \abovedisplayskip=12bp \@plus 2bp \@minus 2bp
@@ -288,7 +285,6 @@
     format={\sffamily\sanhao[1]},
     name=\relax,
     nameformat=\relax,
-    numberformat=\relax,
     titleformat=\relax,
     lofskip=0pt,
     lotskip=0pt,
