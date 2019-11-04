@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-03 00:25
+%% Last modified: 2019-11-04 14:31
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -104,14 +104,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 字体配置
 %% 采用ctex字体配置，此处仅为保留兼容性
-%% TODO: 行楷字体仅封面学校名使用，插图代替
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\song{\songti}% 宋体 Adobe Song Std
 \def\fs{\fangsong}% 黑体 Adobe Heiti Std
 \def\kai{\kaishu}% 楷书 Adobe Kaiti Std
 \def\hei{\heiti}% 仿宋 Adobe Fangsong Std
-\setCJKfamilyfont{xingkai}{STXingkai}% 行楷 STXingkai
-\newcommand{\xingkai}{\CJKfamily{xingkai}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
 %%  模板使用thuthesis论文模板的字号定义
@@ -495,7 +492,8 @@
       \end{minipage}
       \vskip \stretch{1}
       \begin{center}
-        {\ziju{0.5}\chuhao\xingkai\zzu@schoolname}
+        % {\ziju{0.5}\chuhao\xingkai\zzu@schoolname}
+        {\includegraphics{zzu}}
         \par\vskip.6cm
         {\ziju{0.5}\xiaochu\sffamily\zzu@subtitle}
         \vskip \stretch{1}
