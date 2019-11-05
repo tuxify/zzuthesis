@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-04 22:20
+%% Last modified: 2019-11-05 12:26
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -110,7 +110,7 @@
 \def\kai{\kaishu}% 楷书 Adobe Kaiti Std
 \def\hei{\heiti}% 仿宋 Adobe Fangsong Std
 \ctexset{%
-  contentsname={目\hspace{1em}录},
+  contentsname={目\hspace{\ccwd} 录},
   listfigurename={插图清单},
   listtablename={表格清单},
   figurename={图},
@@ -180,6 +180,7 @@
   punct=quanjiao,
   space=auto,
   autoindent=true}
+\setlist{nosep}
 \let\zzu@cleardoublepage\cleardoublepage
 \newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
   \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
@@ -204,8 +205,6 @@
   \def\@oddfoot{\wuhao\hfil\thepage\ifzzu@bachelor\relax\else\hfil\fi}
   \let\@evenfoot=\@oddfoot}
 \renewcommand{\chaptermark}[1]{\@mkboth{\thechapter\  ~~#1}{}}
-\def\zzu@item@space{%列表环境间距
-  \setlist{nosep}}
 \setlist[enumerate,1]{label = (\arabic*)}
 \setlist[enumerate,2]{label =  \arabic*)}
 % \setlist[enumerate,3]{label =  \arabic*)}%TODO : 带圈数字
@@ -233,12 +232,12 @@
 \ifzzu@bachelor%本科：小四楷体
   \def\@tabular{\xiaosi[1.25]\kaishu\zzu@tabular}%
   \DeclareCaptionLabelFormat{zzu}{{\xiaosi[1.25]\kaishu #1~\rmfamily #2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{1em}}%表序与表名之间空一个汉字度
+  \DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}%表序与表名之间空一个汉字度
   \DeclareCaptionFont{zzu}{\xiaosi[1.25]\kaishu}
 \else%研究生：五号宋体
   \def\zzu@tabular{\wuhao[1]\zzu@tabular}
   \DeclareCaptionLabelFormat{zzu}{{\wuhao[1]\rmfamily #1~#2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{1em}}
+  \DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}
   \DeclareCaptionFont{zzu}{\wuhao[1]}
 \fi%
 \let\zzu@LT@array\LT@array%长表格
@@ -268,8 +267,8 @@
 \newcommand\equationname{公式}
 \renewcommand\theequation{%公式编号分隔符
   \ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@equation}
-\def\zzu@theorem@separator{：}%
 \allowdisplaybreaks[4]%允许公式断行分页
+\def\zzu@theorem@separator{：}%
 \newtheoremstyle{theorem}%定理类型
   {0.5ex}%Space above
   {0.5ex}%Space below
@@ -391,10 +390,10 @@
 \titlecontents{chapter}[\z@]{\vspace{6bp}\sihao[1]}
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
-\titlecontents{section}[2em]{\vspace{6bp} \xiaosi[1]}
+\titlecontents{section}[2\ccwd]{\vspace{6bp} \xiaosi[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
-\titlecontents{subsection}[4em]{\vspace{6bp} \wuhao[1]}
+\titlecontents{subsection}[4\ccwd]{\vspace{6bp} \wuhao[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
 \titlecontents{figure}[\z@]{\wuhao[1.524]}%10.5bp，16bp
@@ -429,6 +428,56 @@
 \zzu@def@term{emajor}
 \zzu@def@term{edepartment}
 \zzu@def@term{edate}
+\def\zzu@schoolname{郑州大学}
+\def\zzu@title@sep{：}
+\ifzzu@bachelor
+  \def\zzu@subtitle{毕业设计（论文）}
+  \def\zzu@bachelor@title@pre{题\hspace{2\ccwd} 目}
+  \def\zzu@supervisor@title{指导教师}
+  \def\zzu@protitle@title{职称}
+  \def\zzu@author@title{学生姓名}
+  \def\zzu@stuno@title{学号}
+  \def\zzu@major@title{专业}
+  \def\zzu@department@title{院（系）}
+\else
+  \def\zzu@schoolcode@title{学校代码}
+  \def\zzu@id@title{学号或申请号}
+  \def\zzu@secretlevel@title{密级}
+  \ifzzu@master
+    \def\zzu@subtitle{硕士学位论文}
+  \else
+    \def\zzu@subtitle{博士学位论文}
+  \fi
+  \def\zzu@author@title{作者姓名}
+  \def\zzu@supervisor@title{导师姓名}
+  \def\zzu@subject@title{学科门类}
+  \def\zzu@major@title{专业名称}
+  \ifzzu@master
+    \def\zzu@department@title{培养院系}
+  \else\fi
+\fi
+\def\zzu@cdate@title{完成时间}
+\let\CJK@todaysave=\today
+\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
+\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
+\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
+\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
+\def\CJK@today{\CJK@todaysmall}
+\renewcommand\today{\CJK@today}
+\newcommand\CJKtoday[1][1]{%
+  \ifcase#1\def\CJK@today{\CJK@todaysave}
+    \or\def\CJK@today{\CJK@todaysmall}
+    \or\def\CJK@today{\CJK@todaybig}
+  \fi}
+\ifzzu@bachelor
+  \submitdate{\CJK@todaysmall}%
+  \cdate{\CJK@todaysmall}%
+\else
+  \cdate{\CJK@todaysmall@short}%
+\fi
+\edate{\ifcase \month \or January\or February\or March\or April\or May%
+       \or June\or July \or August\or September\or October\or November
+       \or December\fi\unskip,\ \ \the\year}
 \newcommand\zzu@underline[2][6em]{%
   \hskip\p@\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3\p@}
 \newlength{\zzu@title@width}
@@ -471,7 +520,7 @@
           \zzu@underline[2cm]{\hfill\zzu@protitle\hfill}}\par
         \vspace*{\stretch{1}}
         \hspace*{0.8cm}\parbox[t][4.0cm][t]{22em}{{\xiaosan[1.8]\rmfamily
-          \setlength{\zzu@title@width}{4em}
+          \setlength{\zzu@title@width}{4\ccwd}
           \zzu@put@title{\zzu@author@title}\zzu@title@sep%
             \zzu@underline[6em]{\zzu@cauthor}\hspace*{8bp}
           \zzu@stuno@title\zzu@title@sep\zzu@underline[8em]{\zzu@stuno}\par
@@ -508,14 +557,13 @@
       \end{minipage}
       \vskip \stretch{1}
       \begin{center}
-        % {\ziju{0.5}\chuhao\xingkai\zzu@schoolname}
         {\includegraphics{zzu}}
         \par\vskip.6cm
         {\ziju{0.5}\xiaochu\sffamily\zzu@subtitle}
         \vskip \stretch{1}
         \kaishu\erhao[1.5] \zzu@ctitle
         \vskip \stretch{1}
-        \setlength{\zzu@title@width}{4em}
+        \setlength{\zzu@title@width}{4\ccwd}
         \kaishu\sanhao[1.25]
         \def\tabcolsep{\p@}%\tabcolsep：tabular环境中两列标准间隔的一半
         \def\arraystretch{1.5}%\arraystretch表格行距的缩放比例因子（缺省为1）
@@ -524,7 +572,7 @@
             \zzu@underline[150pt]{\zzu@cauthor}
         \\
           \zzu@put@title{\zzu@supervisor@title} &  \zzu@title@sep & 
-            \zzu@underline[150pt]{\zzu@csupervisor\hspace{1em}\zzu@protitle}
+            \zzu@underline[150pt]{\zzu@csupervisor\hspace{\ccwd}\zzu@protitle}
         \\ 
           \zzu@put@title{\zzu@subject@title} &  \zzu@title@sep & 
             \zzu@underline[150pt]{\zzu@csubject}
@@ -582,6 +630,23 @@
       \end{center}}
   \vfill
   \end{center}}
+\newcommand{\zzu@declarename}{学位论文原创性声明}
+\newcommand{\zzu@authtitle}{学位论文使用授权声明}
+\newcommand{\zzu@authorsig}{学位论文作者：}
+\newcommand{\zzu@declaretext}{\hspace{2\ccwd}
+本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究所取得的成果
+。除文中已经注明引用的内容外，本论文不包含任何其他个人或集体已经发表或撰写过的
+科研成果。对本文的研究做出重要贡献的个人和集体，均已在文中以明确方式标明。本声
+明的法律责任由本人承担。}
+\newcommand{\zzu@declaredate}{日\hspace{\ccwd} 期：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
+\newcommand{\zzu@authorization}{\hspace{2\ccwd}
+本人在导师指导下完成的论文及相关的职务作品，知识产权归属郑州大学。根据郑州大学
+有关保留、使用学位论文的规定，同意学校保留或向国家有关部门或机构送交论文的复印
+件和电子版，允许论文被查阅和借阅；本人授权郑州大学可以将本学位论文的全部或部分
+编入有关数据库进行检索，可以采用影印、缩印或其他复制手段保存论文和汇编本学位论
+文。本人离校后发表、使用学位论文或与该学位论文直接相关的学术论文或成果时，第一
+署名单位仍然为郑州大学。保密论文在解密后应遵守此规定。}
+\newcommand{\zzu@authdate}{日\hspace{\ccwd} 期：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 \newcommand{\zzu@authorization@mk}{%原创性声明及授权声明
   \thispagestyle{zzu@empty}
   \vspace*{\stretch{1}}
@@ -591,7 +656,7 @@
   \vskip 20pt
   \xiaosi[2]\zzu@declaretext
   \vskip 20pt
-  \zzu@authorsig\hfill\zzu@declaredate\hspace*{2em}
+  \zzu@authorsig\hfill\zzu@declaredate\hspace*{2\ccwd}
   \vspace*{\stretch{2}}
   \begin{center}
     \sffamily\sanhao \zzu@authtitle
@@ -599,7 +664,7 @@
   \vskip 20pt
   \xiaosi[2]\zzu@authorization
   \vskip 20pt
-  \zzu@authorsig\hfill\zzu@authdate\hspace*{2em}
+  \zzu@authorsig\hfill\zzu@authdate\hspace*{2\ccwd}
   \vspace*{\stretch{2}}}
 \def\zzu@setup@pdfinfo{%pdf文档信息
   \hypersetup{%
@@ -634,8 +699,12 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\cabstractname}{摘\hspace{1em}要}
+\newcommand{\cabstractname}{摘\hspace{\ccwd} 要}
 \newcommand{\eabstractname}{Abstract}
+\def\zzu@ckeywords@separator{；}
+\def\zzu@ekeywords@separator{; }
+\newcommand{\zzu@ckeywords@title}{关键词：}
+\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
 \newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
 \newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
 \newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
@@ -677,6 +746,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 主要符号对照表
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\zzu@denotation@name}{主要符号对照表}
 \newenvironment{denotation}[1][2.5cm]{
   \if@openright\cleardoublepage\else\clearpage\fi
   \zzu@chapter*[]{\zzu@denotation@name}
@@ -696,6 +766,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 致谢
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
 \newenvironment{ack}{%
     \if@openright\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
@@ -749,6 +820,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 个人简历、在学期间发表的学术论文及研究成果
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifzzu@bachelor
+  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
+\else
+  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+\fi
 \newenvironment{resume}[1][\zzu@resume@title]{%
   \zzu@chapter*{#1}\wuhao[1.524]}{}
 \newcommand{\resumeitem}[1]{\vspace{2em}{\sihao\sffamily{#1}}\vspace{.5em}\par}
@@ -759,8 +835,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 延迟的代码 (Delaying code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\AtEndOfClass{\input{zzuthesis.cfg}}
-\AtEndOfClass{\sloppy\zzu@item@space}
+\AtEndOfClass{\sloppy}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End of file `zzuthesis.cls'.
