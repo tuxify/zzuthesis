@@ -3,114 +3,67 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-27 19:47
-%% Last modified: 2019-11-01 11:43
+%% Last modified: 2019-11-06 00:38
 %%================================================
 \chapter{关于该模板的使用}
 \label{cha:usage}
 
-模板核心文件只有三个：\emph{zzuthesis.cls}，\emph{zzuthesis.cfg} 和
-\emph{zzubib.bst}\footnote{建议采用 gbt7714-unsrt，相关讨论见
-https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
-令分为两类：一是格式控制，二是内容替换。格式控制如字体、字号、字距和行距。内容
-替换如姓名、院系、专业、致谢等等。模板自带的示例文档里面基本涵盖了论文写作用到
-的所有命令及其使用方法，只需要用自己的内容进行相应替换就可以。本章将会对模板中
-的命令及其使用作一简要介绍。
+模板中定义了一系列的命令与环境来实现论文的排版，其主要分为格式控制和内容替换两类，格式控制如字体、字号、字距和行距等，内容替换如姓名、院系、专业、致谢等等。模板自带的示例文档里面基本涵盖了论文写作用到的所有命令和环境的使用方法，只需要用自己的内容进行相应替换就可以。本章将会对模板中的命令及其使用作一简要介绍。
 
 \section{\zzuthesis{} 示例文件}
 
 下面的例子描述了模板中章节的组织形式，来自于示例文档，具体内容可以参考模板附
 带的 \emph{main.tex} 和 \emph{data}\//。
-\begin{code}
-\documentclass[bachelor]{zzuthesis}
-% \documentclass[%
-%   bachelor|master|doctor, % mandatory option
-%   openany|openright]{zzuthesis}
 
-\usepackage{docutils}%模板文档用到的宏包及定义
-
-\graphicspath{{figures/}}
-\end{code}
-\begin{code}
-\begin{document}
-\frontmatter
-\input{data/cover}%封面
-\makecover
-
-\input{data/abstract}%摘要
-
-\tableofcontents%目录
-\listoffigures%插图清单
-\listoftables%表格清单
-\include{data/denotation}%符号列表
-\end{code}
-\begin{code}
-\mainmatter
-\include{data/chap01}%正文章节
-\include{data/chap02}
-\include{data/chap03}
-\end{code}
-\begin{code}
-\backmatter
-
-\bibliographystyle{zzubib}
-\bibliography{ref/refs}%参考文献
-
-\include{data/ack}%致谢
-
-\begin{appendix}%附录
-  \input{data/app01}
-  \input{data/app02}
-\end{appendix}
-
-\include{data/resume}%简历
-
-\end{document}
-\end{code}
+\lstinputlisting[firstline=8,style=lstStyleLaTeX]{main.tex}
 
 \section{模板选项}
 \label{sec:option}
 
-{\noindent\verb|\documentclass[bachelor]{zzuthesis}|}
+\begin{shell}
+\documentclass[bachelor]{zzuthesis}|
+\end{shell}
 
-\begin{itemize}
-\item 论文类型：\verb|bachelor|、\verb|master|、\verb|doctor|
-% \item \verb|openright|、\verb|openany|
-\end{itemize}
-论文类型是模板的必选项，在使用该文档类时，必须指定论文类型。其中
-\texttt{bachelor}、\texttt{master}、\texttt{doctor} 分别代表本科毕业设计论文、
-硕士研究生学位论文、博士研究生学位论文。
-
-\emph{zzuthesis.cls} 中载入book类时默认选项有：\texttt{12pt}，\texttt{a4paper}
-。此外，当指定\texttt{doctor} 选项时，默认载入 \texttt{openright} 选项，此时文
-档章节出现在奇数页，适合双面打印；指定 \texttt{bachelor} 或 \texttt{master} 选
-项时，默认载入 \texttt{openany} 选项，用于单面打印。如果需要更改，则需要修改
-\emph{zzuthesis.cls} 的定义。
+论文类型是模板的必选项，在使用该文档类时，必须指定论文类型。其中 \textbf{bachelor}、\textbf{master}、\textbf{doctor} 分别代表本科毕业设计论文、硕士研究生学位论文、博士研究生学位论文。除了必选项之外，\emph{zzuthesis.cls} 中载入ctexbook类时默认选项有：\texttt{zihao=-4}，\texttt{a4paper}，\texttt{UTF8} 和 \texttt{scheme=plain}。当指定必选项为\textbf{doctor} 选项时，默认载入 \textbf{openright} 选项，此时文档章节出现在奇数页，适合双面打印；指定 \textbf{bachelor} 或 \textbf{master} 选项时，默认载入 \textbf{openany} 选项，用于单面打印。如果需要更改，则需要修改 \emph{zzuthesis.cls} 的定义。
 
 示例文档 \emph{main.tex} 导言区还定义了图形文件的搜索路径，即命令
-\verb|\graphicspath{}|。模板 \verb|.cls| 文档中命令：\\
-\verb|\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}|\\\noindent
+\begin{shell}
+  \graphicspath{}
+\end{shell}
+在模板 \emph{.cls} 文档中，命令
+\begin{shell}
+  \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}|
+\end{shell}
 定义了搜索图形文件的扩展名。
 
 此外，由于本科论文与研究生论文要求内容及排布次序不同，为了尽量减少更改文档类型
-时需要修改的选项，示例文档 \emph{main.tex} 中用到了 \verb|\ifzzu@bachelor| 等
-条件判断命令，以自动控制内容的显示及插入次序。由于该命令中含有 \verb|@| 字符，
-故在使用该命令前需要先用命令 \verb|\makeatletter| ，之后还要用
-\verb|\makeatother| 恢复其定义。事实上，完全可以删除这些不必要的内容。
+时需要修改的选项，示例文档 \emph{main.tex} 中用到了 
+\begin{shell}
+  \ifzzu@bachelor
+\end{shell}
+等条件判断命令，以自动控制内容的显示及插入次序。由于该命令中含有 \testtt{@} 字符，
+故在使用该命令前需要先用命令
+\begin{shell}
+  \makeatletter
+\end{shell}
+之后还要用
+\begin{shell}
+  \makeatother
+\end{shell}
+恢复其定义。事实上，完全可以删除这些不必要的内容。
 
 \section{基本控制命令}
 
 \subsection*{字体}
 
-\verb|\song|、\verb|\fs|、\verb|\kai|、\verb|\hei|、\verb|\cusong|、
-\verb|\xingkai|% 、\verb|\vertfont| 
-等命令分别用来切换宋体、仿宋、楷体、黑体、粗宋、行楷% 、竖排宋体
-等字体。此外，模板还定义了其它一些切换命令，对应关系如下：
-\begin{center}
-\begin{tabular}{llll}\hline
- \verb|\song| & \verb|\fs| & \verb|\hei| & \verb|\kai| \\\hline
- \verb|\songti| & \verb|\fangsong| & \verb|\heiti| & \verb|\kaiti| \\\hline
-\end{tabular}
-\end{center}
+模板采用 ctex 宏包中定义的字体命令对字体进行控制，比如
+\begin{shell}
+\songti     % 宋体
+\fangsong   % 仿宋
+\kaishu     % 楷书
+\heiti      % 黑体
+\end{shell}
+具体可参考相应文档。
 
 \subsection*{字号}
 
@@ -129,23 +82,11 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 使用方法为：\verb|\command[<num>]|，其中 \texttt{command} 为字号命令，
 \texttt{num} 为行距。比如 \verb|\xiaosi[1.5]| 表示选择小四字体，行距 1.5 倍。
 
-\subsection*{字距}
-
-\verb|\ziju| 更改汉字之间的默认距离，使用格式为 \verb|\ziju{4bp}|，其中的距离只
-要是合适的\TeX{}长度即可。
-
-\subsection*{破折号}
-
-\verb|\pozhehao| 中文破折号在 CJK-\LaTeX\ 里没有很好的处理，我们平时输入的都是
-两个小短线，比如这样，{\hei 中国——中华人民共和国}。这不符合中文习惯。所以这里
-定义了一个命令生成更好看的破折号，不过这似乎不是一个好的解决办法。有同学说不能
-用在 \verb|\section{}| 等命令中使用，简单的办法是可以提供一个不带破折号的段标题
-：\\
-\verb|\section[<没有破折号精简标题>]{<带破折号的标题>}|。
+\subsection*{其它命令}
 
 以下命令是为了模板示例文档而定义的，一般不会用到：
 \begin{itemize}
-  \item \verb|\TeXLive| \TeX{}发行版名称。
+  \item \verb|\TeXLive| \TeXLive{}发行版名称。
   \item \verb|\zzuthesis| 模板名称：用了大体小写，即\zzuthesis{}。
   \item \verb|\version| 模板版本号：当前版本号为\version。
 \end{itemize}
@@ -168,7 +109,7 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
     \item 专业 \verb|\cmajor{<major>}|
     \item 院系 \verb|\cdepartment{<department>}|
     \item 完成时间 \verb|\cdate{<date>}|
-    % \item 提交时间 \verb|\submitdate{<date>}|
+    \item 提交时间 \verb|\submitdate{<date>}|
   \end{itemize}
 \item 硕士学位论文：
   \begin{itemize}
@@ -197,22 +138,22 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
   \end{itemize}
 \end{itemize}
 以上信息及相应命令在 \emph{data/cover.tex} 均有示例，使用时一般也应在该文件中
-修改。% 其中，模板默认本科论文中提交时间为当前日期，研究生论文中完成时间也默认为
-% 当前日期，其它命令默认为空。
+修改。其中，模板默认本科论文中提交时间为当前日期，研究生论文中完成时间也默认为
+当前日期，其它命令默认为空。
 
-版权声明在 \emph{zzuthesis.cfg} 中定义，内容及格式已固定，一般不需要修改，也
+版权声明在 \emph{zzuthesis.cls} 中定义，内容及格式已固定，一般不需要修改，也
 没有需要填入的信息。
 
 \subsection*{摘要}
 
-\begin{code}
+\begin{latex}
 \begin{cabstract}
  摘要请写在这里...
 \end{cabstract}
 \begin{eabstract}
  here comes English abstract...
 \end{eabstract}
-\end{code}
+\end{latex}
 
 摘要标题的定义用命令：\\
 \verb|\zzu@chapter*[tocline]{title}[header]|\\\noindent
@@ -224,10 +165,10 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 
 关键词用英文逗号分割写入相应的命令中，模板会解析各关键词并生成符合不同论文格式
 要求的关键词格式。
-\begin{code}
+\begin{latex}
 \ckeywords{关键词 1, 关键词 2}
 \ekeywords{keyword 1, key word 2}
-\end{code}
+\end{latex}
 
 \section{正文章节}
 \label{sec:mainbody}
@@ -236,48 +177,14 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 \verb|\subsection{}| 和 \verb|\subsubsection{}| 命令实现。
 
 论文正文部分字号与行距的定义通过对文档类中 \verb|\normalsize| 命令修改而得到；
-其中本科论文要求行距为1.25倍，但由于\LaTeX{}中行距的定义与Word中存在区别，行
-距设置为1.25倍时略嫌小，故采取与研究生论文同样的固定20磅行距。
-
-% \section{字体字号}
-% \label{sec:fonts}
-% 
-% 模板中定义的字体有：
-% \begin{center}
-% \begin{tabular}{cccccc}
-% \toprule
-% 字体 & 命令 & 字体 & 命令 & 字体 & 命令 \\
-% \midrule
-% 宋体 & \verb|\song| & 仿宋 & \verb|\fs| & 楷体 & \verb|\kai| \\
-% 黑体 & \verb|\hei| & 粗宋 & \verb|\cusong| & 行楷 & \verb|\xingkai| \\
-% \bottomrule
-% \end{tabular}
-% \end{center}
-
-% 模板中定义的控制字号大小的命令有：
-% \begin{center}
-% \begin{tabular}{cccccc}
-% \toprule
-% 字号 & 命令 & 字号 & 命令 & 字号 & 命令\\
-% \midrule
-% 初号 & \verb|\chuhao[]| & 一号 & \verb|\yihao[]| & 小一 & \verb|\xiaoyi[]| \\
-% 二号 & \verb|\erhao[]| & 小二 & \verb|\xiaoer[]| & 三号 & \verb|\sanhao[]| \\
-% 小三 & \verb|\xiaosan[]| & 四号 & \verb|\sihao[]| & 半小四 & \verb|\banxiaosi[]| \\
-% 小四 & \verb|\xiaosi[]| & 五号 & \verb|\wuhao[]| & 小五 & \verb|\xiaowu[]| \\
-% 六号 & \verb|\liuhao[]| & 小六 & \verb|\xiaoliu[]| & 七号 & \verb|\qihao[]| \\
-% 八号 & \verb|\bahao[]| & & & & \\
-% \bottomrule
-% \end{tabular}
-% \end{center}
-% 以上命令均提供控制相应行距的可选参数，默认参数为1，即单倍行距。\footnote{此处
-% 行距较Word中相应行距略小。}
+其中本科论文要求行距为1.25倍，但由于\LaTeX{}中行距的定义与Word中存在区别，\LaTeX{}行
+距设置为1.25倍时略嫌小，采取与研究生论文同样的固定20磅行距时较为接近。
 
 \section{参考文献}
 \label{sec:bib}
 
-关于参考文献模板推荐使用\BibTeX{}，文献的管理可以用JabRef，可以比较方便地导入
-其他格式的文献引用，或者使用 Google 学术搜索也可以很容易地得到 \emph{bib} 格式
-的文献引用信息。
+关于参考文献模板推荐使用\BibTeX{}，文献库采用 \emph{bib} 格式
+的文献引用信息，通常的文献管理软件均能比较方便的导出该格式的文件。
 
 模板中使用命令 \verb|\cite{}| 表示上标标注，并另外定义了 \verb|\onlinecite{}|
 命令，作为形文中的参考文献标注。
@@ -295,13 +202,13 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 
 简单定义的一个 list，跟 description 非常类似，使用方法参见示例文件。带一个可选
 参数，用来指定符号列的宽度（默认为 $2.5\,\mathrm{cm}$）。
-\begin{code}
+\begin{latex}
 \begin{denotation}[1.5cm]
   \item[E] 能量
   \item[m] 质量
   \item[c] 光速
 \end{denotation}
-\end{code}
+\end{latex}
 
 \subsection*{目录、图和附表清单}
 
@@ -335,12 +242,12 @@ https://github.com/tuxify/zzuthesis/issues/2。}，其中定义的命
 
 附录会更改默认的 \texttt{chapter} 属性，故所有附录均插入到 \texttt{appendix} 环境中，避免影响后
 文内容。
-\begin{code}
+\begin{latex}
 \begin{appendix}
  \input{data/app01}
  \input{data/app02}
 \end{appendix}
-\end{code}
+\end{latex}
 
 \subsection*{致谢}
 

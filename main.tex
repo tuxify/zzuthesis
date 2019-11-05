@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:09
-%% Last modified: 2019-10-29 11:44
+%% Last modified: 2019-11-06 00:18
 %%================================================
 \documentclass[master]{zzuthesis}
 % \documentclass[%
@@ -17,9 +17,7 @@
 
 \begin{document}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 前言
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 封面、目录、符号对照表等
 \frontmatter
 
 \input{data/cover}%封面
@@ -35,18 +33,14 @@
   \ifzzu@bachelor\else\include{data/denotation}\fi%本科论文不要求
 \makeatother
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 正文
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 正文部分
 \mainmatter
 \include{data/chap01}
 \include{data/chap02}
 \include{data/chap03}
 \include{data/chap04}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 文后
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 参考文献、致谢、附录等
 \backmatter
 
 % \bibliographystyle{gbt7714-unsrt.bst}%符合国标 GB/T 7714-2015 的文献风格
