@@ -3,76 +3,72 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-05-06 15:05
-%% Last modified: 2019-11-01 23:59
+%% Last modified: 2019-11-05 23:44
 %%================================================
 \ProvidesPackage{docutils}
-[2019/11/01 5.0 Packages used in Documentation.]
-% 可能只会在编写模板文档的时候才会用到宏包及定义放在本宏包中，使用时可根据情况
-% 替换或加入其它宏包入定义。
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 装载宏包 (Loading packages)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \RequirePackage{bm}
-\RequirePackage{metalogo}%XeLaTeX Logo
-% \RequirePackage{float}%浮动体选项
-% \RequirePackage{array}%表格控制
-% \RequirePackage{slashbox}%反斜线
+[2019/11/05 5.0 Packages used in Documentation.]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 长表格：模板中使用supertabular的脚注环境。TODO
 %%         但在本模板示例中使用该环境时，表格长度超过一页时，页面下边距过大！
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{supertabular}%长表格
+% \RequirePackage{supertabular}%长表格
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 代码演示环境
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{xcolor}%颜色
-\RequirePackage{verbatim}%源代码
-\definecolor{demo@bgcolor}{rgb:gray}{.9}
-\let\oldfboxsep\fboxsep
-\newwrite\file
-\newsavebox{\mybox}
-\def\demo@start{
-    \begingroup% Lets Keep the Changes Local
-    \@bsphack
-    \immediate\openout \file \jobname.exa
-    \let\do\@makeother\dospecials
-    \catcode`\^^M\active
-    \def\verbatim@processline{
-        \immediate\write\file{\the\verbatim@line}
-    }
-    \verbatim@start
-}
-\def\demo@end{\immediate\closeout\file\@esphack\endgroup}
-\def\demo@code#1#2{%
-    \setlength{\fboxsep}{8pt}%
-    \colorbox{#1}{%
-    \begin{minipage}[c]{#2}
-        \setlength{\fboxsep}{\oldfboxsep}
-        \small\verbatiminput{\jobname.exa}
-    \end{minipage}%
-    }%
-}
-\def\demo@out#1{%
-    \setlength{\fboxsep}{8pt}%
-    \fbox{%
-    \begin{minipage}[c]{#1}
-        \setlength{\fboxsep}{\oldfboxsep}
-        \small\input{\jobname.exa}
-    \end{minipage}%
-    }%
-}
-\newenvironment{code}{
-    \demo@start
-}{
-    \demo@end
-    \list{}{\itemindent-\leftmargin}
-    \item
-    \demo@code{demo@bgcolor}{\textwidth}
-    \endlist
-}
+\RequirePackage{listings}
+\lstdefinestyle{lstStyleBase}{%
+   basicstyle=\small\ttfamily,
+   aboveskip=\medskipamount,
+   belowskip=\medskipamount,
+   lineskip=0pt,
+   boxpos=c,
+   showlines=false,
+   extendedchars=true,
+   upquote=true,
+   tabsize=2,
+   showtabs=false,
+   showspaces=false,
+   showstringspaces=false,
+   numbers=none,
+   linewidth=\linewidth,
+   xleftmargin=4pt,
+   xrightmargin=0pt,
+   resetmargins=false,
+   breaklines=true,
+   breakatwhitespace=false,
+   breakindent=0pt,
+   breakautoindent=true,
+   columns=flexible,
+   keepspaces=true,
+   gobble=0,
+   framesep=3pt,
+   rulesep=1pt,
+   framerule=1pt,
+   backgroundcolor=\color{gray!5},
+   stringstyle=\color{green!40!black!100},
+   keywordstyle=\bfseries\color{blue!50!black},
+   commentstyle=\color{black!50}}
+
+\lstdefinestyle{lstStyleShell}{%
+   style=lstStyleBase,
+   frame=l,
+   rulecolor=\color{purple},
+   language=bash}
+
+\lstdefinestyle{lstStyleLaTeX}{%
+   style=lstStyleBase,
+   frame=l,
+   rulecolor=\color{violet},
+   language=[LaTeX]TeX}
+
+\lstnewenvironment{latex}{\lstset{style=lstStyleLaTeX}}{}
+\lstnewenvironment{shell}{\lstset{style=lstStyleShell}}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 自定义命令
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{metalogo}%XeLaTeX Logo
+\RequirePackage{xspace}%TeXLive Logo
 \DeclareRobustCommand{\BibTeX}{B\kern-.05em%
     \hbox{$\m@th$% %% force math size calculations
           \csname S@\f@size\endcsname
@@ -81,22 +77,7 @@
           I\kern-.025emB}%
     \kern-.08em%
     \-\TeX}
-\providecommand\TeXLive{\TeX{}Live}
-% \hyphenation{Zzu-Thesis}
-% \DeclareRobustCommand{\zzuthesis}{Z\kern-.1188em%
-    % \lower.33ex\hbox{$\m@th$% %% force math size calculations
-          % \csname S@\f@size\endcsname
-          % \fontsize\sf@size\z@
-          % \math@fontsfalse\selectfont
-          % Z\kern-.125emU}\kern-.1em%
-    % \lower.08ex\hbox{T}\kern-0.1em
-    % \lower.28ex\hbox{$\m@th$%
-          % \csname S@\f@size\endcsname
-          % \fontsize\sf@size\z@
-          % \math@fontsfalse\selectfont
-          % H\kern-.125emE\kern-.08em\raise.05ex\hbox{S}\kern-.14em\lower.4ex\hbox{I}\kern-.14em\raise.05ex\hbox{\reflectbox{S}}}}
-% \providecommand\zzuthesis{$\,$\textsc{ZzUThesis}$\,$}
-% \providecommand\version{v$\,$5.0}
+\def\TeXLive{\TeX{} Live\xspace}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End of file `docutils.sty'.

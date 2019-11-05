@@ -3,14 +3,14 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-05 12:26
+%% Last modified: 2019-11-05 16:39
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
-[2019/10/31 5.0 Zhengzhou University Thesis Template]
+[2019/11/05 5.0.0 Zhengzhou University Thesis Template]
 \hyphenation{Zzu-Thesis}
 \def\zzuthesis{ZzuThesis}
 \def\version{5.0}
@@ -102,13 +102,8 @@
   \ctexset{chapter/format+=\centering}
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 中文及字体配置
-%% 字体采用ctex字体配置，此处字体命令仅为保留兼容性
+%% 中文配置
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\song{\songti}% 宋体 Adobe Song Std
-\def\fs{\fangsong}% 黑体 Adobe Heiti Std
-\def\kai{\kaishu}% 楷书 Adobe Kaiti Std
-\def\hei{\heiti}% 仿宋 Adobe Fangsong Std
 \ctexset{%
   contentsname={目\hspace{\ccwd} 录},
   listfigurename={插图清单},
@@ -828,10 +823,6 @@
 \newenvironment{resume}[1][\zzu@resume@title]{%
   \zzu@chapter*{#1}\wuhao[1.524]}{}
 \newcommand{\resumeitem}[1]{\vspace{2em}{\sihao\sffamily{#1}}\vspace{.5em}\par}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 自定义命令
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\pozhehao}{\kern0.3ex\rule[0.8ex]{2em}{0.1ex}\kern0.3ex}%破折号
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 延迟的代码 (Delaying code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
