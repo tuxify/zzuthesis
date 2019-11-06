@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-05 16:39
+%% Last modified: 2019-11-06 21:55
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -114,6 +114,65 @@
   bibname={参考文献},
   proofname={证明}
 }
+\newcommand\equationname{公式}
+\newcommand\zzu@definition@name{定义}
+\newcommand\zzu@theorem@name{定理}
+\newcommand\zzu@lemma@name{引理}
+\newcommand\zzu@corollary@name{推论}
+\def\zzu@schoolname{郑州大学}
+\def\zzu@title@sep{：}
+\ifzzu@bachelor
+  \def\zzu@subtitle{毕业设计（论文）}
+  \def\zzu@bachelor@title@pre{题\hspace{2\ccwd} 目}
+  \def\zzu@supervisor@title{指导教师}
+  \def\zzu@protitle@title{职称}
+  \def\zzu@author@title{学生姓名}
+  \def\zzu@stuno@title{学号}
+  \def\zzu@major@title{专业}
+  \def\zzu@department@title{院（系）}
+\else
+  \def\zzu@schoolcode@title{学校代码}
+  \def\zzu@id@title{学号或申请号}
+  \def\zzu@secretlevel@title{密级}
+  \ifzzu@master
+    \def\zzu@subtitle{硕士学位论文}
+  \else
+    \def\zzu@subtitle{博士学位论文}
+  \fi
+  \def\zzu@author@title{作者姓名}
+  \def\zzu@supervisor@title{导师姓名}
+  \def\zzu@subject@title{学科门类}
+  \def\zzu@major@title{专业名称}
+  \ifzzu@master
+    \def\zzu@department@title{培养院系}
+  \else\fi
+\fi
+\def\zzu@cdate@title{完成时间}
+\let\CJK@todaysave=\today
+\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
+\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
+\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
+\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
+\def\CJK@today{\CJK@todaysmall}
+\renewcommand\today{\CJK@today}
+\newcommand\CJKtoday[1][1]{%
+  \ifcase#1\def\CJK@today{\CJK@todaysave}
+    \or\def\CJK@today{\CJK@todaysmall}
+    \or\def\CJK@today{\CJK@todaybig}
+  \fi}
+\newcommand{\cabstractname}{摘\hspace{\ccwd} 要}
+\newcommand{\eabstractname}{Abstract}
+\def\zzu@ckeywords@separator{；}
+\def\zzu@ekeywords@separator{; }
+\newcommand{\zzu@ckeywords@title}{关键词：}
+\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
+\newcommand{\zzu@denotation@name}{主要符号对照表}
+\newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
+\ifzzu@bachelor
+  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
+\else
+  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
 %%  模板使用thuthesis论文模板的字号定义
@@ -223,43 +282,38 @@
 \renewcommand{\bottomfraction}{0.50}%页底浮动对象高/页高的最大值(0.3)
 \renewcommand{\floatpagefraction}{0.80}%浮动页由浮动对象占用的最小比例(0.5)
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}%搜索指定扩展名
-\let\zzu@tabular\@tabular
-\ifzzu@bachelor%本科：小四楷体
-  \def\@tabular{\xiaosi[1.25]\kaishu\zzu@tabular}%
-  \DeclareCaptionLabelFormat{zzu}{{\xiaosi[1.25]\kaishu #1~\rmfamily #2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}%表序与表名之间空一个汉字度
-  \DeclareCaptionFont{zzu}{\xiaosi[1.25]\kaishu}
-\else%研究生：五号宋体
-  \def\zzu@tabular{\wuhao[1]\zzu@tabular}
-  \DeclareCaptionLabelFormat{zzu}{{\wuhao[1]\rmfamily #1~#2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}
-  \DeclareCaptionFont{zzu}{\wuhao[1]}
-\fi%
+\let\old@tabular\@tabular
+\def\zzu@tabular{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+              \else\wuhao[1]\fi\old@tabular}%
+\DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}%图表序与图表名之间空一个汉字
+\DeclareCaptionFont{zzu}{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+                         \else\wuhao[1]\fi}
+\captionsetup{
+  font           = zzu,
+  labelsep       = zzu,
+  figureposition = bottom,
+  tableposition  = top,
+}
+\ifzzu@bachelor%段前空6磅，段后空12磅
+  \captionsetup[table]{belowskip={12bp-\intextsep},aboveskip=6bp}
+\else%段前空6磅，段后空6磅
+  \captionsetup[table]{belowskip={6bp},aboveskip=6bp}
+\fi
+\captionsetup[figure]{%段前空6磅，段后空12磅
+  belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[sub]{font=zzu,skip=6bp}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
+\renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
 \let\zzu@LT@array\LT@array%长表格
-\ifzzu@bachelor
-  \def\LT@array{\xiaosi[1.25]\kaishu\zzu@LT@array}
-\else
-  \def\LT@array{\wuhao[1]\zzu@LT@array}
-\fi%
+\def\LT@array{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+              \else\wuhao[1]\fi\zzu@LT@array}
 \newcolumntype{Z}{>{\centering\arraybackslash}X}%居中自动调整
 \newcommand\Xhline[1]{\noalign{\ifnum0=`}\fi\arrayrulewidth#1%
         \ifx\hline\LT@hline\let\@xhline\LT@@hline\fi
         \hrule\@height\arrayrulewidth\futurelet\reserved@a\@xhline}
-\captionsetup{labelformat=zzu,labelsep=zzu,font=zzu}
-\ifzzu@bachelor%caption 在上，段前空6磅，段后空12磅
-  \captionsetup[table]{position=top,belowskip={12bp-\intextsep},aboveskip=6bp}
-\else%cation 在上，段前空6磅，段后空6磅
-  \captionsetup[table]{position=top,belowskip={6bp},aboveskip=6bp}
-\fi
-\captionsetup[figure]{%cation 在下，段前空6磅，段后空12磅
-  position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
-\captionsetup[sub]{font=zzu,skip=6bp}
-\renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
-\renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 数学相关
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand\equationname{公式}
 \renewcommand\theequation{%公式编号分隔符
   \ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@equation}
 \allowdisplaybreaks[4]%允许公式断行分页
@@ -282,10 +336,10 @@
   #1\@addpunct{\quad}]\ignorespaces}
   {\popQED\endtrivlist\@endpefalse}
 \theoremstyle{theorem}
-\newtheorem{definition}{定义}[chapter]
-\newtheorem{theorem}{定理}[chapter]
-\newtheorem{lemma}[theorem]{引理}
-\newtheorem{corollary}[theorem]{推论}
+\newtheorem{definition}{\zzu@definition@name}[chapter]
+\newtheorem{theorem}{\zzu@theorem@name}[chapter]
+\newtheorem{lemma}[theorem]{\zzu@lemma@name}
+\newtheorem{corollary}[theorem]{\zzu@corollary@name}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 章节标题
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -423,47 +477,6 @@
 \zzu@def@term{emajor}
 \zzu@def@term{edepartment}
 \zzu@def@term{edate}
-\def\zzu@schoolname{郑州大学}
-\def\zzu@title@sep{：}
-\ifzzu@bachelor
-  \def\zzu@subtitle{毕业设计（论文）}
-  \def\zzu@bachelor@title@pre{题\hspace{2\ccwd} 目}
-  \def\zzu@supervisor@title{指导教师}
-  \def\zzu@protitle@title{职称}
-  \def\zzu@author@title{学生姓名}
-  \def\zzu@stuno@title{学号}
-  \def\zzu@major@title{专业}
-  \def\zzu@department@title{院（系）}
-\else
-  \def\zzu@schoolcode@title{学校代码}
-  \def\zzu@id@title{学号或申请号}
-  \def\zzu@secretlevel@title{密级}
-  \ifzzu@master
-    \def\zzu@subtitle{硕士学位论文}
-  \else
-    \def\zzu@subtitle{博士学位论文}
-  \fi
-  \def\zzu@author@title{作者姓名}
-  \def\zzu@supervisor@title{导师姓名}
-  \def\zzu@subject@title{学科门类}
-  \def\zzu@major@title{专业名称}
-  \ifzzu@master
-    \def\zzu@department@title{培养院系}
-  \else\fi
-\fi
-\def\zzu@cdate@title{完成时间}
-\let\CJK@todaysave=\today
-\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
-\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
-\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
-\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
-\def\CJK@today{\CJK@todaysmall}
-\renewcommand\today{\CJK@today}
-\newcommand\CJKtoday[1][1]{%
-  \ifcase#1\def\CJK@today{\CJK@todaysave}
-    \or\def\CJK@today{\CJK@todaysmall}
-    \or\def\CJK@today{\CJK@todaybig}
-  \fi}
 \ifzzu@bachelor
   \submitdate{\CJK@todaysmall}%
   \cdate{\CJK@todaysmall}%
@@ -685,7 +698,7 @@
   \end{titlepage}
   \normalsize
   \zzu@makeabstract
-  % \let\@tabular\zzu@tabular
+  \let\@tabular\zzu@tabular
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 中英文摘要及关键词
@@ -694,12 +707,6 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\cabstractname}{摘\hspace{\ccwd} 要}
-\newcommand{\eabstractname}{Abstract}
-\def\zzu@ckeywords@separator{；}
-\def\zzu@ekeywords@separator{; }
-\newcommand{\zzu@ckeywords@title}{关键词：}
-\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
 \newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
 \newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
 \newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
@@ -741,7 +748,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 主要符号对照表
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\zzu@denotation@name}{主要符号对照表}
 \newenvironment{denotation}[1][2.5cm]{
   \if@openright\cleardoublepage\else\clearpage\fi
   \zzu@chapter*[]{\zzu@denotation@name}
@@ -761,7 +767,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 致谢
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
 \newenvironment{ack}{%
     \if@openright\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
@@ -815,11 +820,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 个人简历、在学期间发表的学术论文及研究成果
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifzzu@bachelor
-  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
-\else
-  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
-\fi
 \newenvironment{resume}[1][\zzu@resume@title]{%
   \zzu@chapter*{#1}\wuhao[1.524]}{}
 \newcommand{\resumeitem}[1]{\vspace{2em}{\sihao\sffamily{#1}}\vspace{.5em}\par}
