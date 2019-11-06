@@ -3,16 +3,13 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-28 00:15
-%% Last modified: 2019-11-05 23:01
+%% Last modified: 2019-11-06 17:39
 %%================================================
 \chapter{常用排版示例}
 \label{cha:example}
 
 \section{插图示例}
 \label{sec:figure}
-
-强烈推荐《\LaTeXe 插图指南》！关于子图形的使用细节请参看 \textbf{subfig} 的说
-明文档。
 
 \subsection{\LaTeX~中推荐使用的图片格式}
 
@@ -21,8 +18,10 @@
 如果使用命令行界面，则可以用 ImageMagick，其可将其它格式图片转换为~EPS~格式图
 片，同时还可以锐化图片，使图片的局部清晰一些。
 
-ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}。\\
-\verb|convert [可选参数] 原文件名.原扩展名 新文件名.eps|
+ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}。
+\begin{shell}
+convert [可选参数] 原文件名.原扩展名 新文件名.eps
+\end{shell}
 
 除此之外，一些文字处理软件和科学计算软件也支持生成~EPS~格式的文件，可用“另存
 为”功能查看某款软件是否能够将图片以~EPS~格式的形式保存。
@@ -46,7 +45,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \centering
 \includegraphics[width=0.3\textwidth]{golfer}
 \caption{打高尔夫球的人}
-\label{fig:golfer}
+\label{fig:golfer}%应放在\caption{}之后，否则引用时指向的是前一个插图
 \end{figure}
 \end{latex}
 
@@ -55,16 +54,15 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 以使用这几个字母的任意组合，一般不推荐单独使用 \verb|[h]|。如果要强制固定浮动
 图形的位置，还可以用 \textbf{float} 宏包的 \verb|[H]| 选项。
 
-\verb|\centering| 用来使插图居中，\verb|\caption| 命令设置插图标题，\LaTeX~会
-自动给浮动环境的标题加上编号。注意 \verb|label| 应放在 \verb|caption| 之后，否
-则引用时指向的是前一个插图。
-
 \subsection{插入多幅图形}
 
 \subsubsection*{并排摆放，共享标题}
 
 当我们需要两幅图片并排摆放，并共享标题时，可以在 \texttt{figure} 环境中使用两个
-\verb|\includegraphics| 命令，如图~\ref{fig:fanqingfuming}~所示。
+\begin{latex}
+\includegraphics{}
+\end{latex}
+命令，如图~\ref{fig:fanqingfuming}~所示。
 
 \begin{latex}
 \begin{figure}[htbp]
@@ -131,20 +129,24 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \subsubsection*{并排摆放，共享标题，各有子标题}
 
 如果想要两幅并排的图片共享一个标题，并各有自己的子标题，可以使用
-\textbf{subcaption} 宏包提供的 \verb|\subcaptionbox| 命令，如图~\ref{fig:subfig_a}~和~\ref{fig:subfig_b}~所示。
+\textbf{subcaption} 宏包提供的
+\begin{latex}
+\subcaptionbox{<title>}[<width>]{<insertfigure>}
+\end{latex}
+命令，如图~\ref{fig:subfig_a}~和~\ref{fig:subfig_b}~所示。
 
 \begin{latex}
-  \begin{figure}[htbp]
-    \centering
-    \subcaptionbox{清明\label{fig:subfig_a}}[0.3\textwidth]{
-        \includegraphics[width=0.3\textwidth]{qingming}
-    }
-    \hspace{36pt}
-    \subcaptionbox{反复\label{fig:subfig_b}}[0.3\textwidth]{
-        \includegraphics[width=0.3\textwidth]{fanfu}
-    }
-    \caption{反清复明}
-  \end{figure}
+\begin{figure}[htbp]
+  \centering
+  \subcaptionbox{清明\label{fig:subfig_a}}[0.3\textwidth]{
+      \includegraphics[width=0.3\textwidth]{qingming}
+  }
+  \hspace{36pt}
+  \subcaptionbox{反复\label{fig:subfig_b}}[0.3\textwidth]{
+      \includegraphics[width=0.3\textwidth]{fanfu}
+  }
+  \caption{反清复明}
+\end{figure}
 \end{latex}
 
 每个子图可以有各自的引用，就象这个样子：\ref{fig:subfig_a}、
@@ -166,21 +168,29 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{sec:table}
 
 模板中关于表格的宏包有四个：\textbf{tabularx}、\textbf{multirow}、
-%\textbf{slashbox}、\textbf{array}
 \textbf{longtable} 和\textbf{booktabs}。长表格还可以用\textbf{supertabular}，
 可以方便地在表格下方加入脚注。
 
 \subsection{普通表格的绘制方法}
 
 \texttt{table} 环境是一个将表格嵌入文本的浮动环境，其标题和交叉引用的用法类似
-于上一节提到的图形浮动环境 \texttt{figure}。该环境提供了最简单的表格功能。它
-用 \verb|\hline| 命令表示横线，\verb&|& 表示竖线；用 \verb|&| 来分列，用
-\verb|\\| 来换行；每列可以采用居中、居左、居右等横向对齐方式，分别用 \verb|l|
-、\verb|c|、\verb|r| 来表示。
+于上一节提到的图形浮动环境 \texttt{figure}。该环境提供了最简单的表格功能，常用命令如下
+\begin{latex}
+\hline % 横线
+|      % 竖线
+&      % 分列
+\\     % 换行
+l c r  % 横向居中、居左、居右对齐  
+\end{latex}
 
 科技文献中常使用三线表格，因此需要调用 \textbf{booktabs} 宏包，三条横线就分别
-用 \verb|\toprule|、\verb|\midrule|、\verb|\bottomrule| 等命令表示。其标准格
-式如表~\ref{table1}~所示。
+用
+\begin{latex}
+\toprule
+\midrule
+\bottomrule
+\end{latex}
+等命令表示。其标准格式如表~\ref{table1}~所示。
 
 \begin{table}[htbp]
 \caption{文献类型和标识代码}
@@ -392,7 +402,7 @@ Value & Name & Alternate names, and names for sets of the given size\\
 
 其中生成注释部分的代码及其说明如下：
 \begin{latex}
-\begin{tabularx}{\textwidth}{@{}l@{\quad}l@{\pozhehao}X@{}}
+\begin{tabularx}{\textwidth}{@{}l@{\quad}l@{——}X@{}}
 式中 & symbol-1 & symbol-1的注释内容；\\
      & symbol-2 & symbol-2的注释内容；\\
      .............................；\\
@@ -405,7 +415,7 @@ Value & Name & Alternate names, and names for sets of the given size\\
 \item 第1个@{}表示在“式中”二字左侧不插入任何文本，“式中”二字能够在正文中左对
 齐，若无此项，则“式中”二字左侧会留出一定的空白；
 \item \verb|@{\quad}| 表示在“式中”和物理量符号间插入一个空铅宽度的空白；
-\item \verb|@{\pozhehao}| 实现插入破折号的功能；
+\item \verb|@{——}| 实现插入破折号的功能；
 \item 第2个 \verb|@{}| 表示在注释内容靠近正文右边界的地方能够实现右对齐。
 \end{itemize}
 
@@ -413,11 +423,11 @@ Value & Name & Alternate names, and names for sets of the given size\\
 
 关于小页中的脚注，请看下面的例子：
  
-\begin{minipage}[t]{\linewidth-2\parindent}
+\begin{minipage}[t]{\linewidth-\parindent}
 柳宗元，字子厚（773-819），河东（今永济县）人\footnote{山西永济水饺。}，是唐
 代杰出的文学家，哲学家，同时也是一位政治改革家。与韩愈共同倡导唐代古文运动，
 并称韩柳\footnote{唐宋八大家之首二位。}。
-\end{minipage}\\[-5pt]
+\end{minipage}
 
 \section{数学公式示例}
 \label{sec:equation}
@@ -438,9 +448,9 @@ $\lim_{n \to \infty} \sum_{k=1}^n \frac{1}{k^2} = \frac{\pi^2}{6}$；下面的�
 公式太长一行放不下，或几个公式需要写成一组的情况，该宏包主要提供以下几个环境
 ：
 \begin{center}
-\begin{tabular}[c]{ccccccc}
-equation & equation* & align & align* & gather & gather* & split \\
-flalign & flalign* & multline & multline* & alignat & alignat* & \\
+\begin{tabular}[c]{cccc}
+equation & align & gather & split \\
+flalign & multline & alignat &  \\
 \end{tabular}
 \end{center}
 
@@ -529,10 +539,8 @@ H_c&=\frac{1}{2n} \sum^n_{l=0}(-1)^{l}(n-{l})^{p-2}
 \zzuthesis{} 定义了常用的数学环境：
 \begin{center}
 \begin{tabular}{*{7}{l}}\hline
-  axiom & theorem & definition & proposition & lemma & conjecture &\\
-  公理 & 定理 & 定义 & 命题 & 引理 & 猜想 &\\\hline
-  proof & corollary & example & exercise & assumption & remark & problem \\
-  证明 & 推论 & 例子& 练习 & 假设 & 注释 & 问题\\\hline
+  theorem & definition & lemma & corollary &\\
+  定理 & 定义 & 引理 & 推论 &\\\hline
 \end{tabular}
 \end{center}
 
@@ -560,7 +568,7 @@ Java是一种跨平台的编程语言。
 晚上喝咖啡会导致失眠。
 \end{corollary}
 
-\texttt{proof} 环境可以用来输入下面这样的证明，它会在证明结尾输入一个~QED~符号
+\texttt{proof} 环境可以用来输入证明，它会在结尾输入一个 QED 符号
 \footnote{拉丁语~quod erat demonstrandum~的缩写。}。
 
 \begin{proof}[命题“物质无限可分”的证明]
