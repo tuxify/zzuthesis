@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-06 21:55
+%% Last modified: 2019-11-06 22:05
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -282,12 +282,9 @@
 \renewcommand{\bottomfraction}{0.50}%页底浮动对象高/页高的最大值(0.3)
 \renewcommand{\floatpagefraction}{0.80}%浮动页由浮动对象占用的最小比例(0.5)
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}%搜索指定扩展名
-\let\old@tabular\@tabular
-\def\zzu@tabular{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
-              \else\wuhao[1]\fi\old@tabular}%
 \DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}%图表序与图表名之间空一个汉字
 \DeclareCaptionFont{zzu}{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
-                         \else\wuhao[1]\fi}
+                         \else\wuhao[1.5]\fi}
 \captionsetup{
   font           = zzu,
   labelsep       = zzu,
@@ -304,9 +301,12 @@
 \captionsetup[sub]{font=zzu,skip=6bp}
 \renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
 \renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
+\let\old@tabular\@tabular
+\def\zzu@tabular{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+                 \else\wuhao[1.5]\fi\old@tabular}%
 \let\zzu@LT@array\LT@array%长表格
 \def\LT@array{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
-              \else\wuhao[1]\fi\zzu@LT@array}
+              \else\wuhao[1.5]\fi\zzu@LT@array}
 \newcolumntype{Z}{>{\centering\arraybackslash}X}%居中自动调整
 \newcommand\Xhline[1]{\noalign{\ifnum0=`}\fi\arrayrulewidth#1%
         \ifx\hline\LT@hline\let\@xhline\LT@@hline\fi
