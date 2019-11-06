@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-27 19:47
-%% Last modified: 2019-11-06 00:38
+%% Last modified: 2019-11-06 17:36
 %%================================================
 \chapter{关于该模板的使用}
 \label{cha:usage}
@@ -20,36 +20,36 @@
 \section{模板选项}
 \label{sec:option}
 
-\begin{shell}
+\begin{latex}
 \documentclass[bachelor]{zzuthesis}|
-\end{shell}
+\end{latex}
 
 论文类型是模板的必选项，在使用该文档类时，必须指定论文类型。其中 \textbf{bachelor}、\textbf{master}、\textbf{doctor} 分别代表本科毕业设计论文、硕士研究生学位论文、博士研究生学位论文。除了必选项之外，\emph{zzuthesis.cls} 中载入ctexbook类时默认选项有：\texttt{zihao=-4}，\texttt{a4paper}，\texttt{UTF8} 和 \texttt{scheme=plain}。当指定必选项为\textbf{doctor} 选项时，默认载入 \textbf{openright} 选项，此时文档章节出现在奇数页，适合双面打印；指定 \textbf{bachelor} 或 \textbf{master} 选项时，默认载入 \textbf{openany} 选项，用于单面打印。如果需要更改，则需要修改 \emph{zzuthesis.cls} 的定义。
 
 示例文档 \emph{main.tex} 导言区还定义了图形文件的搜索路径，即命令
-\begin{shell}
-  \graphicspath{}
-\end{shell}
+\begin{latex}
+\graphicspath{}
+\end{latex}
 在模板 \emph{.cls} 文档中，命令
-\begin{shell}
-  \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}|
-\end{shell}
+\begin{latex}
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}|
+\end{latex}
 定义了搜索图形文件的扩展名。
 
 此外，由于本科论文与研究生论文要求内容及排布次序不同，为了尽量减少更改文档类型
 时需要修改的选项，示例文档 \emph{main.tex} 中用到了 
-\begin{shell}
-  \ifzzu@bachelor
-\end{shell}
-等条件判断命令，以自动控制内容的显示及插入次序。由于该命令中含有 \testtt{@} 字符，
+\begin{latex}
+\ifzzu@bachelor
+\end{latex}
+等条件判断命令，以自动控制内容的显示及插入次序。由于该命令中含有@字符，
 故在使用该命令前需要先用命令
-\begin{shell}
-  \makeatletter
-\end{shell}
+\begin{latex}
+\makeatletter
+\end{latex}
 之后还要用
-\begin{shell}
-  \makeatother
-\end{shell}
+\begin{latex}
+\makeatother
+\end{latex}
 恢复其定义。事实上，完全可以删除这些不必要的内容。
 
 \section{基本控制命令}
@@ -57,12 +57,12 @@
 \subsection*{字体}
 
 模板采用 ctex 宏包中定义的字体命令对字体进行控制，比如
-\begin{shell}
+\begin{latex}
 \songti     % 宋体
 \fangsong   % 仿宋
 \kaishu     % 楷书
 \heiti      % 黑体
-\end{shell}
+\end{latex}
 具体可参考相应文档。
 
 \subsection*{字号}
@@ -79,17 +79,25 @@
 \end{tabular}
 \end{center}
 
-使用方法为：\verb|\command[<num>]|，其中 \texttt{command} 为字号命令，
-\texttt{num} 为行距。比如 \verb|\xiaosi[1.5]| 表示选择小四字体，行距 1.5 倍。
+使用方法为：
+\begin{latex}
+\command[<num>]
+\end{latex}
+其中 \texttt{command} 为字号命令，
+\texttt{num} 为行距。比如
+\begin{latex}
+\xiaosi[1.5]
+\end{latex}
+表示选择小四字体，行距 1.5 倍。
 
 \subsection*{其它命令}
 
 以下命令是为了模板示例文档而定义的，一般不会用到：
-\begin{itemize}
-  \item \verb|\TeXLive| \TeXLive{}发行版名称。
-  \item \verb|\zzuthesis| 模板名称：用了大体小写，即\zzuthesis{}。
-  \item \verb|\version| 模板版本号：当前版本号为\version。
-\end{itemize}
+\begin{latex}
+\TeXLive   % TeXLive 发行版名称。
+\zzuthesis % 模板名称
+\version   % 模板版本号
+\end{latex}
 
 \section{封面及版权声明、摘要}
 \label{sec:cover}
@@ -155,8 +163,10 @@
 \end{eabstract}
 \end{latex}
 
-摘要标题的定义用命令：\\
-\verb|\zzu@chapter*[tocline]{title}[header]|\\\noindent
+摘要标题的定义用命令：
+\begin{latex}
+\zzu@chapter*[tocline]{title}[header]
+\end{latex}
 该命令通过两个可选项\texttt{tocline} 和 \texttt{header} ，可以控制标题是否在目
 录或者页眉中出现，非常强大。该模板中目录、图和附表清单、参考文献、符号说明、致
 谢、附录、个人简历等标题的定义均用到了该命令。
@@ -173,8 +183,15 @@
 \section{正文章节}
 \label{sec:mainbody}
 
-论文各章节标题的格式分别通过重新定义 \verb|\chapter{}| 、 \verb|\section{}| 、
-\verb|\subsection{}| 和 \verb|\subsubsection{}| 命令实现。
+论文各章节标题的格式通过ctex宏包中的ctexset命令实现
+\begin{latex}
+\ctexset{
+  chapter={<format>},
+  section={<format>},
+  subsection={<format>},
+  subsubsection={<format>}
+}
+\end{latex}
 
 论文正文部分字号与行距的定义通过对文档类中 \verb|\normalsize| 命令修改而得到；
 其中本科论文要求行距为1.25倍，但由于\LaTeX{}中行距的定义与Word中存在区别，\LaTeX{}行
@@ -214,29 +231,36 @@
 
 模板中章节编号深度 \texttt{secnumdepth} 定义为3，即四级编号；目录深度
 \texttt{tocdepth} 定义为2，即目录中显示三级标题。在 \emph{main.tex} 文件中使用
-命令 \verb|\tableofcontents|可以生成目录。
+命令 
+\begin{latex}
+\tableofcontents
+\end{latex}
+可以生成目录。
 
-模板将插图和附表清单分开，使用命令 \verb|\listoffigures| 和 \verb|\listoftables|
+模板将插图和附表清单分开，使用命令 
+\begin{latex}
+\listoffigures
+\listoftables
+\end{latex}
 可以分别生成插图清单和表格清单，将其插入到期望的位置即可。
 
-目录和插图及附表清单标题的格式分别通过重新定义命令 \verb|\tableofcontents|、
-\verb|\listoftables|和 \verb|listoffigures| 实现；目录和清单条目格式的定义均是
-利用 \textbf{titletoc} 宏包中\\
-\begin{verbatim}
+目录和插图及附表清单标题的格式分别通过重新定义上述三个命令实现；目录和清单条目格式的定义均是利用 \textbf{titletoc} 宏包中的
+\begin{latex}
 \titlecontents{<section>}[<left>]{<above>}
               {<before with label>}{<before without label>}
               {<filter and page>}[<after>]
-\end{verbatim}
+\end{latex}
 命令。
 
-需要注意的是，由于本科论文不要求插图和附表清单，故在重新定义
-\verb|\listoftables| 和 \verb|listoffigures| 时将该两条命令定义为空命令，从而
-避免本科论文显示插图和附表清单。
+需要注意的是，由于本科论文不要求插图和附表清单，故在重新定义相应命令时将其定义为空命令，从而避免本科论文显示插图和附表清单。
 
 \subsection*{简历}
 
 新定义的环境 \texttt{resume}，其中可以包含子标题，如发表的学术论文等，用
-\verb|\resumeitem{}|命令即可，例子在示例文档 \emph{data/resume.tex}。
+\begin{latex}
+\resumeitem{}
+\end{latex}
+命令即可，例子在示例文档 \emph{data/resume.tex}。
 
 \subsection*{附录}
 
@@ -255,27 +279,38 @@
 
 \subsection*{注释及文中数量符号}
 
-文中注释采用脚注，命令为 \verb|\footnote{}|，显示格式为\LaTeX{}默认，仅修改了脚
-注字体大小及行距，通过对命令 \verb|\footnotesize| 进行修改实现。
+文中注释采用脚注，命令为 
+\begin{latex}
+\footnote{}
+\end{latex}
+显示格式为\LaTeX{}默认，仅修改了脚注字体大小及行距，通过对命令
+\begin{latex}
+\footnotesize
+\end{latex}
+进行修改实现。
 
 量的符号一般为单个拉丁字母或希腊字母，并一律采用斜体（$\mathrm{pH}$例外）。为
 区别不同情况，可在量符号上附加角标。在表达量值时，在公式、图、表和文字叙述中，
 一律使用单位的国际符号，且无例外地用正体。单位符号与数值间要留适当间隙。建议统
 一使用公式输入，其中单位需使用 \verb|\mathrm| 命令，单位符号与数值间的间隙用命
-令 \verb|$\,$|。示例：量的符号—— \verb|$t_d$|，显示为$t_d$，单位数值——
-\verb|$12\,\mathrm{kg}$|，显示为$12\,\mathrm{kg}$。
+令 \verb|$\,$|。示例：量的符号
+\begin{latex}
+$t_d$
+\end{latex}
+显示为$t_d$，单位数值
+\begin{latex}
+$12\,\mathrm{kg}$
+\end{latex}
+显示为$12\,\mathrm{kg}$。
 
 \subsection*{列表环境}
 
-为了适合中文习惯，模板将 \texttt{itemize}、 \texttt{enumerate} 和
-\texttt{description} 三个常用的列表环境
-用 \textbf{enumitem} 对应的压缩环境替换。一方面减少了多余空间，另一方面可以自
-己指定标签的样式和符号。细节请参看\textbf{enumitem} 文档，此处不再赘述。示例：
+为了适合中文习惯，模板调用 \textbf{enumitem} 宏包，对 \texttt{itemize}、 \texttt{enumerate} 和 \texttt{description} 三个常用的列表环境进行了调整，一方面减少了多余空间，另一方面可以自己指定标签的样式和符号。细节请参看 \textbf{enumitem} 文档，示例：
 \begin{enumerate}
-\item Fedora 16 + \TeXLive{} 2011 + Jabref 2.7.2
+\item 编号列表示例
   \begin{enumerate}
-    \item Fedora 16 + \TeXLive{} 2011 + Jabref 2.7.2
-    \item Windows XP + \TeXLive{} 2011 + Jabref 2.7.2
+    \item 次级编号列表
+    \item 次级编号列表
   \end{enumerate}
-\item Windows XP + \TeXLive{} 2011 + Jabref 2.7.2
+\item 编号列表示例
 \end{enumerate}
