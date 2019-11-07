@@ -3,16 +3,13 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-04-28 00:15
-%% Last modified: 2016-08-31 09:43
+%% Last modified: 2019-11-06 17:39
 %%================================================
 \chapter{常用排版示例}
 \label{cha:example}
 
 \section{插图示例}
 \label{sec:figure}
-
-强烈推荐《\LaTeXe 插图指南》！关于子图形的使用细节请参看 \textbf{subfig} 的说
-明文档。
 
 \subsection{\LaTeX~中推荐使用的图片格式}
 
@@ -21,8 +18,10 @@
 如果使用命令行界面，则可以用 ImageMagick，其可将其它格式图片转换为~EPS~格式图
 片，同时还可以锐化图片，使图片的局部清晰一些。
 
-ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}。\\
-\verb|convert [可选参数] 原文件名.原扩展名 新文件名.eps|
+ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}。
+\begin{shell}
+convert [可选参数] 原文件名.原扩展名 新文件名.eps
+\end{shell}
 
 除此之外，一些文字处理软件和科学计算软件也支持生成~EPS~格式的文件，可用“另存
 为”功能查看某款软件是否能够将图片以~EPS~格式的形式保存。
@@ -41,32 +40,31 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{fig:golfer}
 \end{figure}
 
-\begin{code}
+\begin{latex}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.3\textwidth]{golfer}
 \caption{打高尔夫球的人}
-\label{fig:golfer}
+\label{fig:golfer}%应放在\caption{}之后，否则引用时指向的是前一个插图
 \end{figure}
-\end{code}
+\end{latex}
 
 上述代码中，\verb|[htbp]| 选项用来指定插图排版的理想位置，这几个字母分别代表
 ~here、top、bottom、float page，也就是固定位置、页顶、页尾、单独的浮动页。可
 以使用这几个字母的任意组合，一般不推荐单独使用 \verb|[h]|。如果要强制固定浮动
 图形的位置，还可以用 \textbf{float} 宏包的 \verb|[H]| 选项。
 
-\verb|\centering| 用来使插图居中，\verb|\caption| 命令设置插图标题，\LaTeX~会
-自动给浮动环境的标题加上编号。注意 \verb|label| 应放在 \verb|caption| 之后，否
-则引用时指向的是前一个插图。
-
 \subsection{插入多幅图形}
 
 \subsubsection*{并排摆放，共享标题}
 
 当我们需要两幅图片并排摆放，并共享标题时，可以在 \texttt{figure} 环境中使用两个
-\verb|\includegraphics| 命令，如图~\ref{fig:fanqingfuming}~所示。
+\begin{latex}
+\includegraphics{}
+\end{latex}
+命令，如图~\ref{fig:fanqingfuming}~所示。
 
-\begin{code}
+\begin{latex}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.3\textwidth]{qingming}
@@ -75,7 +73,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \caption{反清复明}
 \label{fig:fanqingmuming}
 \end{figure}
-\end{code}
+\end{latex}
 
 \begin{figure}[htbp]
 \centering
@@ -92,7 +90,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
  \texttt{minipage} 环境，每个环境里插入一个图，如图~\ref{fig:qingming}~和
 ~\ref{fig:fanfu}~所示。
 
-\begin{code}
+\begin{latex}
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.3\textwidth}
@@ -109,7 +107,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
     \label{fig:fanfu}
 \end{minipage}
 \end{figure}
-\end{code}
+\end{latex}
 
 \begin{figure}[htbp]
 \centering
@@ -131,89 +129,37 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \subsubsection*{并排摆放，共享标题，各有子标题}
 
 如果想要两幅并排的图片共享一个标题，并各有自己的子标题，可以使用
-\textbf{subfig} 宏包提供的 \verb|\subfloat| 命令，如图~\ref{fig:subfig_a}~和
-~\ref{fig:subfig_b}~所示。
+\textbf{subcaption} 宏包提供的
+\begin{latex}
+\subcaptionbox{<title>}[<width>]{<insertfigure>}
+\end{latex}
+命令，如图~\ref{fig:subfig_a}~和~\ref{fig:subfig_b}~所示。
 
-\verb|\subfloat| 命令缺少宽度参数。虽然我们可以用 \verb|\hspace| 命令调整子图
-的距离，子标题却只能和子图本身一样宽，就会出现折行。
-
-\begin{code}
+\begin{latex}
 \begin{figure}[htbp]
-\centering
-\subfloat[清明]{
-    \label{fig:subfig_a}
-    \includegraphics[width=0.3\textwidth]{qingming}
-}
-\hspace{36pt}
-\subfloat[反复]{
-    \label{fig:subfig_b}
-    \includegraphics[width=0.3\textwidth]{fanfu}
-}
-\caption{反清复明}
+  \centering
+  \subcaptionbox{清明\label{fig:subfig_a}}[0.3\textwidth]{
+      \includegraphics[width=0.3\textwidth]{qingming}
+  }
+  \hspace{36pt}
+  \subcaptionbox{反复\label{fig:subfig_b}}[0.3\textwidth]{
+      \includegraphics[width=0.3\textwidth]{fanfu}
+  }
+  \caption{反清复明}
 \end{figure}
-\end{code}
+\end{latex}
 
 每个子图可以有各自的引用，就象这个样子：\ref{fig:subfig_a}、
 \ref{fig:subfig_b}。
 
 \begin{figure}[htbp]
 \centering
-\subfloat[清明]{
-    \label{fig:subfig_a}
+\subcaptionbox{清明\label{fig:subfig_a}}[0.3\textwidth]{
     \includegraphics[width=0.3\textwidth]{qingming}
 }
 \hspace{36pt}
-\subfloat[反复]{
-    \label{fig:subfig_b}
+\subcaptionbox{反复\label{fig:subfig_b}}[0.3\textwidth]{
     \includegraphics[width=0.3\textwidth]{fanfu}
-}
-\caption{反清复明}
-\end{figure}
-
-\subsubsection*{改进的子图方法}
-
-为了避免子标题折行，我们可以在 \verb|\subfloat| 里再嵌套个 \verb|minipage|，因
-为后者是有宽度的，如图~\ref{fig:improved_subfig_a}~和
-~\ref{fig:improved_subfig_b}~所示。
-
-\begin{code}
-\begin{figure}[htbp]
-\centering
-\subfloat[清明]{
-\label{fig:improved_subfig_a}
-\begin{minipage}[t]{0.3\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{qingming}
-\end{minipage}
-}
-\hspace{36pt}
-\subfloat[反复]{
-\label{fig:improved_subfig_b}
-\begin{minipage}[t]{0.3\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{fanfu}
-\end{minipage}
-}
-\caption{反清复明}
-\end{figure}
-\end{code}
-
-\begin{figure}[htbp]
-\centering
-\subfloat[清明]{
-\label{fig:improved_subfig_a}
-\begin{minipage}[t]{0.3\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{qingming}
-\end{minipage}
-}
-\hspace{36pt}
-\subfloat[反复]{
-\label{fig:improved_subfig_b}
-\begin{minipage}[t]{0.3\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{fanfu}
-\end{minipage}
 }
 \caption{反清复明}
 \end{figure}
@@ -222,21 +168,29 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \label{sec:table}
 
 模板中关于表格的宏包有四个：\textbf{tabularx}、\textbf{multirow}、
-%\textbf{slashbox}、\textbf{array}
 \textbf{longtable} 和\textbf{booktabs}。长表格还可以用\textbf{supertabular}，
 可以方便地在表格下方加入脚注。
 
 \subsection{普通表格的绘制方法}
 
 \texttt{table} 环境是一个将表格嵌入文本的浮动环境，其标题和交叉引用的用法类似
-于上一节提到的图形浮动环境 \texttt{figure}。该环境提供了最简单的表格功能。它
-用 \verb|\hline| 命令表示横线，\verb&|& 表示竖线；用 \verb|&| 来分列，用
-\verb|\\| 来换行；每列可以采用居中、居左、居右等横向对齐方式，分别用 \verb|l|
-、\verb|c|、\verb|r| 来表示。
+于上一节提到的图形浮动环境 \texttt{figure}。该环境提供了最简单的表格功能，常用命令如下
+\begin{latex}
+\hline % 横线
+|      % 竖线
+&      % 分列
+\\     % 换行
+l c r  % 横向居中、居左、居右对齐  
+\end{latex}
 
 科技文献中常使用三线表格，因此需要调用 \textbf{booktabs} 宏包，三条横线就分别
-用 \verb|\toprule|、\verb|\midrule|、\verb|\bottomrule| 等命令表示。其标准格
-式如表~\ref{table1}~所示。
+用
+\begin{latex}
+\toprule
+\midrule
+\bottomrule
+\end{latex}
+等命令表示。其标准格式如表~\ref{table1}~所示。
 
 \begin{table}[htbp]
 \caption{文献类型和标识代码}
@@ -257,7 +211,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \end{table}
 
 绘制该表格的代码如下：
-\begin{code}
+\begin{latex}
 \begin{table}[htbp]
 \caption{表格标题}
 \label{标签名}
@@ -273,7 +227,7 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 \bottomrule
 \end{tabular}
 \end{table}
-\end{code}
+\end{latex}
 
 \subsection{长表格的绘制方法}
 
@@ -281,37 +235,6 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 表格仍按照普通表格的绘制方法来获得，其所使用的 \verb|table| 浮动环境无法实现
 表格的换页接排功能，表格下方过长部分会排在表格第1页的页脚以下。
 
-% \textbf{supertabular} 宏包提供一个 \texttt{supertabular} 环境，是对
-% \texttt{tabular} 环境的扩充。它能不断地计算表格长度，当排版到页面底部时，自动
-% 结束 \texttt{tabular} 环境，而在下一页再自动生成一个新的 \texttt{tabular} 环境
-% ，将剩余表格放入其中。使用该宏包排版长表格时，要用所提供的生成命令专门设计表头
-% ，具体方法如下：
-% 
-% \begin{code}
-% \begin{center}
-% \tablefirsthead{\toprule 表头第1个格 & 表头第2个格 & ... & 表头第n个格\\
-  % \midrule}
-% \tablehead{\multicolumn{n}{c}{表~\thetable（续表）}\\
-  % \toprule 表头第1个格 & 表头第2个格 & ... & 表头第n个格\\ \midrule}
-% \tabletail{\bottomrule
-  % \multicolumn{n}{r}{续下页}\\}
-% \tablelasttail{\bottomrule}
-% \tablecaption{表格标题}\label{标签名}
-% \begin{supertabular}{cc...c}
-% 表中数据(1,1) & 表中数据(1,2) & ... & 表中数据(1,n)\\
-% 表中数据(2,1) & 表中数据(2,2) & ... & 表中数据(2,n)\\
-% ...................................................\\
-% 表中数据(m,1) & 表中数据(m,2) & ... & 表中数据(m,n)\\
-% \end{supertabular}
-% \end{center}
-% \end{code}
-% 
-% \verb|\tablehead| 命令描述的是第2页及其之后各页的标题或表头；
-% \verb|\tablefirsthead| 命令描述的是第1页的标题和表头，若无此命令，则第1页
-% 的表头和标题由 \verb|\tablehead| 命令确定；同理，\verb|\tabletail| 命令描述
-% 的是除最后一页之外每页的表格底部内容；\verb|\tablelasttail| 之前的文字描述的是
-% 最后一页的表格底部内容，若无此命令，则最后一页表格底部内容由 \verb|\tabletail|
-% 命令确定。所绘制的长表格的格式如表~\ref{table2}~所示。
 \begin{longtable}{l@{\hspace{6.5mm}}l@{\hspace{5.5mm}}l}
 \multicolumn{3}{c}{续表~\thetable\hskip1em 中国省级行政单位一览}\\
 \toprule 名称 & 简称 & 省会或首府  \\ \midrule
@@ -394,52 +317,6 @@ ImageMagick 包含多个命令行程序,其中最常用的是 \texttt{convert}�
 澳门特别行政区 & 澳 & 澳门\\
 台湾省 & 台 & 台北市\\
 \end{longtable}
-% \begin{center}
-% \tablefirsthead{\toprule 名称 & 简称 & 省会或首府  \\ \midrule}
-% \tablehead{\multicolumn{3}{c}{续表~\thetable\hskip1em 中国省级行政单位一览}\\
-% \toprule 名称 & 简称 & 省会或首府  \\ \midrule}
-% \tabletail{\bottomrule
-% \multicolumn{3}{r}{续下页}\\}
-% \tablelasttail{\bottomrule}
-% \tablecaption{中国省级行政单位一览}
-% \label{table2}
-% \begin{supertabular}{l@{\hspace{6.5mm}}l@{\hspace{5.5mm}}l}
-% 北京市 & 京 & 北京\\
-% 天津市 & 津 & 天津\\
-% 河北省 & 冀 & 石家庄市\\
-% 山西省 & 晋 & 太原市\\
-% 内蒙古自治区 & 蒙 & 呼和浩特市\\
-% 辽宁省 & 辽 & 沈阳市\\
-% 吉林省 & 吉 & 长春市\\
-% 黑龙江省 & 黑 & 哈尔滨市\\
-% 上海市 & 沪/申 & 上海\\
-% 江苏省 & 苏 & 南京市\\
-% 浙江省 & 浙 & 杭州市\\
-% 安徽省 & 皖 & 合肥市\\
-% 福建省 & 闽 & 福州市\\
-% 江西省 & 赣 & 南昌市\\
-% 山东省 & 鲁 & 济南市\\
-% 河南省 & 豫 & 郑州市\\
-% 湖北省 & 鄂 & 武汉市\\
-% 湖南省 & 湘 & 长沙市\\
-% 广东省 & 粤 & 广州市\\
-% 广西壮族自治区 & 桂 & 南宁市\\
-% 海南省 & 琼 & 海口市\\
-% 重庆市 & 渝 & 重庆\\
-% 四川省 & 川/蜀 & 成都市\\
-% 贵州省 & 黔/贵 & 贵阳市\\
-% 云南省 & 云/滇 & 昆明市\\
-% 西藏自治区 & 藏 & 拉萨市\\
-% 陕西省 & 陕/秦 & 西安市\\
-% 甘肃省 & 甘/陇 & 兰州市\\
-% 青海省 & 青 & 西宁市\\
-% 宁夏回族自治区 & 宁 & 银川市\\
-% 新疆维吾尔自治区 & 新 & 乌鲁木齐市\\
-% 香港特别行政区 & 港 & 香港\\
-% 澳门特别行政区 & 澳 & 澳门\\
-% 台湾省 & 台 & 台北市\\
-% \end{supertabular}
-% \end{center}
 
 表格~\ref{table2}~第~2~页的标题和表头是通过代码自动添加上去的。若表格在页面中
 的竖直位置发生了变化，其在第~2~页及之后各页的标题和表头位置能够始终处于各页的
@@ -471,7 +348,7 @@ Value & Name & Alternate names, and names for sets of the given size\\
 
 绘制该表格的代码如下：
 
-\begin{code}
+\begin{latex}
 \begin{table}[htbp]
 \caption{表格标题}
 \label{标签名}
@@ -486,7 +363,7 @@ Value & Name & Alternate names, and names for sets of the given size\\
 \bottomrule
 \end{tabularx}
 \end{table}
-\end{code}
+\end{latex}
 
 \texttt{tabularx} 环境共有两个必选参数：第1个参数用来确定表格的总宽度，这里取
 为排版表格能达到的最大宽度——正文宽度 \verb|\textwidth|；第2个参数用来确定每列
@@ -499,7 +376,7 @@ Value & Name & Alternate names, and names for sets of the given size\\
 
 \subsubsection{对物理量符号进行注释的情况}
 
-为使得对公式中物理量符号注释的转行与破折号“\pozhehao ”后第一个字对齐，此处最
+为使得对公式中物理量符号注释的转行与破折号“——”后第一个字对齐，此处最
 好采用表格环境。此表格无任何线条，左对齐，且在破折号处对齐，一共有“式中”二字
 、物理量符号和注释三列，表格的总宽度可选为文本宽度，因此应该采用
 \texttt{tabularx} 环境。由该环境生成的对公式中物理量符号进行注释的公式如式
@@ -507,203 +384,50 @@ Value & Name & Alternate names, and names for sets of the given size\\
 
 \begin{equation}
 \label{eq:1}
-\ddot{\bm{\rho}}-\frac{\mu}{R_t^3}\left(3\bm{R_t}\frac{\bm{R_t\rho}}{R_t^2}-\bm{\rho}\right)=\bm{a}
+\ddot{\symbf{\rho}}-\frac{\mu}{R_t^3}\left(3\symbf{R_t}\frac{\symbf{R_t\rho}}{R_t^2}-\symbf{\rho}\right)=\symbf{a}
 \end{equation}
 \begin{flushleft}
 \renewcommand\arraystretch{1.25}
-\begin{tabularx}{\textwidth}{@{}>{\normalsize\rm}l@{\quad}>{\normalsize\rm}l@{\pozhehao }>{\normalsize\rm}X@{}}
-式中& $\bm{\rho}$ &追踪飞行器与目标飞行器之间的相对位置矢量；\\
-&  $\ddot{\bm{\rho}}$&追踪飞行器与目标飞行器之间的相对加速度；\\
-&  $\bm{a}$   &推力所产生的加速度；\\
-&  $\bm{R_t}$ & 目标飞行器在惯性坐标系中的位置矢量；\\
+\begin{tabularx}{\textwidth}{@{}>{\normalsize\rm}l@{\quad}>{\normalsize\rm}l@{——}>{\normalsize\rm}X@{}}
+式中& $\symbf{\rho}$ &追踪飞行器与目标飞行器之间的相对位置矢量；\\
+&  $\ddot{\symbf{\rho}}$&追踪飞行器与目标飞行器之间的相对加速度；\\
+&  $\symbf{a}$   &推力所产生的加速度；\\
+&  $\symbf{R_t}$ & 目标飞行器在惯性坐标系中的位置矢量；\\
 &  $\omega_{t}$ & 目标飞行器的轨道角速度；\\
-&  $\bm{g}$ & 重力加速度，$=\frac{\mu}{R_{t}^{3}}\left(
-3\bm{R_{t}}\frac{\bm{R_{t}\rho}}{R_{t}^{2}}-\bm{\rho}\right)=\omega_{t}^{2}\frac{R_{t}}{p}\left(
-3\bm{R_{t}}\frac{\bm{R_{t}\rho}}{R_{t}^{2}}-\bm{\rho}\right)$，这里~$p$~是目标飞行器的轨道半通径。
+&  $\symbf{g}$ & 重力加速度，$=\frac{\mu}{R_{t}^{3}}\left(
+3\symbf{R_{t}}\frac{\symbf{R_{t}\rho}}{R_{t}^{2}}-\symbf{\rho}\right)=\omega_{t}^{2}\frac{R_{t}}{p}\left(
+3\symbf{R_{t}}\frac{\symbf{R_{t}\rho}}{R_{t}^{2}}-\symbf{\rho}\right)$，这里~$p$~是目标飞行器的轨道半通径。
 \end{tabularx}\vspace{.5ex}%TODO : 注释内容自动转页接排
 \end{flushleft}
-% 式中\quad
-% \parbox[t][][c]{2em}{
-  % $\ddot{\bm{\rho}}$\\
-  % $\bm{a}$\\
-  % $\bm{R_t}$\\
-  % $\omega_{t}$\\
-% }
-% \parbox[t][][c]{2em}{
-  % \pozhehao\\
-  % \pozhehao\\
-  % \pozhehao\\
-  % \pozhehao\\
-% }
-% \parbox[t][][c]{\textwidth-8em}{
- % 追踪飞行器与目标飞行器之间的相对加速度；\\
- % 推力所产生的加速度；\\
- % 目标飞行器在惯性坐标系中的位置矢量；\\
- % 目标飞行器的轨道角速度；\\}
-
-% 由此方法生成的注释内容应紧邻待注释公式并置于其下方，因此不能将代码放入
-% \texttt{table} 浮动环境中。但此方法不能实现自动转页接排，可能会在当前页剩余空
-% 间不够时，全部移动到下一页而导致当前页出现很大空白。
 
 其中生成注释部分的代码及其说明如下：
-\begin{code}
-\begin{tabularx}{\textwidth}{@{}l@{\quad}l@{\pozhehao}X@{}}
+\begin{latex}
+\begin{tabularx}{\textwidth}{@{}l@{\quad}l@{——}X@{}}
 式中 & symbol-1 & symbol-1的注释内容；\\
      & symbol-2 & symbol-2的注释内容；\\
      .............................；\\
      & symbol-m & symbol-m的注释内容。
 \end{tabularx}
-\end{code}
+\end{latex}
 
 \texttt{tabularx} 环境的第1个参数为正文宽度，第2个参数里面各个符号的意义为：
 \begin{itemize}
 \item 第1个@{}表示在“式中”二字左侧不插入任何文本，“式中”二字能够在正文中左对
 齐，若无此项，则“式中”二字左侧会留出一定的空白；
 \item \verb|@{\quad}| 表示在“式中”和物理量符号间插入一个空铅宽度的空白；
-\item \verb|@{\pozhehao}| 实现插入破折号的功能；
+\item \verb|@{——}| 实现插入破折号的功能；
 \item 第2个 \verb|@{}| 表示在注释内容靠近正文右边界的地方能够实现右对齐。
 \end{itemize}
-
-% 若想获得绘制表格的更多信息，请参见网络上的~Tables in \LaTeXe: Packages and
-% Methods~文档~http://www.tug.org/pracjourn/2007-1/mori/。 
-
-% \begin{table}[htb]
-  % \centering
-  % \begin{minipage}[t]{0.8\linewidth} % 如果想在表格中使用脚注，minipage是个不错的办法
-  % \caption[模板文件]{模板文件。如果表格的标题很长，那么在表格索引中就会很不美
-    % 观，所以要像 chapter 那样在前面用中括号写一个简短的标题。这个标题会出现在索
-    % 引中。}
-  % \label{tab:template-files}
-    % \begin{tabular*}{\linewidth}{lp{10cm}}
-      % \toprule
-      % {\hei 文件名} & {\hei 描述} \\
-      % \midrule
-      % zzuthesis.cls & 模板类文件。\\
-      % zzuthesis.cfg & 模板配置文。\\
-      % thubib.bst    & 参考文献 Bibtex 样式文件。\\
-      % main.tex      & 主文档。\\
-      % Makefile      & Linux 自动处理文件。\footnote{Linux系统自动编译处理。}\\
-      % msmake      & Windows 自动处理文件。\footnote{Windows系统自动编译。}\\
-      % data\textbackslash & 封面、摘要、符号说明、正文章节、简历、致谢等。\\
-      % figures\textbackslash & 文档用到的图片。\\
-      % ref\textbackslash & 参考文献数据库。\\
-      % \bottomrule
-    % \end{tabular*}
-  % \end{minipage}
-% \end{table}
-
-% 表\ref{tab:template-files} 列举了本模板主要文件及其功能，还展示了如何在表格
-% 中正确使用脚注。由于 \LaTeX{} 本身不支持在表格中使用 \verb|\footnote|，所以
-% 不得不将表格放在小页中，而且最好将表格的宽度设置为小页的宽度，这样脚注看起
-% 来才更美观。
-
-% 我们经常会在表格下方标注数据来源，或者对表格里面的条目进行解释。前面的脚注
-% 是一种不错的方法，如果你不喜欢脚注。那么完全可以在表格后面自己写注释，比如
-% 表~\ref{tab:tabexamp1}。
-
-% \begin{table}[ht]
-  % \centering
-  % \caption{复杂表格示例 1}
-  % \label{tab:tabexamp1}
-  % \begin{minipage}[t]{0.8\textwidth} 
-    % \begin{tabularx}{\linewidth}{|l|X|X|X|X|}
-      % \hline
- % \multirow{2}*{\backslashbox{x}{y}}  & \multicolumn{2}{c|}{First Half} & \multicolumn{2}{c|}{Second Half}\\\cline{2-5}
-      % & 1st Qtr &2nd Qtr&3rd Qtr&4th Qtr \\ \hline
-      % East$^{*}$ &   20.4&   27.4&   90&     20.4 \\
-      % West$^{**}$ &   30.6 &   38.6 &   34.6 &  31.6 \\ \hline
-    % \end{tabularx}\\[2pt]
-    % \footnotesize 注：数据来源《\zzuthesis{} 使用手册》。\\
-    % *：东部\\
-    % **：西部
-  % \end{minipage}
-% \end{table}
-
-% 此外，表~\ref{tab:tabexamp1} 同时还演示了另外两个功能：1）通过
-% \textbf{tabularx} 的\texttt{|X|} 扩展实现表格自动放大；2）通过命令
-% \verb|\backslashbox| 在表头部分插入反斜线。
-
-% 浮动体的并排放置一般有两种情况：1）二者没有关系，为两个独立的浮动体；2）二
-% 者隶属于同一个浮动体。对表格来说并排表格既可以像表~\ref{tab:parallel1}、表
-% ~\ref{tab:parallel2} 使用小页环境，也可以如表~\ref{tab:subtable} 使用子表格
-% 来做。
-
-% \begin{table}[ht]
-% \noindent\begin{minipage}{0.5\textwidth}
-% \centering
-% \caption{第一个并排子表格}
-% \label{tab:parallel1}
-% \begin{tabular}{p{2cm}p{2cm}}
-% \toprule[1.5pt]
-% 111 & 222 \\\midrule[1pt]
-% 222 & 333 \\\bottomrule[1.5pt]
-% \end{tabular}
-% \end{minipage}
-% \begin{minipage}{0.5\textwidth}
-% \centering
-% \caption{第二个并排子表格}
-% \label{tab:parallel2}
-% \begin{tabular}{p{2cm}p{2cm}}
-% \toprule[1.5pt]
-% 111 & 222 \\\midrule[1pt]
-% 222 & 333 \\\bottomrule[1.5pt]
-% \end{tabular}
-% \end{minipage}
-% \end{table}
-
-% \begin{table}
-% \centering
-% \caption{并排子表格}
-% \label{tab:subtable}
-% \subfloat[第一个子表格]{
-% \begin{tabular}{p{2cm}p{2cm}}
-% \toprule[1.5pt]
-% 111 & 222 \\\midrule[1pt]
-% 222 & 333 \\\bottomrule[1.5pt]
-% \end{tabular}}\hskip2cm
-% \subfloat[第二个子表格]{
-% \begin{tabular}{p{2cm}p{2cm}}
-% \toprule[1.5pt]
-% 111 & 222 \\\midrule[1pt]
-% 222 & 333 \\\bottomrule[1.5pt]
-% \end{tabular}}
-% \end{table}
-
-% 有的同学不想让某个表格或者图片出现在索引里面，那么请使用命令
-% \verb|\caption*{}|，这个命令不会给表格编号，也就是出来的只有标题文字而没有“表
-% ~XX”，“图~XX”，否则索引里面序号不连续就显得不伦不类，这也是 \LaTeX{} 里星号命
-% 令默认的规则。
-% 
-% \begin{table}[ht]
-% \centering
-  % \begin{minipage}{0.45\linewidth}
-  % \centering
-  % \caption*{表~1.111\hskip1em 这是一个手动编号，不出现在索引中的表格。}
-  % \label{tab:badtabular}
-  % \begin{picture}(150,50)
-    % \framebox(150,50)[c]{\zzuthesis}
-  % \end{picture}    
-  % \end{minipage}\hfill
-  % \begin{minipage}{0.45\linewidth}
-  % \centering
-  % \begin{picture}(150,50)
-    % \framebox(150,50)[c]{薛瑞尼}
-  % \end{picture}
-  % \caption*{Figure~1.111\hskip1em 这是一个手动编号，不出现在索引中的图。}
-  % \label{tab:badfigure}
-  % \end{minipage}
-% \end{table}
-% 
 
 \subsection{小页中的脚注}
 
 关于小页中的脚注，请看下面的例子：
  
-\begin{minipage}[t]{\linewidth-2\parindent}
+\begin{minipage}[t]{\linewidth-\parindent}
 柳宗元，字子厚（773-819），河东（今永济县）人\footnote{山西永济水饺。}，是唐
 代杰出的文学家，哲学家，同时也是一位政治改革家。与韩愈共同倡导唐代古文运动，
 并称韩柳\footnote{唐宋八大家之首二位。}。
-\end{minipage}\\[-5pt]
+\end{minipage}
 
 \section{数学公式示例}
 \label{sec:equation}
@@ -724,34 +448,13 @@ $\lim_{n \to \infty} \sum_{k=1}^n \frac{1}{k^2} = \frac{\pi^2}{6}$；下面的�
 公式太长一行放不下，或几个公式需要写成一组的情况，该宏包主要提供以下几个环境
 ：
 \begin{center}
-\begin{tabular}[c]{ccccccc}
-equation & equation* & align & align* & gather & gather* & split \\
-flalign & flalign* & multline & multline* & alignat & alignat* & \\
+\begin{tabular}[c]{cccc}
+equation & align & gather & split \\
+flalign & multline & alignat &  \\
 \end{tabular}
 \end{center}
 
 除了 \texttt{split} 外，其余环境均提供带*的版本，不生成公式编号。
-
-% \subsection{矩阵}
-% 
-% 数学模式下可以用 \verb|array| 环境来生成矩阵，它提供了外部对齐和列对齐的控制参
-% 数。外部对齐是指整个矩阵和周围对象的纵向关系，有三种方式:居顶、居中 (缺省) 、
-% 居底，分别用 \verb|l、c、r| 来表示；列对齐也有三种方式:居左、居中、居右，分别
-% 用 \verb|l、c、r| 表示。\verb|\\| 和 \verb|&| 用来分隔行和列。
-% 
-% \[\begin{array}{ccc}
-% x_1 & x_2 & \dots \\
-% x_3 & x_4 & \dots \\
-% \vdots & \vdots & \ddots \\
-% \end{array}\]
-
-% \verb|amsmath| 有几个类似的环境：\verb|pmatrix、bmatrix、Bmatrix、vmatrix|~和~
-% \verb|Vmatrix|，它们和 \verb|array| 的主要区别是会在表两端加上~$()\; []\;
-% \{\}\; ||\; \|\|$~等分隔符，其次这些环境没有列对齐方式参数。
-% 
-% 行间公式可以用 \verb|smallmatrix| 环境来生成排列紧密的小矩阵，如
-% $(\begin{smallmatrix} a&b\\c&d \end{smallmatrix})$。
-% 
 
 \subsubsection{长公式}
 
@@ -764,14 +467,14 @@ flalign & flalign* & multline & multline* & alignat & alignat* & \\
 \end{multline}
 
 其代码如下：
-\begin{code}
+\begin{latex}
 \begin{multline}
 \framebox[.65\columnwidth]{A}\\
 \framebox[.5\columnwidth]{B}\\
 \shoveright{\framebox[.tt\columnwidth]{C}}\\
 \framebox[.65\columnwidth]{D}
 \end{multline}
-\end{code}
+\end{latex}
 
 \texttt{multline} 环境用于单行放不下的长公式，其第一行及最后一行分别居左、居右
 对齐，两端均缩进距离 \verb|\multlinegap|；其它行则默认居中排布，但可以用个命令
@@ -816,8 +519,8 @@ H_c&=\frac{1}{2n} \sum^n_{l=0}(-1)^{l}(n-{l})^{p-2}
 实际公式宽度的公式组。
 \begin{equation*}
 \left. \begin{aligned}
-  \bm{B'}&=-\bm{\partial}\times \bm{E},\\
-  \bm{E'}&=\bm{\partial}\times \bm{B} - 4\pi j,
+  \symbf{B'}&=-\symbfit{\partial}\times \symbf{E},\\
+  \symbf{E'}&=\symbfit{\partial}\times \symbf{B} - 4\pi j,
 \end{aligned}
 \right\}
 \qquad \text{Maxwell's equations}
@@ -836,30 +539,18 @@ H_c&=\frac{1}{2n} \sum^n_{l=0}(-1)^{l}(n-{l})^{p-2}
 \zzuthesis{} 定义了常用的数学环境：
 \begin{center}
 \begin{tabular}{*{7}{l}}\hline
-  axiom & theorem & definition & proposition & lemma & conjecture &\\
-  公理 & 定理 & 定义 & 命题 & 引理 & 猜想 &\\\hline
-  proof & corollary & example & exercise & assumption & remark & problem \\
-  证明 & 推论 & 例子& 练习 & 假设 & 注释 & 问题\\\hline
+  theorem & definition & lemma & corollary &\\
+  定理 & 定义 & 引理 & 推论 &\\\hline
 \end{tabular}
 \end{center}
 
 以上环境的定义采用 \textbf{amsthm} 宏包提供的 \verb|\newtheorem| 命令，其语法
 如下：
 
-\begin{code}
+\begin{latex}
 \newtheorem{环境名}[编号延续]{显示名}[编号层次]
-\end{code}
+\end{latex}
 
-% 下面的代码定义了四个环境：定义、定理、引理和推论，它们都在一个 \verb|chapter| 
-% 内编号，而引理和推论会延续定理的编号。
-% \begin{code}
-% \newtheorem{definition}{定义}[chapter]
-% \newtheorem{theorem}{定理}[chapter]
-% \newtheorem{lemma}{引理}[chapter]
-% \newtheorem{corollary}[theorem]{推论}
-% \end{code}
-% 
-% 定义了上述环境之后，我们就可以象下面这样使用它们。
 下面是应用示例：
 \begin{definition}
 Java是一种跨平台的编程语言。
@@ -877,116 +568,9 @@ Java是一种跨平台的编程语言。
 晚上喝咖啡会导致失眠。
 \end{corollary}
 
-\texttt{proof} 环境可以用来输入下面这样的证明，它会在证明结尾输入一个~QED~符号
+\texttt{proof} 环境可以用来输入证明，它会在结尾输入一个 QED 符号
 \footnote{拉丁语~quod erat demonstrandum~的缩写。}。
 
 \begin{proof}[命题“物质无限可分”的证明]
 一尺之棰，日取其半，万世不竭。
 \end{proof}
-
-% \begin{theorem}
-% 如果函数$f(x)$满足
-% \begin{enumerate}
-% \item 在闭区间$[a,b]$上连续；
-% \item 在开区间$(a,b)$内可导；
-% \item 在区间端点处的函数值相等，即$f(a)=f(b)$，
-% \end{enumerate}
-% 那么在$(a,b)$内至少有一点$\xi(a<\xi<b)$，使得$f^\prime(\xi)=0$。这个定理称之为%
-% \textbf{罗尔定理}。
-% \label{the:rolle}
-% \end{theorem}
-% 
-% 贝叶斯公式如式~(\ref{equ:bayes})，其中 $p(y|\mathbf{x})$ 为后验；
-% $p(\mathbf{x})$ 为先验；分母 $p(\mathbf{x})$ 为归一化因子。
-% \begin{equation}
-% \label{equ:bayes}
-% p(y|\mathbf{x}) = \frac{p(\mathbf{x},y)}{p(\mathbf{x})}=
-% \frac{p(\mathbf{x}|y)p(y)}{p(\mathbf{x})} 
-% \end{equation}
-% 
-% 再看一个 \textbf{amsmath} 的例子：
-% \newcommand{\envert}[1]{\left\lvert#1\right\rvert} 
-% \begin{equation}\label{detK2}
-% \det\mathbf{K}(t=1,t_1,\dots,t_n)=\sum_{I\in\mathbf{n}}(-1)^{\envert{I}}
-% \prod_{i\in I}t_i\prod_{j\in I}(D_j+\lambda_jt_j)\det\mathbf{A}
-% ^{(\lambda)}(\overline{I}|\overline{I})=0.
-% \end{equation} 
-% 
-% 多级规划的例子：
-% \begin{equation}\label{bilevel}
-% \left\{\begin{array}{l}
-% \max\limits_{{\mbox{\footnotesize\boldmath $x$}}} F(x,y_1^*,y_2^*,\cdots,y_m^*)\\[0.2cm]
-% \mbox{subject to:}\\[0.1cm]
-% \qquad G(x)\le 0\\[0.1cm]
-% \qquad(y_1^*,y_2^*,\cdots,y_m^*)\mbox{ solves problems }(i=1,2,\cdots,m)\\[0.1cm]
-% \qquad\left\{\begin{array}{l}
-    % \max\limits_{{\mbox{\footnotesize\boldmath $y_i$}}}f_i(x,y_1,y_2,\cdots,y_m)\\[0.2cm]
-    % \mbox{subject to:}\\[0.1cm]
-    % \qquad g_i(x,y_1,y_2,\cdots,y_m)\le 0.
-    % \end{array}\right.
-% \end{array}\right.
-% \end{equation}
-% 
-% \begin{theorem}
-% 设$f:[a,b]\rightarrow \mathbf R$为一连续函数，$g:[a,b]\rightarrow \mathbf R$为
-% 一正的可积函数，那么存在一点$\xi\in [a,b]$使得：
-% \[\int_a^b f(x)g(x)\,dx= f(\xi)\int_a^b g(x)\,dx\]
-% \end{theorem}
-% 
-% \begin{proof}
-% 
-% 因为f是闭区间上的连续函数，f取得最大值M和最小值m。于是：
-% \[mg(x)\leq f(x)g(x)\leq Mg(x)\]
-% 
-% 对不等式求积分，我们有：
-% \[m\int_a^b g(x)\,dx\leq \int_a^b f(x)g(x)\,dx \leq M\int_a^b
-% g(x)\,dx\]
-% 若$\int_a^b g(x)\,dx=0$，则$\int_a^b f(x)g(x)\,dx=0$，$\xi$可取$[a,b]$上任一点
-% 。
-% 
-% 设 $\int_a^b g(x)\,dx>0$，那么：
-% \[m\leq \frac{\int_a^b f(x)g(x)\,dx}{\int_a^b g(x)\,dx}\leq M\]
-% 
-% 因为 $m\leq f(x)\leq M$是连续函数，则必存在一点 $\xi\in [a,b]$，使得：
-% \begin{equation}
-% f(\xi)= \frac{\int_a^b f(x)g(x)\,dx}{\int_a^b g(x)\,dx}
-% \label{eqn:lagrange1}
-% \end{equation}
-% \end{proof}
-% 
-% \begin{corollary}
-% 在式~\ref{eqn:lagrange1}中令$g(x)=1$，则可得出：
-% 
-% 设$f:[a,b]\rightarrow \mathbf R$为一连续函数，则$\exists\xi\in [a,b]$，使：
-% \begin{equation}
-% f(\xi)= \frac{\int_a^b f(x)\,dx}{b-a}
-% \label{eqn:lagrange2}
-% \end{equation}
-% \end{corollary}
-% 
-% \begin{example}
-  % 大家来看这个例子。
-% \begin{equation}
-% \label{ktc}
-% \left\{\begin{array}{l}
-% \nabla f({\mbox{\boldmath $x$}}^*)-\sum\limits_{j=1}^p\lambda_j\nabla g_j({\mbox{\boldmath $x$}}^*)=0\\[0.3cm]
-% \lambda_jg_j({\mbox{\boldmath $x$}}^*)=0,\quad j=1,2,\cdots,p\\[0.2cm]
-% \lambda_j\ge 0,\quad j=1,2,\cdots,p.
-% \end{array}\right.
-% \end{equation}
-% \end{example}
-% 
-% \begin{exercise}
-% 请列出 Andrew S. Tanenbaum 和 W. Richard Stevens 的所有著作。
-% \end{exercise}
-% 
-% \begin{conjecture}
-% \textit{Poincare Conjecture} If in a closed three-dimensional space, any
-% closed curves can shrink to a point continuously, this space can be deformed
-% to a sphere.
-% \end{conjecture}
-% 
-% \begin{problem}
- % 回答还是不回答，是个问题。 
-% \end{problem}
-

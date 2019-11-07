@@ -3,14 +3,17 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-10-29 11:49
+%% Last modified: 2019-11-07 14:38
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
-[2019/10/29 4.2 Zhengzhou University Thesis Template]
+[2019/11/05 5.0.0 Zhengzhou University Thesis Template]
+\hyphenation{Zzu-Thesis}
+\def\zzuthesis{ZzuThesis}
+\def\version{5.0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 声明选项(Declaration options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +23,7 @@
 \DeclareOption{bachelor}{\zzu@bachelortrue}
 \DeclareOption{master}{\zzu@mastertrue}
 \DeclareOption{doctor}{\zzu@doctortrue}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 选项处理 (Option processing)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,152 +41,200 @@
 %% 装载类与宏包 (Loading classes & packages)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifzzu@doctor%博士论文双面打印
-  \LoadClass[12pt,a4paper]{book}
+  \LoadClass[zihao=-4,a4paper,UTF8,scheme=plain]{ctexbook}
 \else%其它单面打印
-  \LoadClass[12pt,a4paper,openany]{book}
+  \LoadClass[zihao=-4,a4paper,UTF8,scheme=plain,openany]{ctexbook}
 \fi
+\RequirePackage{ifxetex}
+\ifxetex\else
+  \ClassError{zzuthesis}{You should use XeLaTeX}{}
+  \end{document}
+\fi
+\RequirePackage{environ}
+\RequirePackage{xparse}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
 \RequirePackage{calc}%算术运算
+\RequirePackage[shortlabels]{enumitem}
 \RequirePackage{titletoc}%目录格式
-\RequirePackage{amsmath,amssymb,amsthm,bm}
+\RequirePackage{amsmath,amsthm}
+\RequirePackage{unicode-math}
+\unimathsetup{
+  math-style = ISO,
+  bold-style = ISO,
+  nabla      = upright,
+  partial    = upright,
+}
 \RequirePackage{geometry}%页边距设置
 \RequirePackage{tabularx}%表格宽度控制
 \RequirePackage{multirow}%跨行表格
 \RequirePackage{longtable}%长表格，可替换supertabular
 \RequirePackage{booktabs}%三线表格
-\RequirePackage[config]{subfig}%引入caption，并用config选项兼容subfigure
+\RequirePackage[labelformat=simple]{subcaption}
 \RequirePackage{graphicx}%图形支持
-\RequirePackage{indentfirst}%首行缩进
-\RequirePackage[neverdecrease]{paralist}%列表环境
-\RequirePackage[BoldFont]{xeCJK}
-  \punctstyle{hangmobanjiao}
-  \defaultfontfeatures{Mapping=tex-text}%连字符
-  \setCJKmainfont[BoldFont={STZhongsong}, 
-    ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
-  \setCJKsansfont{Adobe Heiti Std}
-  \setCJKmonofont{Adobe Kaiti Std}
-  \setCJKfamilyfont{song}{Adobe Song Std}
-  \setCJKfamilyfont{hei}{Adobe Heiti Std}
-  \setCJKfamilyfont{fs}{Adobe Fangsong Std}
-  \setCJKfamilyfont{kai}{Adobe Kaiti Std}
-  \setCJKfamilyfont{xingkai}{STXingkai}%封面标题
-  % \setCJKfamilyfont{vertfont}[RawFeature={vertical}]{Adobe Song Std}%竖直字体
-  \setmainfont{Times New Roman}
-  \setsansfont{Arial}
-  \setmonofont{Courier New}
 \RequirePackage[numbers,super,sort&compress]{natbib}%参考文献引用
 \RequirePackage{hyperref}%超链接、书签
   \hypersetup{%
-    % CJKbookmarks=true,
+    linktoc=all,
     bookmarksnumbered=true,%节的标号放入标签
     bookmarksopen=true,
     bookmarksopenlevel=1,
     breaklinks=true,
-    % colorlinks=false,%彩色链接
-    % plainpages=false,%格式化页码
-    % pdfpagelabels,
-    pdfborder=0 0 0}
+    plainpages=false,
+    hidelinks}
   \urlstyle{same}%相同字体
-\RequirePackage{hypernat}%让hyperref和natbib协调工作
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 文前，正文，文后格式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\frontmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+=\centering}
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{zzu@headings}}
 \renewcommand\mainmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+={\ifzzu@bachelor\centering%本科居中
+                            \else\raggedright\fi}}%顶左
   \@mainmattertrue
   \pagenumbering{arabic}}
 \renewcommand\backmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  \ctexset{chapter/format+=\centering}
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 字体配置
-%% 字体调用命令：
-%%   \song    % 宋体 Adobe Song Std
-%%   \hei     % 黑体 Adobe Heiti Std
-%%   \kai     % 楷书 Adobe Kaiti Std
-%%   \fs      % 仿宋 Adobe Fangsong Std
-%%   \xingkai % 行楷 STXingkai
-%%   \vertfont% 竖宋 Adobe Song Std
+%% 中文配置
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\song}{\CJKfamily{song}}
-\def\songti{\song}
-\newcommand{\fs}{\CJKfamily{fs}}
-\def\fangsong{\fs}
-\newcommand{\kai}{\CJKfamily{kai}}
-\def\kaishu{\kai}
-\newcommand{\hei}{\CJKfamily{hei}}
-\def\heiti{\hei}
-% \newcommand{\vertfont}{\CJKfamily{vertfont}}
-\newcommand{\xingkai}{\CJKfamily{xingkai}}
+\ctexset{%
+  contentsname={目\hspace{\ccwd} 录},
+  listfigurename={插图清单},
+  listtablename={表格清单},
+  figurename={图},
+  tablename={表},
+  appendixname={附录},
+  bibname={参考文献},
+  proofname={证明}
+}
+\newcommand\equationname{公式}
+\newcommand\zzu@definition@name{定义}
+\newcommand\zzu@theorem@name{定理}
+\newcommand\zzu@lemma@name{引理}
+\newcommand\zzu@corollary@name{推论}
+\def\zzu@schoolname{郑州大学}
+\def\zzu@title@sep{：}
+\ifzzu@bachelor
+  \def\zzu@subtitle{毕业设计（论文）}
+  \def\zzu@bachelor@title@pre{题\hspace{2\ccwd} 目}
+  \def\zzu@supervisor@title{指导教师}
+  \def\zzu@protitle@title{职称}
+  \def\zzu@author@title{学生姓名}
+  \def\zzu@stuno@title{学号}
+  \def\zzu@major@title{专业}
+  \def\zzu@department@title{院（系）}
+\else
+  \def\zzu@schoolcode@title{学校代码}
+  \def\zzu@id@title{学号或申请号}
+  \def\zzu@secretlevel@title{密级}
+  \ifzzu@master
+    \def\zzu@subtitle{硕士学位论文}
+  \else
+    \def\zzu@subtitle{博士学位论文}
+  \fi
+  \def\zzu@author@title{作者姓名}
+  \def\zzu@supervisor@title{导师姓名}
+  \def\zzu@subject@title{学科门类}
+  \def\zzu@major@title{专业名称}
+  \ifzzu@master
+    \def\zzu@department@title{培养院系}
+  \else\fi
+\fi
+\def\zzu@cdate@title{完成时间}
+\let\CJK@todaysave=\today
+\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
+\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
+\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
+\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
+\def\CJK@today{\CJK@todaysmall}
+\renewcommand\today{\CJK@today}
+\newcommand\CJKtoday[1][1]{%
+  \ifcase#1\def\CJK@today{\CJK@todaysave}
+    \or\def\CJK@today{\CJK@todaysmall}
+    \or\def\CJK@today{\CJK@todaybig}
+  \fi}
+\newcommand{\cabstractname}{摘\hspace{\ccwd} 要}
+\newcommand{\eabstractname}{Abstract}
+\def\zzu@ckeywords@separator{；}
+\def\zzu@ekeywords@separator{; }
+\newcommand{\zzu@ckeywords@title}{关键词：}
+\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
+\newcommand{\zzu@denotation@name}{主要符号对照表}
+\newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
+\ifzzu@bachelor
+  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
+\else
+  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  字号设置
-%%  模板使用thuthesis论文模板的字号定义：
-%%    \thu@define@fontsize{<字号名称>}{<磅数>}
-%%  相当于定义：\newcommand{\chuhao}[1][\baselinestretch]{%
-%%                \fontsize{42bp}{42bp*\real{#1}}\selectfont}
-%%
-%% 1. 设置初号、小初…… 八号等字体的命令分别为：\chuhao、\xiaochu … \bahao；
-%% 2. 在使用时，可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距。
+%%  模板使用thuthesis论文模板的字号定义
+%%  使用时可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newlength\zzu@linespace
-\newcommand{\zzu@choosefont}[2]{%
-   \setlength{\zzu@linespace}{#2*\real{#1}}%
-   \fontsize{#2}{\zzu@linespace}\selectfont}
-\def\zzu@define@fontsize#1#2{%
-  \expandafter\newcommand\csname #1\endcsname[1][\baselinestretch]{%
-    \zzu@choosefont{##1}{#2}}}
-\zzu@define@fontsize{chuhao}{42bp}
-\zzu@define@fontsize{xiaochu}{36bp}
-\zzu@define@fontsize{yihao}{26bp}
-\zzu@define@fontsize{xiaoyi}{24bp}
-\zzu@define@fontsize{erhao}{22bp}
-\zzu@define@fontsize{xiaoer}{18bp}
-\zzu@define@fontsize{sanhao}{16bp}
-\zzu@define@fontsize{xiaosan}{15bp}
-\zzu@define@fontsize{sihao}{14bp}
-\zzu@define@fontsize{banxiaosi}{13bp}
-\zzu@define@fontsize{xiaosi}{12bp}
-\zzu@define@fontsize{wuhao}{10.5bp}
-\zzu@define@fontsize{xiaowu}{9bp}
-\zzu@define@fontsize{liuhao}{7.5bp}
-\zzu@define@fontsize{xiaoliu}{6.5bp}
-\zzu@define@fontsize{qihao}{5.5bp}
-\zzu@define@fontsize{bahao}{5bp}
+\def\zzu@def@fontsize#1#2{%
+  \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
+    \fontsize{#2}{##1\dimexpr #2}\selectfont}}
+\zzu@def@fontsize{chuhao}{42bp}
+\zzu@def@fontsize{xiaochu}{36bp}
+\zzu@def@fontsize{yihao}{26bp}
+\zzu@def@fontsize{xiaoyi}{24bp}
+\zzu@def@fontsize{erhao}{22bp}
+\zzu@def@fontsize{xiaoer}{18bp}
+\zzu@def@fontsize{sanhao}{16bp}
+\zzu@def@fontsize{xiaosan}{15bp}
+\zzu@def@fontsize{sihao}{14bp}
+\zzu@def@fontsize{banxiaosi}{13bp}
+\zzu@def@fontsize{xiaosi}{12bp}
+\zzu@def@fontsize{dawu}{11bp}
+\zzu@def@fontsize{wuhao}{10.5bp}
+\zzu@def@fontsize{xiaowu}{9bp}
+\zzu@def@fontsize{liuhao}{7.5bp}
+\zzu@def@fontsize{xiaoliu}{6.5bp}
+\zzu@def@fontsize{qihao}{5.5bp}
+\zzu@def@fontsize{bahao}{5bp}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 正文字体及行距
-%% 研究生论文《规范》规定正文字体行距为固定20磅行距
-%% 本科论文规定正文字体行距为1.25倍行距
+%% 研究生：小四号 (12bp) 字，固定行距 20bp
+%% 本科生：小四号 (12bp) 字，1.25倍行距
+%% Word 小四号字 1.25 倍行距与固定行距 20bp 较接近
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\let\zzu@normalsize\normalsize
-\renewcommand\normalsize{\zzu@normalsize\xiaosi[1.667]}
-% \renewcommand\normalsize{\zzu@normalsize%TODO
-%   \ifzzu@bachelor\xiaosi[1.25]\else\xiaosi[1.667]\fi}
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{12bp}{20bp}%
+  \abovedisplayskip=12bp \@plus 2bp \@minus 2bp
+  \abovedisplayshortskip=12bp \@plus 2bp \@minus 2bp
+  \belowdisplayskip=\abovedisplayskip
+  \belowdisplayshortskip=\abovedisplayshortskip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 页面设置
-%% 
-%% 1.页边距
-%% 2.段落间距及缩进
-%% 3.\cleardoublepage命令：双面打印时，清空空白页
-%% 规范中要求的页边距：
-%% 上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
+%% 研究生：页边距上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
+%% 本科生：页边距上2.0cm，下2.2cm，左2.6cm，右2.0cm
+%% TODO: 根据Word设置结果微调，另本科生规范中页边距太小，未采用
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \ifzzu@bachelor%TODO 
+% \ifzzu@bachelor
   % \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
-% \else%研究生
+% \else
   % \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
 % \fi
-\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm,includeheadfoot}
-\newlength\CJK@twochars
-% \def\CJK@spaceChar{\Unicode{48}{7}}  % TODO: \Unicode not available
-\def\CJK@spaceChar{\hskip \f@size \p@} % 28 Aug, 2016
-\def\CJKindent{%段落缩进
-  \settowidth\CJK@twochars{\CJK@spaceChar\CJK@spaceChar}%
-  \parindent\CJK@twochars}
-\setlength{\parskip}{\z@ \@plus\tw@\p@ \@minus\z@}
+\geometry{
+  a4paper, % 210 * 297mm
+  hcentering,
+  vcentering,
+  ignoreall,
+  nomarginpar,
+  left=32mm,
+  top=38mm}
+\ctexset{%
+  punct=quanjiao,
+  space=auto,
+  autoindent=true}
 \let\zzu@cleardoublepage\cleardoublepage
 \newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
   \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
@@ -201,21 +252,21 @@
   \def\@oddfoot{\hfil\wuhao\thepage\ifzzu@bachelor\relax\else\hfil\fi}%
   \let\@evenfoot=\@oddfoot}
 \def\ps@zzu@headings{%%Centred head, centred page number in foot.
-  \def\@oddhead{\vbox to\headheight{%
+  \def\@oddhead{\vbox to\headheight{\vfill%
     \hb@xt@\textwidth{\wuhao\rmfamily\hfill\leftmark\hfill}%
       \vskip\tw@\p@\hbox{\vrule width\textwidth height.4\p@ depth\z@}}}
   \let\@evenhead=\@oddhead
   \def\@oddfoot{\wuhao\hfil\thepage\ifzzu@bachelor\relax\else\hfil\fi}
   \let\@evenfoot=\@oddfoot}
-\renewcommand{\chaptermark}[1]{\@mkboth{\@chapapp\  ~~#1}{}}
-\def\zzu@item@space{%列表环境间距
-  \let\itemize\compactitem
-  \let\enditemize\endcompactitem
-  \let\enumerate\compactenum
-  \let\endenumerate\endcompactenum
-  \let\description\compactdesc
-  \let\enddescription\endcompactdesc}
-\setdefaultenum{(1)}{1)}{}{}%TODO : 带圈数字
+\renewcommand{\chaptermark}[1]{\@mkboth{\thechapter\  ~~#1}{}}
+\newcommand*{\zzu@textcircled}[1]{\lower.7ex\hbox{\tikz\draw (0pt, 0pt)%
+    circle (.5em) node {\makebox[1em][c]{\small #1}};}}
+\robustify{\zzu@textcircled}
+\setlist[enumerate,1]{label = (\arabic*)}
+\setlist[enumerate,2]{label =  \arabic*)}
+\setlist[enumerate,3]{label =  \zzu@textcircled{\arabic*}}
+\setlist{leftmargin=*, nosep}
+\setlist[1]{labelindent=\parindent} % Only the level 1
 \let\zzu@footnotesize\footnotesize%脚注字体及行距
 \renewcommand\footnotesize{\zzu@footnotesize\xiaowu[1.5]}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,43 +287,42 @@
 \renewcommand{\bottomfraction}{0.50}%页底浮动对象高/页高的最大值(0.3)
 \renewcommand{\floatpagefraction}{0.80}%浮动页由浮动对象占用的最小比例(0.5)
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}%搜索指定扩展名
-\let\zzu@tabular\@tabular
-\ifzzu@bachelor%本科：小四楷体
-  \def\@tabular{\xiaosi[1.25]\kaishu\zzu@tabular}%
-  \DeclareCaptionLabelFormat{zzu}{{\xiaosi[1.25]\kaishu #1~\rmfamily #2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{1em}}%表序与表名之间空一个汉字度
-  \DeclareCaptionFont{zzu}{\xiaosi[1.25]\kaishu}
-\else%研究生：五号宋体
-  \def\zzu@tabular{\wuhao[1]\zzu@tabular}
-  \DeclareCaptionLabelFormat{zzu}{{\wuhao[1]\rmfamily #1~#2}}
-  \DeclareCaptionLabelSeparator{zzu}{\hspace{1em}}
-  \DeclareCaptionFont{zzu}{\wuhao[1]}
-\fi%
+\DeclareCaptionLabelSeparator{zzu}{\hspace{\ccwd}}%图表序与图表名之间空一个汉字
+\DeclareCaptionFont{zzu}{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+                         \else\wuhao[1.5]\fi}
+\captionsetup{
+  font           = zzu,
+  labelsep       = zzu,
+  figureposition = bottom,
+  tableposition  = top,
+}
+\ifzzu@bachelor%段前空6磅，段后空12磅
+  \captionsetup[table]{belowskip={12bp-\intextsep},aboveskip=6bp}
+\else%段前空6磅，段后空6磅
+  \captionsetup[table]{belowskip={6bp},aboveskip=6bp}
+\fi
+\captionsetup[figure]{%段前空6磅，段后空12磅
+  belowskip={12bp-\intextsep},aboveskip=6bp}
+\captionsetup[sub]{font=zzu,skip=6bp}
+\renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
+\renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
+\let\old@tabular\@tabular
+\def\zzu@tabular{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+                 \else\wuhao[1.5]\fi\old@tabular}%
 \let\zzu@LT@array\LT@array%长表格
-\ifzzu@bachelor
-  \def\LT@array{\xiaosi[1.25]\kaishu\zzu@LT@array}
-\else
-  \def\LT@array{\wuhao[1]\zzu@LT@array}
-\fi%
+\def\LT@array{\ifzzu@bachelor\xiaosi[1.25]\kaishu%
+              \else\wuhao[1.5]\fi\zzu@LT@array}
 \newcolumntype{Z}{>{\centering\arraybackslash}X}%居中自动调整
 \newcommand\Xhline[1]{\noalign{\ifnum0=`}\fi\arrayrulewidth#1%
         \ifx\hline\LT@hline\let\@xhline\LT@@hline\fi
         \hrule\@height\arrayrulewidth\futurelet\reserved@a\@xhline}
-\captionsetup{labelformat=zzu,labelsep=zzu,font=zzu}
-\ifzzu@bachelor%caption 在上，段前空6磅，段后空12磅
-  \captionsetup[table]{position=top,belowskip={12bp-\intextsep},aboveskip=6bp}
-\else%cation 在上，段前空6磅，段后空6磅
-  \captionsetup[table]{position=top,belowskip={6bp},aboveskip=6bp}
-\fi
-\captionsetup[figure]{%cation 在下，段前空6磅，段后空12磅
-  position=bottom,belowskip={12bp-\intextsep},aboveskip=6bp}
-\captionsetup[subfloat]{labelformat=simple,font=zzu,%
-  captionskip=6bp,nearskip=6bp,farskip=0bp,topadjust=0bp}
-\renewcommand{\thesubfigure}{(\alph{subfigure})}%子图形编号：字母
-\renewcommand{\thesubtable}{(\alph{subtable})}%子表格编号：字母
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 数学相关
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\theequation{%公式编号分隔符
   \ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@equation}
 \allowdisplaybreaks[4]%允许公式断行分页
+\def\zzu@theorem@separator{：}%
 \newtheoremstyle{theorem}%定理类型
   {0.5ex}%Space above
   {0.5ex}%Space below
@@ -290,57 +340,54 @@
   \sffamily
   #1\@addpunct{\quad}]\ignorespaces}
   {\popQED\endtrivlist\@endpefalse}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{theorem}
+\newtheorem{definition}{\zzu@definition@name}[chapter]
+\newtheorem{theorem}{\zzu@theorem@name}[chapter]
+\newtheorem{lemma}[theorem]{\zzu@lemma@name}
+\newtheorem{corollary}[theorem]{\zzu@corollary@name}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 章节标题
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand\chapter{%一级标题
-  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
-  % \thispagestyle{zzu@plain}
-  \global\@topnum\z@%prevent floats from appearing at the top of this page
-  \@afterindenttrue%
-  \secdef\@chapter\@schapter}%\secdef<unstarcommand><starcommand>
-\def\@chapter[#1]#2{%
-  \ifnum \c@secnumdepth >\m@ne
-   \if@mainmatter
-     \refstepcounter{chapter}
-     \addcontentsline{toc}{chapter}{\protect\numberline{\@chapapp}#1}%TODO shit
-     %\@chapapp: '\chaptername'.
-     %\numberline{⟨number⟩} puts <number> flushleft in a box of width \@tempdima
-   \else
-     \addcontentsline{toc}{chapter}{#1}%
-   \fi
-  \else
-    \addcontentsline{toc}{chapter}{#1}%
-  \fi
-  \chaptermark{#1}%\chaptermark{⟨text⟩}: to set a mark.
-  \@makechapterhead{#2}
-  \@afterheading}
-\def\@makechapterhead#1{%
-  \vspace*{24bp}%段前空24磅
-  {\parindent \z@
-   \ifzzu@bachelor\centering\else\raggedright\fi%本科居中，研究生居左
-    \sffamily\sanhao[1]%黑体三号字，单倍行距
-    \ifnum \c@secnumdepth >\m@ne
-      \@chapapp\hskip1em%章序号与章名空一个汉字符
-    \fi
-    \interlinepenalty\@M
-    #1\par\nobreak
-    \vskip 18bp}}%段后空18磅
-\def\@schapter#1{%
-  \@makeschapterhead{#1}
-  \@afterheading}
-\def\@makeschapterhead#1{%
-  \vspace*{24bp}%
-  {\parindent \z@ \centering
-   \sffamily\sanhao[1]
-   \def\@tempa{#1}
-   \def\@tempb{\cabstractname}
-   \def\@tempc{\eabstractname}
-   \ifx\@tempa\@tempb\pagenumbering{Roman}\xiaoer[1]\fi
-   \ifx\@tempa\@tempc\xiaoer[1]\fi
-   \interlinepenalty\@M
-   #1\par\nobreak
-   \vskip 18bp}}
+\ctexset{%
+  chapter={%一级标题：黑体16磅，段前24磅，段后18磅
+    afterindent=true,
+    pagestyle={zzu@headings},
+    beforeskip={\ifzzu@bachelor 15bp\else 9bp\fi},
+    aftername=\hskip\ccwd,
+    afterskip={\ifzzu@bachelor 20bp\else 24bp\fi},
+    format={\sffamily\sanhao[1]},
+    name=\relax,
+    nameformat=\relax,
+    titleformat=\relax,
+    lofskip=0pt,
+    lotskip=0pt,
+  },
+  section={%二级标题：黑体14磅，段前24磅，段后6磅
+    afterindent=true,
+    beforeskip={\ifzzu@bachelor 25bp\else 24bp\fi\@plus .5ex \@minus .2ex},
+    afterskip={\ifzzu@bachelor 12bp\else 6bp\fi \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\sihao[1.286]\else\sihao[1.429]\fi},
+  },
+  subsection={%三级标题：段前12磅，段后6磅
+    afterindent=true,
+    indent={\ifzzu@bachelor\parindent%本科缩进两字符
+            \else 0pt\fi},%硕博
+    beforeskip={12bp \@plus .5ex \@minus .2ex},
+    afterskip={6bp \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\xiaosi[1.25]%本科
+            \else\banxiaosi[1.538]\fi},%硕博黑体13磅
+  },
+  subsubsection={%四级标题：段前12磅，段后6磅
+    afterindent=true,
+    indent={\ifzzu@bachelor\parindent%本科缩进两字符
+            \else 0pt\fi},%硕博
+    beforeskip={12bp \@plus .5ex \@minus .2ex},
+    afterskip={6bp \@plus .2ex},
+    format={\ifzzu@bachelor\xiaosi[1.25]%本科
+            \else\sffamily\xiaosi[1.667]\fi},%硕博
+  },
+  paragraph/afterindent=true,
+  subparagraph/afterindent=true}
 \newcounter{zzu@bookmark}
 \def\zzu@chapter*{%\zzu@chapter*[tocline]{title}[header]
   %% \@ifnextchar peeks at the following character and compares it with its first argument. 
@@ -354,7 +401,7 @@
     {\zzu@@@chapter[#1]{#2}}
     {\zzu@@@chapter[#1]{#2}[]}}
 \def\zzu@@@chapter[#1]#2[#3]{%
-  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi\phantomsection%
   \def\@tmpa{#1}
   \def\@tmpb{#3}
   \ifx\@tmpa\@empty
@@ -369,24 +416,6 @@
   \else
     \@mkboth{#3}{#3}
   \fi}
-\renewcommand\section{%二级标题
-  %\@startsection {NAME}{LEVEL}{INDENT}{BEFORESKIP}{AFTERSKIP}{STYLE}
-  \@startsection{section}{1}{\z@}%缩进0，段前空24磅
-                {-24bp \@plus -6bp \@minus -2bp}%
-                {6bp \@plus 2bp}%段后空6磅。
-                {\sffamily\ifzzu@bachelor\sihao\else\sihao[1.429]\fi}}%行距20
-\renewcommand\subsection{%三级标题
-  \@startsection{subsection}{2}{\ifzzu@bachelor\CJK@twochars \else\z@ \fi}
-                {-12bp \@plus -3bp \@minus -1bp}%
-                {6bp \@plus 2bp}%
-                {\ifzzu@bachelor\bfseries\xiaosi%本科宋体加粗
-                 \else\sffamily\banxiaosi[1.538]\fi}}%
-\renewcommand\subsubsection{%四级标题
-  \@startsection{subsubsection}{3}{\ifzzu@bachelor\CJK@twochars \else\z@ \fi}%
-                {-12bp \@plus -3bp \@minus -1bp}%
-                {6bp \@plus 2bp}%
-                {\ifzzu@bachelor\bfseries\xiaosi
-                 \else\sffamily\xiaosi[1.667]\fi}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 目录及图表清单
 %% 目录利用titletoc宏包对目录进行定制
@@ -406,19 +435,19 @@
   \@starttoc{toc}\normalsize}
 \renewcommand\listoffigures{%本科无图和附表清单
   \ifzzu@bachelor\relax\else
-  \zzu@chapter*{\listfigurename}
+  \zzu@chapter*[]{\listfigurename}
   \@starttoc{lof}\fi}
 \renewcommand\listoftables{%
   \ifzzu@bachelor\relax\else
-  \zzu@chapter*{\listtablename}
+  \zzu@chapter*[]{\listtablename}
   \@starttoc{lot}\fi}
-\titlecontents{chapter}[\z@]{\vspace{6bp}\sffamily\sihao[1]}
+\titlecontents{chapter}[\z@]{\vspace{6bp}\sihao[1]}
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
-\titlecontents{section}[2em]{\vspace{6bp} \xiaosi[1]}
+\titlecontents{section}[2\ccwd]{\vspace{6bp} \xiaosi[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
-\titlecontents{subsection}[4em]{\vspace{6bp} \wuhao[1]}
+\titlecontents{subsection}[4\ccwd]{\vspace{6bp} \wuhao[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
 \titlecontents{figure}[\z@]{\wuhao[1.524]}%10.5bp，16bp
@@ -430,31 +459,40 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\zzu@define@term#1{%定义封面的一些替换命令
+\let\fangsong\relax%本科毕业设计标题中加粗仿宋字体
+\newCJKfontfamily\fangsong{FangSong}[AutoFakeBold]
+\def\zzu@def@term#1{%定义封面的一些替换命令
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname zzu@#1\endcsname{##1}}
   \csname #1\endcsname{}}
-\zzu@define@term{schoolcode}
-\zzu@define@term{id}
-\zzu@define@term{secretlevel}
-\zzu@define@term{protitle}
-\zzu@define@term{ctitle}
-\zzu@define@term{cauthor}
-\zzu@define@term{stuno}
-\zzu@define@term{csupervisor}
-\zzu@define@term{csubject}
-\zzu@define@term{cmajor}
-\zzu@define@term{cdepartment}
-% \newcommand\cdepartment[2][]{%
-  % \def\zzu@cdepartment@short{#1}\def\zzu@cdepartment{#2}}
-\zzu@define@term{cdate}
-% \zzu@define@term{submitdate}
-\zzu@define@term{etitle}
-\zzu@define@term{eauthor}
-\zzu@define@term{esupervisor}
-\zzu@define@term{emajor}
-\zzu@define@term{edepartment}
-\zzu@define@term{edate}
+\zzu@def@term{schoolcode}
+\zzu@def@term{id}
+\zzu@def@term{secretlevel}
+\zzu@def@term{protitle}
+\zzu@def@term{ctitle}
+\zzu@def@term{cauthor}
+\zzu@def@term{stuno}
+\zzu@def@term{csupervisor}
+\zzu@def@term{csubject}
+\zzu@def@term{cmajor}
+\zzu@def@term{cdepartment}
+\zzu@def@term{cdate}
+\zzu@def@term{submitdate}
+\zzu@def@term{etitle}
+\zzu@def@term{eauthor}
+\zzu@def@term{esupervisor}
+\zzu@def@term{emajor}
+\zzu@def@term{edepartment}
+\zzu@def@term{edate}
+\ifzzu@bachelor
+  \submitdate{\CJK@todaysmall}%
+  \cdate{\CJK@todaysmall}%
+\else
+  \cdate{\CJK@todaysmall@short}%
+\fi
+\edate{\ifcase \month \or January\or February\or March\or April\or May%
+       \or June\or July \or August\or September\or October\or November
+       \or December\fi\unskip,\ \ \the\year}
 \newcommand\zzu@underline[2][6em]{%
   \hskip\p@\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3\p@}
 \newlength{\zzu@title@width}
@@ -464,7 +502,7 @@
   \begin{center}
     \ifzzu@bachelor%%本科毕业论文
       \vspace*{2.4cm}
-      \hspace*{-1.3cm}{\yihao\bfseries\fs\zzu@schoolname\zzu@subtitle}
+      \hspace*{-1.3cm}{\yihao\bfseries\fangsong\zzu@schoolname\zzu@subtitle}
       \par\vskip2.4cm
       \hspace*{1cm}\sffamily\sanhao\zzu@bachelor@title@pre\zzu@title@sep
       \parbox[t]{10cm}{%
@@ -497,7 +535,7 @@
           \zzu@underline[2cm]{\hfill\zzu@protitle\hfill}}\par
         \vspace*{\stretch{1}}
         \hspace*{0.8cm}\parbox[t][4.0cm][t]{22em}{{\xiaosan[1.8]\rmfamily
-          \setlength{\zzu@title@width}{4em}
+          \setlength{\zzu@title@width}{4\ccwd}
           \zzu@put@title{\zzu@author@title}\zzu@title@sep%
             \zzu@underline[6em]{\zzu@cauthor}\hspace*{8bp}
           \zzu@stuno@title\zzu@title@sep\zzu@underline[8em]{\zzu@stuno}\par
@@ -508,9 +546,9 @@
           \zzu@put@title{\zzu@cdate@title}\zzu@title@sep%
             \zzu@underline[18em]{\zzu@cdate}\par}}
         \vspace*{\stretch{1}}
-        % \begin{center}
-          % {\xiaosan\rmfamily\zzu@submitdate}
-        % \end{center}
+        \begin{center}
+          {\xiaosan\rmfamily\zzu@submitdate}
+        \end{center}
     \else%研究生学位论文
       \noindent\begin{minipage}{.49\textwidth}
         \begin{flushleft}
@@ -534,13 +572,13 @@
       \end{minipage}
       \vskip \stretch{1}
       \begin{center}
-        {\ziju{18bp}\chuhao\xingkai\zzu@schoolname}
+        {\includegraphics{zzu}}
         \par\vskip.6cm
-        {\ziju{18bp}\xiaochu\sffamily\zzu@subtitle}
+        {\ziju{0.5}\xiaochu\sffamily\zzu@subtitle}
         \vskip \stretch{1}
         \kaishu\erhao[1.5] \zzu@ctitle
         \vskip \stretch{1}
-        \setlength{\zzu@title@width}{4em}
+        \setlength{\zzu@title@width}{4\ccwd}
         \kaishu\sanhao[1.25]
         \def\tabcolsep{\p@}%\tabcolsep：tabular环境中两列标准间隔的一半
         \def\arraystretch{1.5}%\arraystretch表格行距的缩放比例因子（缺省为1）
@@ -549,7 +587,7 @@
             \zzu@underline[150pt]{\zzu@cauthor}
         \\
           \zzu@put@title{\zzu@supervisor@title} &  \zzu@title@sep & 
-            \zzu@underline[150pt]{\zzu@csupervisor\hspace{1em}\zzu@protitle}
+            \zzu@underline[150pt]{\zzu@csupervisor\hspace{\ccwd}\zzu@protitle}
         \\ 
           \zzu@put@title{\zzu@subject@title} &  \zzu@title@sep & 
             \zzu@underline[150pt]{\zzu@csubject}
@@ -607,6 +645,23 @@
       \end{center}}
   \vfill
   \end{center}}
+\newcommand{\zzu@declarename}{学位论文原创性声明}
+\newcommand{\zzu@authtitle}{学位论文使用授权声明}
+\newcommand{\zzu@authorsig}{学位论文作者：}
+\newcommand{\zzu@declaretext}{\hspace{2\ccwd}
+本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究所取得的成果
+。除文中已经注明引用的内容外，本论文不包含任何其他个人或集体已经发表或撰写过的
+科研成果。对本文的研究做出重要贡献的个人和集体，均已在文中以明确方式标明。本声
+明的法律责任由本人承担。}
+\newcommand{\zzu@declaredate}{日\hspace{\ccwd} 期：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
+\newcommand{\zzu@authorization}{\hspace{2\ccwd}
+本人在导师指导下完成的论文及相关的职务作品，知识产权归属郑州大学。根据郑州大学
+有关保留、使用学位论文的规定，同意学校保留或向国家有关部门或机构送交论文的复印
+件和电子版，允许论文被查阅和借阅；本人授权郑州大学可以将本学位论文的全部或部分
+编入有关数据库进行检索，可以采用影印、缩印或其他复制手段保存论文和汇编本学位论
+文。本人离校后发表、使用学位论文或与该学位论文直接相关的学术论文或成果时，第一
+署名单位仍然为郑州大学。保密论文在解密后应遵守此规定。}
+\newcommand{\zzu@authdate}{日\hspace{\ccwd} 期：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 \newcommand{\zzu@authorization@mk}{%原创性声明及授权声明
   \thispagestyle{zzu@empty}
   \vspace*{\stretch{1}}
@@ -616,7 +671,7 @@
   \vskip 20pt
   \xiaosi[2]\zzu@declaretext
   \vskip 20pt
-  \zzu@authorsig\hfill\zzu@declaredate\hspace*{2em}
+  \zzu@authorsig\hfill\zzu@declaredate\hspace*{2\ccwd}
   \vspace*{\stretch{2}}
   \begin{center}
     \sffamily\sanhao \zzu@authtitle
@@ -624,9 +679,17 @@
   \vskip 20pt
   \xiaosi[2]\zzu@authorization
   \vskip 20pt
-  \zzu@authorsig\hfill\zzu@authdate\hspace*{2em}
+  \zzu@authorsig\hfill\zzu@authdate\hspace*{2\ccwd}
   \vspace*{\stretch{2}}}
+\def\zzu@setup@pdfinfo{%pdf文档信息
+  \hypersetup{%
+    pdftitle={\zzu@ctitle},
+    pdfauthor={\zzu@cauthor},
+    pdfsubject={\zzu@schoolname\zzu@subtitle},
+    pdfkeywords={\zzu@ckeywords},
+    pdfcreator={\zzuthesis-v\version}}}
 \newcommand{\makecover}{%制作封面
+  \zzu@setup@pdfinfo
   \phantomsection
   \pdfbookmark[-1]{\zzu@ctitle}{ctitle}
   \normalsize%
@@ -634,14 +697,15 @@
     \zzu@first@titlepage
     \ifzzu@bachelor\clearpage
     \else
-      \if@openright\cleardoublepage\else\clearpage\fi
+      \ifzzu@doctor\cleardoublepage\else\clearpage\fi
       \zzu@engcover
-      \if@openright\cleardoublepage\else\clearpage\fi
+      \ifzzu@doctor\cleardoublepage\else\clearpage\fi
       \zzu@authorization@mk
     \fi%
   \end{titlepage}
   \normalsize
-  % \let\@tabular\zzu@tabular
+  \zzu@makeabstract
+  \let\@tabular\zzu@tabular
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 中英文摘要及关键词
@@ -650,31 +714,49 @@
 %% 英文摘要部分的标题为 Abstract，用 Arial 体三号字
 %%   关键词之间空四个英文字符宽度，悬挂缩进
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\zzu@parse@keywords#1{%关键词分割
-  \expandafter\gdef\csname zzu@#1\endcsname{}%
-  \expandafter\gdef\csname #1\endcsname##1{\vskip12bp
+\newcommand{\zzu@@cabstract}[1]{\long\gdef\zzu@cabstract{#1}}
+\newenvironment{cabstract}{\Collect@Body\zzu@@cabstract}{}
+\newcommand{\zzu@@eabstract}[1]{\long\gdef\zzu@eabstract{#1}}
+\newenvironment{eabstract}{\Collect@Body\zzu@@eabstract}{}
+\def\zzu@parse@keywords#1{
+  \define@key{zzu}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname zzu@#1\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
     \@for\reserved@a:=##1\do{
       \expandafter\ifx\csname zzu@#1\endcsname\@empty\else
         \expandafter\g@addto@macro\csname zzu@#1\endcsname{%
           \ignorespaces\csname zzu@#1@separator\endcsname}
       \fi
-      \expandafter\expandafter\expandafter\g@addto@macro%TODO IT'S BEYOND ME !
-        \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{%
-          \reserved@a}}
-  \setbox0=\hbox{{\bfseries \csname zzu@#1@title\endcsname}}%“关键词”三字加粗
-  \ifzzu@bachelor\indent\else\noindent\hangindent\wd0\hangafter1\fi
-  \box0\csname zzu@#1\endcsname}}
+      \expandafter\expandafter\expandafter\g@addto@macro%
+        \expandafter\csname zzu@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
 \zzu@parse@keywords{ckeywords}
 \zzu@parse@keywords{ekeywords}
-\newenvironment{cabstract}
-  {\zzu@chapter*[]{\cabstractname}}{}
-\newenvironment{eabstract}
- {\zzu@chapter*[]{\eabstractname}}{}
+\newbox\zzu@kw
+\newcommand\zzu@put@keywords[2]{%
+  \begingroup
+    \setbox\zzu@kw=\hbox{#1}
+    \ifzzu@bachelor\indent\else\noindent\hangindent\wd\zzu@kw\hangafter1\fi%
+    \box\zzu@kw#2\par
+  \endgroup}
+\newcommand{\zzu@makeabstract}{%
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  \zzu@chapter*[]{\cabstractname} % no tocline
+  \pagestyle{zzu@headings}
+  \pagenumbering{Roman}
+  \zzu@cabstract
+  \vskip12bp
+  \zzu@put@keywords{\textbf\zzu@ckeywords@title}{\zzu@ckeywords}
+  \zzu@chapter*[]{\eabstractname} % no tocline
+  \zzu@eabstract
+  \vskip12bp
+  \zzu@put@keywords{%
+    \textbf{\ifzzu@bachelor Keywords:\else Key Words:\fi\enskip}}{\zzu@ekeywords}%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 主要符号对照表
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{denotation}[1][2.5cm]{
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \zzu@chapter*[]{\zzu@denotation@name}
   \noindent\begin{list}{}%
     {\vskip-30bp\wuhao[1.524]%宋体五号(10.5磅)，行距16磅
@@ -693,9 +775,9 @@
 %% 致谢
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{ack}{%
-    \if@openright\cleardoublepage\else\clearpage\fi
+    \ifzzu@doctor\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
-    \fs\xiaosi[1.524]%仿宋五号，固定行距16磅
+    \fangsong\xiaosi[1.524]%仿宋五号，固定行距16磅
   }{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%    参考文献环境
@@ -749,24 +831,9 @@
   \zzu@chapter*{#1}\wuhao[1.524]}{}
 \newcommand{\resumeitem}[1]{\vspace{2em}{\sihao\sffamily{#1}}\vspace{.5em}\par}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 自定义命令
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand*{\ziju}[1]{\renewcommand{\CJKglue}{\hskip #1}}%字距
-\newcommand{\pozhehao}{\kern0.3ex\rule[0.8ex]{2em}{0.1ex}\kern0.3ex}%破折号
-\def\zzu@setup@pdfinfo{%pdf文档信息
-  \hypersetup{%TODO no use.
-    pdftitle={\zzu@ctitle},
-    pdfauthor={\zzu@cauthor},
-    pdfsubject={\zzu@subtitle},
-    pdfkeywords={\zzu@ckeywords},
-    pdfcreator={\zzu@cauthor},
-    pdfproducer={\zzuthesis}}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 延迟的代码 (Delaying code)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\AtEndOfClass{\input{zzuthesis.cfg}}
-\AtBeginDocument{\CJKindent}
-\AtEndOfClass{\sloppy\zzu@item@space}
+\AtEndOfClass{\sloppy}
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End of file `zzuthesis.cls'.
