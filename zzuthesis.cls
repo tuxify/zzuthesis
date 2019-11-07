@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-06 22:05
+%% Last modified: 2019-11-07 11:26
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -86,19 +86,19 @@
 %% 文前，正文，文后格式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand\frontmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \ctexset{chapter/format+=\centering}
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{zzu@headings}}
 \renewcommand\mainmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \ctexset{chapter/format+={\ifzzu@bachelor\centering%本科居中
                             \else\raggedright\fi}}%顶左
   \@mainmattertrue
   \pagenumbering{arabic}}
 \renewcommand\backmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \ctexset{chapter/format+=\centering}
   \@mainmattertrue}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -396,7 +396,7 @@
     {\zzu@@@chapter[#1]{#2}}
     {\zzu@@@chapter[#1]{#2}[]}}
 \def\zzu@@@chapter[#1]#2[#3]{%
-  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi\phantomsection%
   \def\@tmpa{#1}
   \def\@tmpb{#3}
   \ifx\@tmpa\@empty
@@ -454,6 +454,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\let\fangsong\relax%本科毕业设计标题中加粗仿宋字体
+\newCJKfontfamily\fangsong{FangSong}[AutoFakeBold=1.2]
 \def\zzu@def@term#1{%定义封面的一些替换命令
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname zzu@#1\endcsname{##1}}
@@ -678,7 +680,7 @@
   \hypersetup{%
     pdftitle={\zzu@ctitle},
     pdfauthor={\zzu@cauthor},
-    pdfsubject={\zzu@subtitle},
+    pdfsubject={\zzu@schoolname\zzu@subtitle},
     pdfkeywords={\zzu@ckeywords},
     pdfcreator={\zzuthesis-v\version}}}
 \newcommand{\makecover}{%制作封面
@@ -690,9 +692,9 @@
     \zzu@first@titlepage
     \ifzzu@bachelor\clearpage
     \else
-      \if@openright\cleardoublepage\else\clearpage\fi
+      \ifzzu@doctor\cleardoublepage\else\clearpage\fi
       \zzu@engcover
-      \if@openright\cleardoublepage\else\clearpage\fi
+      \ifzzu@doctor\cleardoublepage\else\clearpage\fi
       \zzu@authorization@mk
     \fi%
   \end{titlepage}
@@ -732,7 +734,7 @@
     \box\zzu@kw#2\par
   \endgroup}
 \newcommand{\zzu@makeabstract}{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \zzu@chapter*[]{\cabstractname} % no tocline
   \pagestyle{zzu@headings}
   \pagenumbering{Roman}
@@ -749,7 +751,7 @@
 %% 主要符号对照表
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{denotation}[1][2.5cm]{
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifzzu@doctor\cleardoublepage\else\clearpage\fi
   \zzu@chapter*[]{\zzu@denotation@name}
   \noindent\begin{list}{}%
     {\vskip-30bp\wuhao[1.524]%宋体五号(10.5磅)，行距16磅
@@ -768,7 +770,7 @@
 %% 致谢
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{ack}{%
-    \if@openright\cleardoublepage\else\clearpage\fi
+    \ifzzu@doctor\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
     \fangsong\xiaosi[1.524]%仿宋五号，固定行距16磅
   }{}
