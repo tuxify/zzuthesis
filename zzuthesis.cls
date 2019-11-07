@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-07 12:16
+%% Last modified: 2019-11-07 14:38
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -52,6 +52,7 @@
 \fi
 \RequirePackage{environ}
 \RequirePackage{xparse}
+\RequirePackage{tikz}
 \RequirePackage{etoolbox}
 \RequirePackage{calc}%算术运算
 \RequirePackage[shortlabels]{enumitem}
@@ -234,7 +235,6 @@
   punct=quanjiao,
   space=auto,
   autoindent=true}
-\setlist{nosep}
 \let\zzu@cleardoublepage\cleardoublepage
 \newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
   \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
@@ -259,9 +259,14 @@
   \def\@oddfoot{\wuhao\hfil\thepage\ifzzu@bachelor\relax\else\hfil\fi}
   \let\@evenfoot=\@oddfoot}
 \renewcommand{\chaptermark}[1]{\@mkboth{\thechapter\  ~~#1}{}}
+\newcommand*{\zzu@textcircled}[1]{\lower.7ex\hbox{\tikz\draw (0pt, 0pt)%
+    circle (.5em) node {\makebox[1em][c]{\small #1}};}}
+\robustify{\zzu@textcircled}
 \setlist[enumerate,1]{label = (\arabic*)}
 \setlist[enumerate,2]{label =  \arabic*)}
-% \setlist[enumerate,3]{label =  \arabic*)}%TODO : 带圈数字
+\setlist[enumerate,3]{label =  \zzu@textcircled{\arabic*}}
+\setlist{leftmargin=*, nosep}
+\setlist[1]{labelindent=\parindent} % Only the level 1
 \let\zzu@footnotesize\footnotesize%脚注字体及行距
 \renewcommand\footnotesize{\zzu@footnotesize\xiaowu[1.5]}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
