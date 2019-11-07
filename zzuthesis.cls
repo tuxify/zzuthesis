@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-07 11:26
+%% Last modified: 2019-11-07 12:16
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -455,7 +455,7 @@
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\fangsong\relax%本科毕业设计标题中加粗仿宋字体
-\newCJKfontfamily\fangsong{FangSong}[AutoFakeBold=1.2]
+\newCJKfontfamily\fangsong{FangSong}[AutoFakeBold]
 \def\zzu@def@term#1{%定义封面的一些替换命令
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname zzu@#1\endcsname{##1}}
