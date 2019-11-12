@@ -5,7 +5,7 @@ THESISMAIN = main
 PACKAGE = zzuthesis
 
 THESISCONTENTS=$(THESISMAIN).tex data/*.tex
-CLSFILES=$(PACKAGE).cls $(PACKAGE).cfg
+CLSFILES=$(PACKAGE).cls
 
 # make deletion work on Windows
 ifdef SystemRoot
