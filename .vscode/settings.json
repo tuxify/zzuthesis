@@ -1,0 +1,50 @@
+{
+    "psi-header.config": {
+		"forceToTop": true,
+		"blankLinesAfter": 0
+	},
+	"psi-header.changes-tracking": {
+		"isActive": true,
+		"include": ["latex", "tex"],
+        "autoHeader": "manualSave",
+        "enforceHeader": false
+	},
+	"psi-header.variables": [
+		["author", "Yuan Xiaoshuai"],
+		["authoremail", "yxshuai@gmail.com"]
+	],
+	"psi-header.lang-config": [
+		{
+            "language": "latex",
+            "modDate": "Last modified: ",
+            "modDateFormat": "YYYY-MM-DD HH:mm",
+            "begin": "%%================================================",
+            "prefix": "%% ",
+            "end": "%%================================================",
+			"blankLinesAfter": 0
+        },
+        {
+            "language": "tex",
+            "mapTo": "latex"
+        }
+	],
+	"psi-header.templates": [
+		{
+			"language": "latex",
+			"template": [
+                "Filename: <<filename>>",
+                "Encoding: UTF-8",
+                "Author: <<author>> - <<authoremail>>",
+				"Created: <<filecreated('YYYY-MM-DD HH:mm')>>",
+				"Last modified: <<dateformat('YYYY-MM-DD HH:mm')>>",
+			]
+        },
+        {
+            "language": "tex",
+            "mapTo": "latex"
+        }
+    ],
+    "files.associations": {
+        "*.cfg": "latex"
+    }
+}
