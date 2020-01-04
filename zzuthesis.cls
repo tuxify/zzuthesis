@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2019-11-07 14:38
+%% Last modified: 2020-01-03 23:26
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -459,8 +459,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\let\fangsong\relax%本科毕业设计标题中加粗仿宋字体
-\newCJKfontfamily\fangsong{FangSong}[AutoFakeBold]
 \def\zzu@def@term#1{%定义封面的一些替换命令
   \expandafter\gdef\csname #1\endcsname##1{%
     \expandafter\gdef\csname zzu@#1\endcsname{##1}}
@@ -502,7 +500,7 @@
   \begin{center}
     \ifzzu@bachelor%%本科毕业论文
       \vspace*{2.4cm}
-      \hspace*{-1.3cm}{\yihao\bfseries\fangsong\zzu@schoolname\zzu@subtitle}
+      {\includegraphics{zzubachelor}}
       \par\vskip2.4cm
       \hspace*{1cm}\sffamily\sanhao\zzu@bachelor@title@pre\zzu@title@sep
       \parbox[t]{10cm}{%
