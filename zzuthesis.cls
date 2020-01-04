@@ -3,17 +3,17 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2020-01-03 23:26
+%% Last modified: 2020-01-03 23:58
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
-[2019/11/05 5.0.0 Zhengzhou University Thesis Template]
+[2020/01/03 5.0.1 Zhengzhou University Thesis Template]
 \hyphenation{Zzu-Thesis}
 \def\zzuthesis{ZzuThesis}
-\def\version{5.0}
+\def\version{5.0.1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 声明选项(Declaration options)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
