@@ -3,9 +3,9 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:09
-%% Last modified: 2019-11-07 11:25
+%% Last modified: 2020-04-05 21:01
 %%================================================
-\documentclass[bachelor]{zzuthesis}
+\documentclass[master]{zzuthesis}
 % \documentclass[%
 %   bachelor|master|doctor% mandatory option
 %   ]{zzuthesis}
@@ -46,6 +46,14 @@
 % \bibliographystyle{gbt7714-unsrt.bst}%符合国标 GB/T 7714-2015 的文献风格
 \bibliographystyle{zzubib.bst}%学校规范中示例文献风格
 \bibliography{ref/refs}%参考文献
+
+% 附录
+% 研究生论文：综述
+% \makeatletter
+% \ifzzu@bachelor\else
+%   \include{data/review}
+% \fi
+% \makeatother
 
 \makeatletter%致谢，研究生论文中在参考文献后，附录前
 \ifzzu@bachelor\else

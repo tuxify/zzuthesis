@@ -3,7 +3,7 @@
 %% Encoding: UTF-8
 %% Author: Yuan Xiaoshuai - yxshuai@gmail.com
 %% Created: 2012-01-08 13:11
-%% Last modified: 2020-01-03 23:58
+%% Last modified: 2020-04-05 20:27
 %%================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
@@ -169,6 +169,7 @@
 \newcommand{\zzu@ekeywords@title}{Key words:\enskip}
 \newcommand{\zzu@denotation@name}{主要符号对照表}
 \newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
+\newcommand{\zzu@review@title}{综述}
 \ifzzu@bachelor
   \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
 \else
@@ -775,6 +776,20 @@
 \newenvironment{ack}{%
     \ifzzu@doctor\cleardoublepage\else\clearpage\fi
     \zzu@chapter*{\zzu@ackname}
+    \fangsong\xiaosi[1.524]%仿宋五号，固定行距16磅
+  }{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 综述
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{review}{%
+    \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+    \ctexset{chapter/format+=\raggedright}
+    \zzu@chapter*{\zzu@review@title}
+    \begin{center}
+      \sanhao[1.55]
+      \zzu@ctitle \\
+      综述 \zzu@cauthor\hspace{2em} 审校 \zzu@csupervisor
+    \end{center}
     \fangsong\xiaosi[1.524]%仿宋五号，固定行距16磅
   }{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
