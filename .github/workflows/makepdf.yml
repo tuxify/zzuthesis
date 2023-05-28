@@ -16,8 +16,12 @@ jobs:
         with:
           name: PDF
           path: main.pdf
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          files: main.pdf
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: main.pdf
+          asset_name: main.pdf
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "the generated pdf is released"
