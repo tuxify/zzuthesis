@@ -1,5 +1,9 @@
 name: Build LaTeX document
 on: [push]
+
+permissions:
+  contents: write
+
 jobs:
   build_latex:
     runs-on: ubuntu-latest
